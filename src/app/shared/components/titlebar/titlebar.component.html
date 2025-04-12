@@ -1,0 +1,134 @@
+<div
+  class="bg-bg-dark/90 fixed top-0 z-50 w-full select-none border-b border-white/[0.08] backdrop-blur-lg"
+  data-tauri-drag-region
+>
+  <div
+    class="container mx-auto px-4 py-3 md:px-8 md:py-4"
+    data-tauri-drag-region
+  >
+    <div class="flex items-center justify-between" data-tauri-drag-region>
+      <!-- Logo and Navigation Links -->
+      <div class="flex items-center gap-6 md:gap-12">
+        <a routerLink="" class="flex-shrink-0" aria-label="Home">
+          <img
+            src="/assets/netflix.png"
+            width="120"
+            height="36"
+            class="h-8 md:h-9"
+            alt="Logo"
+          />
+        </a>
+
+        <!-- Mobile menu button -->
+        <button
+          class="flex items-center text-white md:hidden"
+          aria-label="Menu"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden items-center gap-8 md:flex">
+          <a
+            routerLink=""
+            routerLinkActive="!text-white font-bold"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="text-white/70"
+          >
+            Home
+          </a>
+          <a
+            routerLink="tv"
+            routerLinkActive="!text-white font-bold"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="text-white/70 transition-colors hover:text-white"
+            >TV Shows</a
+          >
+          <a
+            routerLink="/movies"
+            routerLinkActive="!text-white font-bold"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="text-white/70 transition-colors hover:text-white"
+            >Movies</a
+          >
+          <a
+            routerLink="/news"
+            routerLinkActive="!text-white font-bold"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="text-white/70 transition-colors hover:text-white"
+            >New & Popular</a
+          >
+        </nav>
+      </div>
+
+      <!-- Right side icons -->
+      <div class="flex items-center gap-5 md:gap-7">
+        <button class="group relative p-1" aria-label="Search">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            class="h-5 w-5 text-white/80 transition-colors group-hover:text-white"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </button>
+
+        <button class="group relative p-1" aria-label="Notifications">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            class="h-5 w-5 text-white/80 transition-colors group-hover:text-white"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            />
+          </svg>
+        </button>
+
+        <button
+          class="bg-primary-600 flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium text-white"
+          aria-label="Profile"
+        >
+          <span>J</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Menu -->
+  <div
+    class="bg-bg-dark/95 absolute left-0 right-0 top-full mt-0.5 hidden border-b border-white/[0.08] px-6 py-4 backdrop-blur-md md:hidden"
+  >
+    <div class="flex flex-col space-y-5 text-base">
+      <a routerLink="" class="font-medium text-white">Home</a>
+      <a routerLink="tv" class="text-white/70 hover:text-white">TV Shows</a>
+      <a href="" class="text-white/70 hover:text-white">Movies</a>
+      <a href="" class="text-white/70 hover:text-white">New & Popular</a>
+    </div>
+  </div>
+</div>

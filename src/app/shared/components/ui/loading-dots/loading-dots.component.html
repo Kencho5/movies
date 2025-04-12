@@ -1,0 +1,33 @@
+<div class="flex items-center justify-center space-x-2">
+  <div class="animate-pulse-delay-0 h-5 w-5 rounded-full bg-sky-300"></div>
+  <div class="animate-pulse-delay-150 h-5 w-5 rounded-full bg-sky-300"></div>
+  <div class="animate-pulse-delay-250 h-5 w-5 rounded-full bg-sky-300"></div>
+</div>
+
+<style>
+  @keyframes pulse-delay {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.3;
+      transform: scale(0.8);
+    }
+  }
+
+  .animate-pulse-delay-0 {
+    animation: pulse-delay 1.1s ease-in-out infinite;
+  }
+
+  .animate-pulse-delay-150 {
+    animation: pulse-delay 1.1s ease-in-out infinite;
+    animation-delay: 150ms;
+  }
+
+  .animate-pulse-delay-250 {
+    animation: pulse-delay 1.1s ease-in-out infinite;
+    animation-delay: 250ms;
+  }
+</style>

@@ -1,0 +1,267 @@
+<div class="bg-bg-dark min-h-screen text-white">
+  <!-- Immersive Hero Section with Backdrop -->
+  <div class="relative">
+    @if (movie()) {
+      <!-- Cinematic Backdrop with Gradient Overlay -->
+      <div
+        class="relative h-[50vh] w-full overflow-hidden sm:h-[60vh] md:h-[70vh]"
+      >
+        <div
+          class="from-bg-dark via-bg-dark/80 absolute inset-0 bg-gradient-to-t to-transparent"
+        ></div>
+        <div
+          class="from-bg-dark absolute inset-0 bg-gradient-to-r to-transparent"
+        ></div>
+        <img
+          [src]="movie()!.title.backdrop"
+          [alt]="movie()!.title.name"
+          class="h-full w-full object-cover object-center"
+        />
+
+        <!-- Floating Play Button -->
+        <div
+          class="absolute bottom-4 left-1/2 -translate-x-1/2 sm:bottom-8 md:bottom-16"
+        >
+          <button
+            class="bg-primary-600 hover:bg-primary-500 group flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-all sm:px-8 sm:py-4 sm:text-base"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 sm:h-5 sm:w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span>Play</span>
+          </button>
+        </div>
+      </div>
+    } @else {
+      <div
+        class="from-bg-highlight to-bg-dark animate-pulse-subtle h-[50vh] w-full bg-gradient-to-b sm:h-[60vh] md:h-[70vh]"
+      ></div>
+    }
+  </div>
+
+  <!-- Content Section -->
+  <div class="container mx-auto px-4 py-6 sm:py-8 md:px-8">
+    <!-- Content Wrapper -->
+    <div
+      class="bg-bg-card/70 relative -mt-24 rounded-2xl p-4 backdrop-blur-xl sm:-mt-32 sm:p-6 md:-mt-48 md:p-8 lg:-mt-64"
+    >
+      @if (movie()) {
+        <div class="flex flex-col gap-6 sm:gap-8 md:flex-row">
+          <!-- Poster with Glassmorphism Effect -->
+          <div
+            class="mx-auto max-w-[250px] flex-shrink-0 sm:w-2/5 md:mx-0 md:w-1/3 lg:w-1/4"
+          >
+            <div
+              class="relative overflow-hidden rounded-xl shadow-2xl transition duration-300 hover:scale-[1.02]"
+            >
+              <img
+                [src]="movie()!.title.poster"
+                [alt]="movie()!.title.name"
+                class="w-full object-cover"
+              />
+              <div
+                class="absolute inset-0 rounded-xl ring-1 ring-white/10"
+              ></div>
+            </div>
+
+            <!-- Rating Badge -->
+            @if (movie()!.title.rating) {
+              <div
+                class="mt-4 flex items-center justify-center gap-2 md:justify-start"
+              >
+                <div class="flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="text-primary-500 h-4 w-4 sm:h-5 sm:w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                    />
+                  </svg>
+                  <span class="font-medium">{{ movie()!.title.rating }}</span>
+                </div>
+                <span class="text-xs text-neutral-400"
+                  >({{ movie()!.title.vote_count }} votes)</span
+                >
+              </div>
+            }
+          </div>
+
+          <!-- Content Details -->
+          <div class="mt-4 flex flex-col md:mt-0">
+            <!-- Title and Metadata -->
+            <h1
+              class="text-center text-2xl font-bold tracking-tight sm:text-3xl md:text-left md:text-4xl lg:text-5xl"
+            >
+              {{ movie()!.title.name }}
+            </h1>
+
+            <!-- Metadata Pills -->
+            <div
+              class="mt-3 flex flex-wrap justify-center gap-2 md:justify-start"
+            >
+              <span
+                class="bg-bg-highlight rounded-full px-3 py-1 text-xs font-medium"
+              >
+                {{ movie()!.title.release_date }}
+              </span>
+              @if (movie()!.title.runtime) {
+                <span
+                  class="bg-bg-highlight rounded-full px-3 py-1 text-xs font-medium"
+                >
+                  {{ movie()!.title.runtime }} min
+                </span>
+              }
+              @if (movie()!.title.certification) {
+                <span
+                  class="rounded-full border border-neutral-500 px-3 py-1 text-xs font-medium"
+                >
+                  {{ movie()!.title.certification }}
+                </span>
+              }
+              @if (movie()!.title.language) {
+                <span
+                  class="bg-bg-highlight rounded-full px-3 py-1 text-xs font-medium"
+                >
+                  {{ movie()!.title.language }}
+                </span>
+              }
+            </div>
+
+            <!-- Tagline -->
+            @if (movie()!.title.tagline) {
+              <p class="mt-2 text-center italic text-neutral-400 md:text-left">
+                "{{ movie()!.title.tagline }}"
+              </p>
+            }
+
+            <!-- Description -->
+            <p class="mt-4 text-base leading-relaxed sm:mt-6 sm:text-lg">
+              {{ movie()!.title.description }}
+            </p>
+
+            <!-- Action Buttons -->
+            <div
+              class="mt-6 flex flex-wrap justify-center gap-3 sm:mt-8 md:justify-start"
+            >
+              <button
+                class="bg-primary-600 hover:bg-primary-500 flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all sm:px-6 sm:py-3 sm:text-base"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 sm:h-5 sm:w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span>Watch Now</span>
+              </button>
+              <button
+                class="hover:bg-bg-highlight flex items-center gap-2 rounded-full border border-neutral-400 px-5 py-2.5 text-sm font-medium transition-all sm:px-6 sm:py-3 sm:text-base"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 sm:h-5 sm:w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                  <path
+                    fill-rule="evenodd"
+                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span>Trailer</span>
+              </button>
+              <button
+                class="hover:bg-bg-highlight flex items-center gap-2 rounded-full border border-neutral-400 px-5 py-2.5 text-sm font-medium transition-all sm:px-6 sm:py-3 sm:text-base"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 sm:h-5 sm:w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                </svg>
+                <span>Add to List</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <!-- Loading Skeleton -->
+        <div class="flex flex-col gap-6 sm:gap-8 md:flex-row">
+          <div class="mx-auto max-w-[250px] sm:w-2/5 md:mx-0 md:w-1/3 lg:w-1/4">
+            <div
+              class="animate-pulse-subtle aspect-[2/3] rounded-xl bg-neutral-700"
+            ></div>
+          </div>
+          <div class="mt-4 flex flex-1 flex-col gap-4 md:mt-0">
+            <div
+              class="animate-pulse-subtle mx-auto h-8 w-full rounded-lg bg-neutral-700 sm:h-10 md:mx-0 md:h-12 md:w-3/4"
+            ></div>
+            <div class="flex flex-wrap justify-center gap-2 md:justify-start">
+              <div
+                class="animate-pulse-subtle h-6 w-16 rounded-full bg-neutral-700"
+              ></div>
+              <div
+                class="animate-pulse-subtle h-6 w-16 rounded-full bg-neutral-700"
+              ></div>
+            </div>
+            <div
+              class="animate-pulse-subtle mx-auto mt-2 h-4 w-2/3 rounded bg-neutral-700 md:mx-0 md:w-1/3"
+            ></div>
+            <div class="mt-4 space-y-2">
+              <div
+                class="animate-pulse-subtle h-5 w-full rounded bg-neutral-700"
+              ></div>
+              <div
+                class="animate-pulse-subtle h-5 w-full rounded bg-neutral-700"
+              ></div>
+              <div
+                class="animate-pulse-subtle h-5 w-full rounded bg-neutral-700 sm:w-5/6"
+              ></div>
+            </div>
+            <div
+              class="mt-6 flex flex-wrap justify-center gap-3 md:justify-start"
+            >
+              <div
+                class="animate-pulse-subtle h-10 w-32 rounded-full bg-neutral-700 sm:h-12 sm:w-36"
+              ></div>
+              <div
+                class="animate-pulse-subtle h-10 w-28 rounded-full bg-neutral-700 sm:h-12 sm:w-32"
+              ></div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Video Player -->
+      <div class="mt-8 sm:mt-10 md:mt-12">
+        <h2 class="mb-3 text-xl font-bold sm:mb-4 sm:text-2xl">Watch Now</h2>
+        <div
+          id="player"
+          class="aspect-video w-full overflow-hidden rounded-xl bg-black shadow-2xl"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>
