@@ -201,7 +201,7 @@
       <div
         class="movie-carousel -mx-2 flex space-x-3 overflow-x-auto scroll-smooth pb-4 pl-4 pr-12 sm:space-x-4 sm:pl-6 sm:pr-16"
       >
-        @if (loading()) {
+        @if (loading() || !movies()) {
           @for (i of [].constructor(8); track $index) {
             <div
               class="flex w-[130px] flex-shrink-0 flex-col sm:w-[160px] md:w-[200px] lg:w-[240px]"

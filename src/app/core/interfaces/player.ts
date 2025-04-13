@@ -1,5 +1,5 @@
 export interface PlayerData {
-  file: string;
-  poster: string;
+  file: string | null;
+  poster: string | null;
   autoplay: boolean | number;
 }

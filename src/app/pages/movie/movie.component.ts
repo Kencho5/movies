@@ -31,8 +31,8 @@ export class MovieComponent {
       this.movie.set(res);
 
       this.playerData.set({
-        file: this.movie()!.title.videos[0].src,
-        poster: this.movie()?.title.backdrop || "",
+        file: this.movie()!.title.videos[0].src || null,
+        poster: this.movie()?.title.backdrop || null,
         autoplay: 0,
       });
     });
