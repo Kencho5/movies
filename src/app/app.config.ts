@@ -1,4 +1,7 @@
-import { ApplicationConfig, provideZoneChangeDetection } from "@angular/core";
+import {
+  ApplicationConfig,
+  provideExperimentalZonelessChangeDetection,
+} from "@angular/core";
 import { provideRouter } from "@angular/router";
 
 import { routes } from "./app.routes";
@@ -7,7 +10,7 @@ import { requestInterceptor } from "@core/interceptors/request.interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection(),
+    provideExperimentalZonelessChangeDetection(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([requestInterceptor])),
   ],
