@@ -12,6 +12,6 @@ export class TvService {
   getChannels(): Observable<Channel[]> {
     return this.http
       .get<Channel[]>("https://api.oho.ge/tv/streaming/channels/?page=1")
-      .pipe(delay(600));
+      .pipe(delay(800));
   }
 }

@@ -257,10 +257,12 @@
       <!-- Video Player -->
       <div class="mt-8 sm:mt-10 md:mt-12">
         <h2 class="mb-3 text-xl font-bold sm:mb-4 sm:text-2xl">Watch Now</h2>
-        <div
-          id="player"
-          class="aspect-video w-full overflow-hidden rounded-xl bg-black shadow-2xl"
-        ></div>
+        <app-player
+          [playerData]="playerData()"
+          [playerClass]="
+            'aspect-video w-full overflow-hidden rounded-xl bg-black shadow-2xl'
+          "
+        ></app-player>
       </div>
     </div>
   </div>

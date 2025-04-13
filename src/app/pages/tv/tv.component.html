@@ -280,7 +280,7 @@
             class="from-bg-dark to-bg-card/80 absolute inset-0 flex h-full w-full flex-col items-center justify-center bg-gradient-to-br"
           >
             <div
-              class="border-t-primary-500 shadow-primary-500/20 mb-8 h-20 w-20 animate-spin rounded-full border-4 border-white/10 shadow-lg"
+              class="border-t-primary-500 mb-8 h-20 w-20 animate-spin rounded-full border-4 border-white/10"
             ></div>
             <p class="text-base tracking-wide text-white/60">
               Loading your stream...
@@ -347,7 +347,10 @@
         } @else {
           <!-- Player container with controls overlay -->
           <div id="player-container" class="absolute inset-0 h-full w-full">
-            <div id="player" class="h-full w-full"></div>
+            <app-player
+              [playerData]="playerData()"
+              [playerClass]="'h-full w-full'"
+            ></app-player>
           </div>
         }
       </div>
