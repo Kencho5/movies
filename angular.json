@@ -15,6 +15,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "allowedCommonJsDependencies": ["core-js"],
             "scripts": [],
             "outputPath": "dist/movies",
             "index": "src/index.html",
