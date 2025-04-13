@@ -43,5 +43,16 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "3",
     "typescript": "~5.8.2"
-  }
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions",
+    "IE 11",
+    "Android >= 4.4",
+    "Samsung 4",
+    "> 0.5%",
+    "not dead"
+  ]
 }
