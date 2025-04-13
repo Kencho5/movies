@@ -23,6 +23,8 @@
         <button
           class="flex items-center text-white md:hidden"
           aria-label="Menu"
+          (click)="toggleMenu()"
+          [attr.aria-expanded]="isMenuOpen()"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -31,12 +33,24 @@
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
+            <!-- When menu is closed -->
+            @if (!isMenuOpen()) {
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            }
+            <!-- When menu is open -->
+            @if (isMenuOpen()) {
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            }
           </svg>
         </button>
 
@@ -122,13 +136,51 @@
 
   <!-- Mobile Navigation Menu -->
   <div
-    class="bg-bg-dark/95 absolute left-0 right-0 top-full mt-0.5 hidden border-b border-white/[0.08] px-6 py-4 backdrop-blur-md md:hidden"
+    class="bg-bg-dark/95 absolute left-0 right-0 top-full mt-0.5 border-b border-white/[0.08] px-6 py-4 backdrop-blur-md transition-all duration-300 ease-in-out md:hidden"
+    [ngClass]="{
+      'pointer-events-none invisible -translate-y-3 opacity-0': !isMenuOpen(),
+      'pointer-events-auto visible translate-y-0 opacity-100': isMenuOpen(),
+    }"
   >
-    <div class="flex flex-col space-y-5 text-base">
-      <a routerLink="" class="font-medium text-white">Home</a>
-      <a routerLink="tv" class="text-white/70 hover:text-white">TV Shows</a>
-      <a href="" class="text-white/70 hover:text-white">Movies</a>
-      <a href="" class="text-white/70 hover:text-white">New & Popular</a>
+    <div
+      class="flex flex-col space-y-5 text-base transition-all duration-300"
+      [ngClass]="{
+        '-translate-y-2 opacity-0': !isMenuOpen(),
+        'translate-y-0 opacity-100': isMenuOpen(),
+      }"
+    >
+      <a
+        routerLink=""
+        routerLinkActive="!text-white font-bold"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="text-white/70 transition-all duration-200 hover:translate-x-1 hover:text-white"
+        (click)="toggleMenu()"
+        >Home</a
+      >
+      <a
+        routerLink="tv"
+        routerLinkActive="!text-white font-bold"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="text-white/70 transition-all duration-200 hover:translate-x-1 hover:text-white"
+        (click)="toggleMenu()"
+        >TV Shows</a
+      >
+      <a
+        routerLink="/movies"
+        routerLinkActive="!text-white font-bold"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="text-white/70 transition-all duration-200 hover:translate-x-1 hover:text-white"
+        (click)="toggleMenu()"
+        >Movies</a
+      >
+      <a
+        routerLink="/news"
+        routerLinkActive="!text-white font-bold"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="text-white/70 transition-all duration-200 hover:translate-x-1 hover:text-white"
+        (click)="toggleMenu()"
+        >New & Popular</a
+      >
     </div>
   </div>
 </div>

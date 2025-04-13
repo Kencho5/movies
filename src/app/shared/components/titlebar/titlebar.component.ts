@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, signal } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { SharedModule } from "@shared/shared.module";
 
@@ -7,4 +7,10 @@ import { SharedModule } from "@shared/shared.module";
   imports: [SharedModule, RouterModule],
   templateUrl: "./titlebar.component.html",
 })
-export class TitlebarComponent {}
+export class TitlebarComponent {
+  isMenuOpen = signal(false);
+
+  toggleMenu() {
+    this.isMenuOpen.update((current) => !current);
+  }
+}
