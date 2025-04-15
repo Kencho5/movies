@@ -3,7 +3,7 @@
   <section class="relative mb-10 sm:mb-12 md:mb-20">
     @if (loading()) {
       <div
-        class="bg-bg-card relative h-[50vh] w-full overflow-hidden rounded-xl md:h-[70vh] md:rounded-2xl lg:h-[80vh]"
+        class="relative h-[50vh] w-full overflow-hidden rounded-xl bg-bg-card md:h-[70vh] md:rounded-2xl lg:h-[80vh]"
       >
         <!-- Shimmer effect loader -->
         <div
@@ -18,7 +18,7 @@
         class="group relative h-[50vh] w-full overflow-hidden rounded-xl shadow-2xl sm:h-[55vh] md:h-[70vh] md:rounded-2xl lg:h-[80vh]"
       >
         <!-- Image with preload effect -->
-        <div class="bg-bg-card animate-pulse-subtle absolute inset-0"></div>
+        <div class="absolute inset-0 animate-pulse-subtle bg-bg-card"></div>
         <img
           [src]="movies()[0].backdrop"
           [alt]="movies()[0].name"
@@ -37,7 +37,7 @@
           <div class="max-w-2xl">
             <!-- Badge - e.g. "NEW" or "TRENDING" -->
             <div
-              class="bg-primary-500/90 mb-2 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-white backdrop-blur-sm sm:mb-3 sm:px-3 sm:py-1 sm:text-xs"
+              class="mb-2 inline-flex items-center rounded-full bg-primary-500/90 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-white backdrop-blur-sm sm:mb-3 sm:px-3 sm:py-1 sm:text-xs"
             >
               <span
                 class="mr-1 flex h-1.5 w-1.5 rounded-full bg-white sm:mr-1.5 sm:h-2 sm:w-2"
@@ -67,7 +67,7 @@
             >
               <div class="flex items-center">
                 <svg
-                  class="text-primary-500 mr-1 h-3.5 w-3.5 md:h-4 md:w-4"
+                  class="mr-1 h-3.5 w-3.5 text-primary-500 md:h-4 md:w-4"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -150,7 +150,7 @@
       </div>
     } @else {
       <div
-        class="bg-bg-card flex h-[50vh] w-full flex-col items-center justify-center rounded-xl text-white/50 sm:h-[55vh] md:h-[70vh] md:rounded-2xl lg:h-[80vh]"
+        class="flex h-[50vh] w-full flex-col items-center justify-center rounded-xl bg-bg-card text-white/50 sm:h-[55vh] md:h-[70vh] md:rounded-2xl lg:h-[80vh]"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -169,7 +169,7 @@
         <p class="mb-4 text-base md:text-lg">Featured content not available</p>
         <a
           [routerLink]="['/movie', 1140]"
-          class="text-primary-500 hover:text-primary-400 font-medium transition-colors"
+          class="font-medium text-primary-500 transition-colors hover:text-primary-400"
           >Explore recommendations</a
         >
       </div>
@@ -185,7 +185,7 @@
 
       <a
         href="#"
-        class="text-primary-500 hover:text-primary-400 hidden text-sm font-medium transition-colors md:block"
+        class="hidden text-sm font-medium text-primary-500 transition-colors hover:text-primary-400 md:block"
         >See All</a
       >
     </div>
@@ -194,12 +194,12 @@
     <div class="group/carousel relative overflow-hidden">
       <!-- Left Shadow/Overlay - increased width -->
       <div
-        class="from-bg-dark pointer-events-none absolute bottom-4 left-0 top-0 z-10 w-12 bg-gradient-to-r to-transparent sm:w-16"
+        class="pointer-events-none absolute bottom-4 left-0 top-0 z-10 w-12 bg-gradient-to-r from-bg-dark to-transparent sm:w-16"
       ></div>
 
       <!-- Carousel Content - adjusted padding -->
       <div
-        class="movie-carousel -mx-2 flex space-x-3 overflow-x-auto scroll-smooth pb-4 pl-4 pr-12 sm:space-x-4 sm:pl-6 sm:pr-16"
+        class="-mx-2 flex space-x-3 overflow-x-auto scroll-smooth pb-4 pl-4 pr-12 sm:space-x-4 sm:pl-6 sm:pr-16"
       >
         @if (loading() || !movies()) {
           @for (i of [].constructor(8); track $index) {
@@ -207,7 +207,7 @@
               class="flex w-[130px] flex-shrink-0 flex-col sm:w-[160px] md:w-[200px] lg:w-[240px]"
             >
               <div
-                class="bg-bg-card relative aspect-[2/3] w-full overflow-hidden rounded-lg"
+                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-bg-card"
               >
                 <!-- Shimmer effect -->
                 <div
@@ -215,14 +215,14 @@
                 ></div>
               </div>
               <div
-                class="bg-bg-card relative mt-3 h-3 w-3/4 overflow-hidden rounded sm:h-4"
+                class="relative mt-3 h-3 w-3/4 overflow-hidden rounded bg-bg-card sm:h-4"
               >
                 <div
                   class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
                 ></div>
               </div>
               <div
-                class="bg-bg-card relative mt-2 h-2 w-1/2 overflow-hidden rounded sm:h-3"
+                class="relative mt-2 h-2 w-1/2 overflow-hidden rounded bg-bg-card sm:h-3"
               >
                 <div
                   class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
@@ -289,7 +289,7 @@
                   class="mt-1 flex items-center gap-1 text-[10px] text-white/60 sm:mt-1.5 sm:gap-2 sm:text-xs"
                 >
                   <div
-                    class="flex items-center gap-0.5 text-yellow-400 sm:gap-1"
+                    class="text-yellow-400 flex items-center gap-0.5 sm:gap-1"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -314,7 +314,7 @@
 
       <!-- Right Shadow/Overlay - increased width -->
       <div
-        class="from-bg-dark pointer-events-none absolute bottom-4 right-0 top-0 z-10 w-12 bg-gradient-to-l to-transparent sm:w-16"
+        class="pointer-events-none absolute bottom-4 right-0 top-0 z-10 w-12 bg-gradient-to-l from-bg-dark to-transparent sm:w-16"
       ></div>
     </div>
   </section>
