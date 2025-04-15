@@ -1,5 +1,5 @@
 <div
-  class="from-bg-dark to-bg-card/80 flex h-[calc(100vh-56px)] flex-col bg-gradient-to-br text-white md:h-[calc(100vh-69px)] md:flex-row"
+  class="flex h-[calc(100vh-56px)] flex-col bg-gradient-to-br from-bg-dark to-bg-card/80 text-white md:h-[calc(100vh-69px)] md:flex-row"
 >
   <!-- Mobile header with menu button -->
   <div
@@ -42,7 +42,7 @@
       <h2 class="text-xl font-medium tracking-wide text-white">Channels</h2>
       <div class="flex items-center gap-3">
         <button
-          class="hover:bg-primary-500/20 hover:text-primary-400 focus:ring-primary-500/40 rounded-full p-2 transition-all duration-300 focus:outline-none focus:ring-2"
+          class="rounded-full p-2 transition-all duration-300 hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
           aria-label="Filter channels"
         >
           <svg
@@ -59,7 +59,7 @@
           </svg>
         </button>
         <button
-          class="hover:bg-primary-500/20 hover:text-primary-400 focus:ring-primary-500/40 rounded-full p-2 transition-all duration-300 focus:outline-none focus:ring-2"
+          class="rounded-full p-2 transition-all duration-300 hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
           aria-label="Search channels"
         >
           <svg
@@ -144,9 +144,9 @@
         <!-- Channel Items -->
         @for (channel of channels(); track channel.id) {
           <div
-            class="hover:bg-bg-highlight/40 group flex cursor-pointer items-center p-4 transition-all duration-300"
+            class="group flex cursor-pointer items-center p-4 transition-all duration-300 hover:bg-bg-highlight/40"
             [ngClass]="{
-              'border-primary-500 bg-primary-500/10 hover:bg-primary-500/15 border-l-4':
+              'border-l-4 border-primary-500 bg-primary-500/10 hover:bg-primary-500/15':
                 activeChannel()?.id === channel.id,
             }"
             (click)="changeChannel(channel.id)"
@@ -163,7 +163,7 @@
 
             <div class="flex-grow">
               <div
-                class="group-hover:text-primary-300 text-base font-medium tracking-wide transition-colors duration-300"
+                class="text-base font-medium tracking-wide transition-colors duration-300 group-hover:text-primary-300"
               >
                 {{ channel.name.en }}
               </div>
@@ -195,9 +195,9 @@
 
     <!-- Channel categories at bottom -->
     <div class="border-t border-white/[0.08] bg-black/60 p-4 backdrop-blur-xl">
-      <div class="scrollbar-hide flex gap-2 overflow-x-auto pb-1">
+      <div class="scrollbar-hide -mr-4 flex gap-2 overflow-x-auto pb-1 pr-2">
         <button
-          class="bg-primary-600 hover:bg-primary-500 shadow-primary-500/20 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium text-white shadow-lg transition-all duration-300 md:px-4 md:py-2 md:text-sm"
+          class="whitespace-nowrap rounded-full bg-primary-600 px-3 py-1.5 text-xs font-medium text-white shadow-lg shadow-primary-500/20 transition-all duration-300 hover:bg-primary-500 md:px-4 md:py-2 md:text-sm"
         >
           All
         </button>
@@ -237,12 +237,12 @@
   <div class="flex flex-1 flex-col">
     <!-- Player controls header -->
     <div
-      class="flex max-h-[77px] items-center justify-between border-b border-white/[0.08] bg-black/30 p-4 backdrop-blur-xl md:p-4"
+      class="flex h-[77px] items-center justify-between border-b border-white/[0.08] bg-black/30 p-4 backdrop-blur-xl md:p-4"
     >
       @if (!loading() && activeChannel()) {
         <div class="flex items-center gap-3 md:gap-4">
           <div
-            class="bg-primary-500/20 shadow-primary-500/10 flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl shadow-lg md:h-10 md:w-10"
+            class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl bg-primary-500/20 shadow-lg shadow-primary-500/10 md:h-10 md:w-10"
           >
             <img
               [src]="activeChannel()?.logo"
@@ -260,7 +260,7 @@
 
         <div class="flex items-center gap-2 md:gap-4">
           <button
-            class="hover:bg-primary-500/20 hover:text-primary-400 focus:ring-primary-500/40 rounded-full bg-white/10 p-2 transition-all duration-300 focus:outline-none focus:ring-2 md:p-2.5"
+            class="rounded-full bg-white/10 p-2 transition-all duration-300 hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 md:p-2.5"
             aria-label="Add to favorites"
           >
             <svg
@@ -280,7 +280,7 @@
           </button>
 
           <button
-            class="hover:bg-primary-500/20 hover:text-primary-400 focus:ring-primary-500/40 rounded-full bg-white/10 p-2 transition-all duration-300 focus:outline-none focus:ring-2 md:p-2.5"
+            class="rounded-full bg-white/10 p-2 transition-all duration-300 hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 md:p-2.5"
             aria-label="Settings"
           >
             <svg
@@ -337,10 +337,10 @@
         <!-- Player loading skeleton -->
         @if (loading()) {
           <div
-            class="from-bg-dark to-bg-card/80 absolute inset-0 flex h-full w-full flex-col items-center justify-center bg-gradient-to-br"
+            class="absolute inset-0 flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-bg-dark to-bg-card/80"
           >
             <div
-              class="border-t-primary-500 mb-6 h-16 w-16 animate-spin rounded-full border-4 border-white/10 md:mb-8 md:h-20 md:w-20"
+              class="mb-6 h-16 w-16 animate-spin rounded-full border-4 border-white/10 border-t-primary-500 md:mb-8 md:h-20 md:w-20"
             ></div>
             <p class="text-sm tracking-wide text-white/60 md:text-base">
               Loading your stream...
@@ -348,7 +348,7 @@
           </div>
         } @else if (!activeChannel()) {
           <div
-            class="from-bg-dark to-bg-card/80 absolute inset-0 flex h-full w-full flex-col items-center justify-center bg-gradient-to-br p-4 md:p-8"
+            class="absolute inset-0 flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-bg-dark to-bg-card/80 p-4 md:p-8"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -377,7 +377,7 @@
             </p>
             <div class="flex flex-col gap-3 md:flex-row md:gap-4">
               <button
-                class="bg-primary-600 hover:bg-primary-500 shadow-primary-500/20 rounded-full px-5 py-2.5 text-sm font-medium text-white shadow-lg transition-all duration-300 md:px-6 md:py-3 md:text-base"
+                class="rounded-full bg-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-primary-500/20 transition-all duration-300 hover:bg-primary-500 md:px-6 md:py-3 md:text-base"
               >
                 Browse popular channels
               </button>
@@ -400,7 +400,7 @@
               >
                 @for (i of [].constructor(5); track $index) {
                   <div
-                    class="hover:ring-primary-500 group relative h-16 w-28 flex-shrink-0 cursor-pointer overflow-hidden rounded-lg bg-white/5 transition-all duration-300 hover:ring-2 md:h-24 md:w-40 md:rounded-xl"
+                    class="group relative h-16 w-28 flex-shrink-0 cursor-pointer overflow-hidden rounded-lg bg-white/5 transition-all duration-300 hover:ring-2 hover:ring-primary-500 md:h-24 md:w-40 md:rounded-xl"
                   >
                     <div
                       class="absolute inset-0 flex items-end bg-gradient-to-t from-black/80 to-transparent p-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:p-2"
