@@ -10,8 +10,9 @@ export class TvService {
   constructor(private http: HttpClient) {}
 
   getChannels(): Observable<Channel[]> {
-    return this.http
-      .get<Channel[]>("https://api.oho.ge/tv/streaming/channels/?page=1")
-      .pipe(delay(800));
+    return this.http.get<Channel[]>(
+      "https://api.oho.ge/tv/streaming/channels/?page=1",
+    );
+    //.pipe(delay(800));
   }
 }

@@ -27,4 +27,12 @@ export class PlayerService {
       this.player = null;
     }
   }
+
+  trigger(command: string) {
+    return this.player.api(command);
+  }
+
+  seek(seconds: number): void {
+    this.player.api("seek", seconds);
+  }
 }

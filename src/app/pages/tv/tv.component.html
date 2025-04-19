@@ -99,7 +99,7 @@
       </div>
     </div>
 
-    <div class="channel-list scrollbar-hide flex-1 overflow-y-auto">
+    <div class="scrollbar-hide flex-1 overflow-y-auto">
       <!-- Skeleton Loading for Channels -->
       @if (loading()) {
         @for (i of [].constructor(15); track $index) {
@@ -194,35 +194,35 @@
     </div>
 
     <!-- Channel categories at bottom -->
-    <div class="border-t border-white/[0.08] bg-black/60 p-4 backdrop-blur-xl">
-      <div class="scrollbar-hide -mr-4 flex gap-2 overflow-x-auto pb-1 pr-2">
-        <button
-          class="whitespace-nowrap rounded-full bg-primary-600 px-3 py-1.5 text-xs font-medium text-white shadow-lg shadow-primary-500/20 transition-all duration-300 hover:bg-primary-500 md:px-4 md:py-2 md:text-sm"
-        >
-          All
-        </button>
-        <button
-          class="whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/70 transition-all duration-300 hover:bg-white/15 hover:text-white hover:shadow-lg md:px-4 md:py-2 md:text-sm"
-        >
-          News
-        </button>
-        <button
-          class="whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/70 transition-all duration-300 hover:bg-white/15 hover:text-white hover:shadow-lg md:px-4 md:py-2 md:text-sm"
-        >
-          Sports
-        </button>
-        <button
-          class="whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/70 transition-all duration-300 hover:bg-white/15 hover:text-white hover:shadow-lg md:px-4 md:py-2 md:text-sm"
-        >
-          Entertainment
-        </button>
-        <button
-          class="whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/70 transition-all duration-300 hover:bg-white/15 hover:text-white hover:shadow-lg md:px-4 md:py-2 md:text-sm"
-        >
-          Kids
-        </button>
-      </div>
-    </div>
+    <!--<div class="border-t border-white/[0.08] bg-black/60 p-4 backdrop-blur-xl">-->
+    <!--  <div class="scrollbar-hide -mr-4 flex gap-2 overflow-x-auto pb-1 pr-2">-->
+    <!--    <button-->
+    <!--      class="whitespace-nowrap rounded-full bg-primary-600 px-3 py-1.5 text-xs font-medium text-white shadow-lg shadow-primary-500/20 transition-all duration-300 hover:bg-primary-500 md:px-4 md:py-2 md:text-sm"-->
+    <!--    >-->
+    <!--      All-->
+    <!--    </button>-->
+    <!--    <button-->
+    <!--      class="whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/70 transition-all duration-300 hover:bg-white/15 hover:text-white hover:shadow-lg md:px-4 md:py-2 md:text-sm"-->
+    <!--    >-->
+    <!--      News-->
+    <!--    </button>-->
+    <!--    <button-->
+    <!--      class="whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/70 transition-all duration-300 hover:bg-white/15 hover:text-white hover:shadow-lg md:px-4 md:py-2 md:text-sm"-->
+    <!--    >-->
+    <!--      Sports-->
+    <!--    </button>-->
+    <!--    <button-->
+    <!--      class="whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/70 transition-all duration-300 hover:bg-white/15 hover:text-white hover:shadow-lg md:px-4 md:py-2 md:text-sm"-->
+    <!--    >-->
+    <!--      Entertainment-->
+    <!--    </button>-->
+    <!--    <button-->
+    <!--      class="whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/70 transition-all duration-300 hover:bg-white/15 hover:text-white hover:shadow-lg md:px-4 md:py-2 md:text-sm"-->
+    <!--    >-->
+    <!--      Kids-->
+    <!--    </button>-->
+    <!--  </div>-->
+    <!--</div>-->
   </div>
 
   <!-- Overlay for mobile sidebar -->
@@ -330,10 +330,8 @@
       }
     </div>
 
-    <div class="flex-1 p-3 md:p-6">
-      <div
-        class="relative h-full w-full overflow-hidden rounded-2xl bg-black shadow-2xl md:rounded-3xl"
-      >
+    <div class="flex-1 overflow-y-auto">
+      <div class="relative h-full w-full overflow-hidden bg-black shadow-2xl">
         <!-- Player loading skeleton -->
         @if (loading()) {
           <div
@@ -416,14 +414,53 @@
             </div>
           </div>
         } @else {
-          <!-- Player container with controls overlay -->
-          <div id="player-container" class="absolute inset-0 h-full w-full">
+          <!-- Player container -->
+          <div id="player-container" class="h-full w-full">
             <app-player
               [playerData]="playerData()"
               [playerClass]="'h-full w-full'"
             ></app-player>
           </div>
         }
+      </div>
+      <!--Player Controls-->
+      <div
+        class="flex items-center justify-center gap-8 rounded-lg bg-bg-dark p-4 text-xl"
+      >
+        <button
+          type="button"
+          class="flex items-center justify-center rounded-full bg-bg-highlight px-4 py-3 text-white transition-colors duration-200 hover:bg-neutral-700"
+          (click)="seek(-15)"
+        >
+          -15
+        </button>
+        <button
+          type="button"
+          class="flex h-12 w-12 items-center justify-center rounded-full bg-red-500 p-4 text-white transition-colors duration-200 hover:bg-red-600"
+          (click)="togglePlayer()"
+        >
+          @if (isPlaying) {
+            <img src="/assets/icons/play.svg" class="ml-0.5" />
+          } @else {
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 320 512"
+              fill="#ffffff"
+              class="ml-0.5"
+            >
+              <path
+                d="M48 64C21.5 64 0 85.5 0 112v288c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48v288c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48h-32z"
+              />
+            </svg>
+          }
+        </button>
+        <button
+          type="button"
+          class="flex items-center justify-center rounded-full bg-bg-highlight px-4 py-3 text-white transition-colors duration-200 hover:bg-neutral-700"
+          (click)="seek(15)"
+        >
+          +15
+        </button>
       </div>
     </div>
   </div>

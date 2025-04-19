@@ -1,6 +1,7 @@
 import { Component, signal, OnInit, effect } from "@angular/core";
 import { PlayerData } from "@core/interfaces/player";
 import { Channel } from "@core/interfaces/tv";
+import { PlayerService } from "@core/services/player.service";
 import { TvService } from "@core/services/tv.service";
 import { PlayerComponent } from "@shared/components/player/player.component";
 import { SharedModule } from "@shared/shared.module";
@@ -14,19 +15,20 @@ export class TvComponent implements OnInit {
   channels = signal<Channel[]>([]);
   activeChannel = signal<Channel | null>(null);
   loading = signal<boolean>(true);
-  playerData = signal<PlayerData>({
-    file: "",
-    poster: "",
-    autoplay: 0,
-  });
+  playerData = signal<PlayerData | null>(null);
   sidebarOpen = signal<boolean>(false);
+  isPlaying: boolean = true;
 
-  constructor(private tvService: TvService) {
+  constructor(
+    private tvService: TvService,
+    private playerService: PlayerService,
+  ) {
     effect(() => {
       const channel = this.activeChannel();
+
       if (channel) {
         this.playerData.set({
-          file: channel.stream,
+          file: `${channel.stream}?DVR`,
           poster: channel.thumbnail,
           autoplay: 1,
         });
@@ -51,5 +53,24 @@ export class TvComponent implements OnInit {
 
   toggleSidebar() {
     this.sidebarOpen.update((current) => !current);
+  }
+
+  togglePlayer() {
+    this.playerService.trigger("toggle");
+    this.isPlaying = this.playerService.trigger("playing");
+  }
+
+  seek(seconds: number) {
+    //this.activeChannel.update((channel) => {
+    //  if (channel) {
+    //    return {
+    //      ...channel,
+    //      stream: `${channel.stream}&start=${Date.now() - 30000}`,
+    //    };
+    //  }
+    //  return channel;
+    //});
+    //console.log(this.activeChannel()?.stream);
+    this.playerService.seek(seconds);
   }
 }

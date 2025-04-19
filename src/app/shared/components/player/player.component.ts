@@ -14,7 +14,7 @@ import { PlayerData } from "@core/interfaces/player";
   templateUrl: "./player.component.html",
 })
 export class PlayerComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() playerData!: PlayerData;
+  @Input() playerData!: PlayerData | null;
   @Input() playerClass: string = "";
 
   constructor(private playerService: PlayerService) {}
@@ -36,6 +36,6 @@ export class PlayerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private initPlayer(): void {
-    this.playerService.initialize(this.playerData);
+    this.playerService.initialize(this.playerData!);
   }
 }
