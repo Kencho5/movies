@@ -425,28 +425,31 @@
       </div>
       <!--Player Controls-->
       <div
-        class="flex items-center justify-center gap-8 rounded-lg bg-bg-dark p-4 text-xl"
+        class="flex items-center justify-center gap-3 rounded-lg bg-bg-dark p-4 text-base sm:gap-5 sm:text-xl"
       >
         <button
           type="button"
-          class="flex items-center justify-center rounded-full bg-bg-highlight px-4 py-3 text-white transition-colors duration-200 hover:bg-neutral-700"
+          class="flex items-center justify-center rounded-full bg-bg-highlight px-3 py-2 text-white transition-colors duration-200 hover:bg-neutral-700 sm:px-4 sm:py-3"
           (click)="seek(-15)"
         >
           -15
         </button>
         <button
           type="button"
-          class="flex h-12 w-12 items-center justify-center rounded-full bg-red-500 p-4 text-white transition-colors duration-200 hover:bg-red-600"
+          class="flex h-10 w-10 items-center justify-center rounded-full bg-red-500 p-3 text-white transition-colors duration-200 hover:bg-red-600 sm:h-12 sm:w-12 sm:p-4"
           (click)="togglePlayer()"
         >
           @if (isPlaying) {
-            <img src="/assets/icons/play.svg" class="ml-0.5" />
+            <img
+              src="/assets/icons/play.svg"
+              class="ml-0.5 h-4 w-4 sm:h-auto sm:w-auto"
+            />
           } @else {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 320 512"
               fill="#ffffff"
-              class="ml-0.5"
+              class="ml-0.5 h-4 w-4 sm:h-auto sm:w-auto"
             >
               <path
                 d="M48 64C21.5 64 0 85.5 0 112v288c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48v288c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48h-32z"
@@ -456,7 +459,7 @@
         </button>
         <button
           type="button"
-          class="flex items-center justify-center rounded-full bg-bg-highlight px-4 py-3 text-white transition-colors duration-200 hover:bg-neutral-700"
+          class="flex items-center justify-center rounded-full bg-bg-highlight px-3 py-2 text-white transition-colors duration-200 hover:bg-neutral-700 sm:px-4 sm:py-3"
           (click)="seek(15)"
         >
           +15
