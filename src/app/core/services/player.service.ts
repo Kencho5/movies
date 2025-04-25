@@ -32,7 +32,7 @@ export class PlayerService {
     return this.player.api(command);
   }
 
-  seek(seconds: number): void {
-    this.player.api("seek", seconds);
+  play(url: string): void {
+    this.player.api("play", url);
   }
 }

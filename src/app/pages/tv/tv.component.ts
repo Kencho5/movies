@@ -4,11 +4,18 @@ import { Channel } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
 import { TvService } from "@core/services/tv.service";
 import { PlayerComponent } from "@shared/components/player/player.component";
+import { ChannelsSkeletonComponent } from "@shared/components/ui/channels-skeleton/channels-skeleton.component";
+import { ProgramsSkeletonComponent } from "@shared/components/ui/programs-skeleton/programs-skeleton.component";
 import { SharedModule } from "@shared/shared.module";
 
 @Component({
   selector: "app-tv",
-  imports: [SharedModule, PlayerComponent],
+  imports: [
+    SharedModule,
+    PlayerComponent,
+    ChannelsSkeletonComponent,
+    ProgramsSkeletonComponent,
+  ],
   templateUrl: "./tv.component.html",
 })
 export class TvComponent implements OnInit {
@@ -17,7 +24,11 @@ export class TvComponent implements OnInit {
   loading = signal<boolean>(true);
   playerData = signal<PlayerData | null>(null);
   sidebarOpen = signal<boolean>(false);
-  isPlaying: boolean = true;
+  isPlaying = signal<boolean>(true);
+
+  dateOffset: number = 10800;
+  start: number = Math.floor((Date.now() + this.dateOffset) / 1000);
+  end: number = Math.floor((Date.now() + this.dateOffset) / 1000);
 
   constructor(
     private tvService: TvService,
@@ -28,9 +39,9 @@ export class TvComponent implements OnInit {
 
       if (channel) {
         this.playerData.set({
-          file: `${channel.stream}?DVR`,
+          file: channel.stream,
           poster: channel.thumbnail,
-          autoplay: 1,
+          autoplay: 0,
         });
       }
     });
@@ -56,21 +67,30 @@ export class TvComponent implements OnInit {
   }
 
   togglePlayer() {
-    this.playerService.trigger("toggle");
-    this.isPlaying = this.playerService.trigger("playing");
+    this.playerService.trigger(this.isPlaying() ? "stop" : "play");
+    this.isPlaying.set(this.playerService.trigger("playing"));
   }
 
   seek(seconds: number) {
-    //this.activeChannel.update((channel) => {
-    //  if (channel) {
-    //    return {
-    //      ...channel,
-    //      stream: `${channel.stream}&start=${Date.now() - 30000}`,
-    //    };
-    //  }
-    //  return channel;
-    //});
-    //console.log(this.activeChannel()?.stream);
-    this.playerService.seek(seconds);
+    this.start += seconds;
+
+    this.playerService.play(
+      this.streamUrl(this.activeChannel()!.stream, this.start, this.end),
+    );
+  }
+
+  streamUrl(url: string, start: number, end: number) {
+    const [base, queryString] = url.split("?");
+    const params = queryString.split("&");
+
+    const idIndex = params.findIndex((p) => p.startsWith("id="));
+    const idParam = params.splice(idIndex, 1)[0];
+
+    params.push(`start=${encodeURIComponent(start)}`);
+    params.push(`end=${encodeURIComponent(end)}`);
+
+    params.push(idParam);
+
+    return `${base}?${params.join("&")}`;
   }
 }

@@ -30,26 +30,26 @@
 
   <!-- Left sidebar - Channels list -->
   <div
-    class="fixed inset-0 z-50 flex-col border-r border-white/[0.08] bg-black/90 shadow-2xl backdrop-blur-xl transition-transform duration-300 md:static md:z-auto md:flex md:w-80 md:translate-x-0 md:bg-black/40"
+    class="md:w-76 fixed inset-0 z-50 flex-col border-r border-white/[0.08] bg-black/90 shadow-2xl backdrop-blur-xl transition-transform duration-300 md:static md:z-auto md:flex md:translate-x-0 md:bg-black/40"
     [ngClass]="{
       'flex translate-x-0': sidebarOpen(),
       'translate-x-[-100%]': !sidebarOpen(),
     }"
   >
     <div
-      class="sticky top-0 z-10 flex items-center justify-between border-b border-white/[0.08] bg-black/60 p-5 backdrop-blur-xl"
+      class="sticky top-0 z-10 flex items-center justify-between border-b border-white/[0.08] bg-black/60 p-4 backdrop-blur-xl"
     >
-      <h2 class="text-xl font-medium tracking-wide text-white">Channels</h2>
-      <div class="flex items-center gap-3">
+      <h1 class="text-lg font-medium tracking-wide text-white">Channels</h1>
+      <div class="flex items-center gap-2.5">
         <button
-          class="rounded-full p-2 transition-all duration-300 hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+          class="rounded-full p-1.5 transition-all duration-300 hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
           aria-label="Filter channels"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
-            class="h-5 w-5 text-white/70"
+            class="h-4.5 w-4.5 text-white/70"
           >
             <path
               fill-rule="evenodd"
@@ -59,14 +59,14 @@
           </svg>
         </button>
         <button
-          class="rounded-full p-2 transition-all duration-300 hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+          class="rounded-full p-1.5 transition-all duration-300 hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
           aria-label="Search channels"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
-            class="h-5 w-5 text-white/70"
+            class="h-4.5 w-4.5 text-white/70"
           >
             <path
               fill-rule="evenodd"
@@ -77,7 +77,7 @@
         </button>
         <!-- Close button for mobile -->
         <button
-          class="rounded-full p-2 text-white/70 transition-all duration-300 hover:bg-white/10 hover:text-white md:hidden"
+          class="rounded-full p-1.5 text-white/70 transition-all duration-300 hover:bg-white/10 hover:text-white md:hidden"
           (click)="toggleSidebar()"
           aria-label="Close menu"
         >
@@ -87,7 +87,7 @@
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="h-5 w-5"
+            class="h-4.5 w-4.5"
           >
             <path
               stroke-linecap="round"
@@ -99,60 +99,25 @@
       </div>
     </div>
 
-    <div class="scrollbar-hide flex-1 overflow-y-auto">
+    <div
+      class="scrollbar-hide flex-1 divide-y divide-white/[0.03] overflow-y-auto"
+    >
       <!-- Skeleton Loading for Channels -->
       @if (loading()) {
-        @for (i of [].constructor(15); track $index) {
-          <div class="flex items-center border-b border-white/[0.03] p-4">
-            <div
-              class="relative mr-4 h-12 w-12 flex-shrink-0 overflow-hidden rounded-xl bg-white/5 md:h-14 md:w-14"
-            >
-              <!-- Shimmer effect -->
-              <div
-                class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
-              ></div>
-            </div>
-            <div class="flex-grow">
-              <div
-                class="relative h-4 w-32 overflow-hidden rounded-full bg-white/5"
-              >
-                <!-- Shimmer effect -->
-                <div
-                  class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
-                ></div>
-              </div>
-              <div
-                class="relative mt-2 h-3 w-24 overflow-hidden rounded-full bg-white/5"
-              >
-                <!-- Shimmer effect -->
-                <div
-                  class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
-                ></div>
-              </div>
-            </div>
-            <div
-              class="relative ml-2 h-3 w-10 overflow-hidden rounded-full bg-white/5"
-            >
-              <!-- Shimmer effect -->
-              <div
-                class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
-              ></div>
-            </div>
-          </div>
-        }
+        <app-channels-skeleton />
       } @else {
         <!-- Channel Items -->
         @for (channel of channels(); track channel.id) {
           <div
-            class="group flex cursor-pointer items-center p-4 transition-all duration-300 hover:bg-bg-highlight/40"
+            class="group flex cursor-pointer items-center px-4 py-5 transition-all duration-300 hover:bg-bg-highlight/40"
             [ngClass]="{
-              'border-l-4 border-primary-500 bg-primary-500/10 hover:bg-primary-500/15':
+              'border-l-3 border-primary-500 bg-primary-500/10 hover:bg-primary-500/15':
                 activeChannel()?.id === channel.id,
             }"
             (click)="changeChannel(channel.id)"
           >
             <div
-              class="mr-4 flex h-12 w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white/10 shadow-lg transition-transform duration-300 group-hover:scale-105 md:h-14 md:w-14"
+              class="mr-3.5 flex h-11 w-11 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/10 shadow-lg transition-transform duration-300 group-hover:scale-105"
             >
               <img
                 [src]="channel.cover"
@@ -163,28 +128,24 @@
 
             <div class="flex-grow">
               <div
-                class="text-base font-medium tracking-wide transition-colors duration-300 group-hover:text-primary-300"
+                class="text-sm font-medium tracking-wide transition-colors duration-300 group-hover:text-primary-300"
               >
                 {{ channel.name.en }}
-              </div>
-              <div class="mt-1 text-xs text-white/50">
-                <!-- Dynamic content based on current program -->
-                <!--{{ getCurrentProgram(channel) || "No program info" }}-->
               </div>
             </div>
 
             <!-- Live indicator -->
             @if (channel.live) {
               <div
-                class="flex items-center gap-1.5 rounded-full bg-red-500/20 px-2 py-1 shadow-lg shadow-red-500/10 md:px-3"
+                class="flex items-center gap-1 rounded-full bg-red-500/20 px-2 py-0.5 shadow-lg shadow-red-500/10"
               >
                 <span
-                  class="h-2 w-2 animate-pulse rounded-full bg-red-500"
+                  class="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500"
                 ></span>
-                <span class="text-xs font-medium text-white">Live</span>
+                <span class="text-[11px] font-medium text-white">Live</span>
               </div>
             } @else {
-              <div class="px-2 py-1 text-xs font-medium text-white/30 md:px-3">
+              <div class="px-2 py-0.5 text-[11px] font-medium text-white/30">
                 Off-air
               </div>
             }
@@ -192,37 +153,6 @@
         }
       }
     </div>
-
-    <!-- Channel categories at bottom -->
-    <!--<div class="border-t border-white/[0.08] bg-black/60 p-4 backdrop-blur-xl">-->
-    <!--  <div class="scrollbar-hide -mr-4 flex gap-2 overflow-x-auto pb-1 pr-2">-->
-    <!--    <button-->
-    <!--      class="whitespace-nowrap rounded-full bg-primary-600 px-3 py-1.5 text-xs font-medium text-white shadow-lg shadow-primary-500/20 transition-all duration-300 hover:bg-primary-500 md:px-4 md:py-2 md:text-sm"-->
-    <!--    >-->
-    <!--      All-->
-    <!--    </button>-->
-    <!--    <button-->
-    <!--      class="whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/70 transition-all duration-300 hover:bg-white/15 hover:text-white hover:shadow-lg md:px-4 md:py-2 md:text-sm"-->
-    <!--    >-->
-    <!--      News-->
-    <!--    </button>-->
-    <!--    <button-->
-    <!--      class="whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/70 transition-all duration-300 hover:bg-white/15 hover:text-white hover:shadow-lg md:px-4 md:py-2 md:text-sm"-->
-    <!--    >-->
-    <!--      Sports-->
-    <!--    </button>-->
-    <!--    <button-->
-    <!--      class="whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/70 transition-all duration-300 hover:bg-white/15 hover:text-white hover:shadow-lg md:px-4 md:py-2 md:text-sm"-->
-    <!--    >-->
-    <!--      Entertainment-->
-    <!--    </button>-->
-    <!--    <button-->
-    <!--      class="whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/70 transition-all duration-300 hover:bg-white/15 hover:text-white hover:shadow-lg md:px-4 md:py-2 md:text-sm"-->
-    <!--    >-->
-    <!--      Kids-->
-    <!--    </button>-->
-    <!--  </div>-->
-    <!--</div>-->
   </div>
 
   <!-- Overlay for mobile sidebar -->
@@ -233,11 +163,68 @@
     ></div>
   }
 
+  <div class="hidden border-r border-white/[0.08] bg-black/30 md:block md:w-64">
+    <!-- Header -->
+    <div
+      class="sticky top-0 z-10 border-b border-white/[0.08] bg-black/60 p-4 backdrop-blur-xl"
+    >
+      <div class="flex items-center justify-between">
+        <h1 class="text-lg font-medium tracking-wide text-white">
+          Program List
+        </h1>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="scrollbar-hide h-[calc(100vh-133px)] overflow-y-auto">
+      @if (loading()) {
+        <app-programs-skeleton />
+      } @else {
+        <!-- Program Items -->
+        <div class="divide-y divide-white/[0.03]">
+          <!-- Featured Program -->
+          <a
+            routerLink=""
+            class="flex h-[84px] flex-col justify-between bg-primary-500/10 p-4 transition-colors hover:bg-primary-500/15"
+          >
+            <div class="flex items-center justify-between">
+              <span
+                class="rounded-full bg-primary-500/20 px-2 py-1 text-xs font-bold text-white/90"
+                >20:00 - 21:30</span
+              >
+            </div>
+            <h3 class="mt-1 pl-0.5 text-sm font-medium text-primary-300">
+              Evening News
+            </h3>
+          </a>
+
+          <!-- Regular Programs -->
+          @for (i of [].constructor(15); track $index) {
+            <a
+              routerLink=""
+              class="flex h-[84px] flex-col justify-between p-4 transition-colors hover:bg-bg-highlight/30"
+            >
+              <div class="flex items-center justify-between">
+                <span
+                  class="rounded-full bg-white/5 px-2 py-1 text-xs font-medium text-white/80"
+                  >21:30 - 22:30
+                </span>
+              </div>
+              <h3 class="mt-1 pl-0.5 text-sm font-medium text-white">
+                Prime Talk
+              </h3>
+            </a>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
   <!-- Right side - Player area -->
   <div class="flex flex-1 flex-col">
     <!-- Player controls header -->
     <div
-      class="flex h-[77px] items-center justify-between border-b border-white/[0.08] bg-black/30 p-4 backdrop-blur-xl md:p-4"
+      class="flex h-[61px] items-center justify-between border-b border-white/[0.08] bg-black/30 p-4 backdrop-blur-xl md:p-4"
     >
       @if (!loading() && activeChannel()) {
         <div class="flex items-center gap-3 md:gap-4">
@@ -250,88 +237,22 @@
               alt="{{ activeChannel()?.name?.en }}"
             />
           </div>
-          <div>
-            <h3 class="text-base font-medium tracking-wide md:text-lg">
-              {{ activeChannel()?.name?.en }}
-            </h3>
-            <p class="text-xs text-white/60 md:text-sm">Live broadcast</p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2 md:gap-4">
-          <button
-            class="rounded-full bg-white/10 p-2 transition-all duration-300 hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 md:p-2.5"
-            aria-label="Add to favorites"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="h-4 w-4 md:h-5 md:w-5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-              />
-            </svg>
-          </button>
-
-          <button
-            class="rounded-full bg-white/10 p-2 transition-all duration-300 hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 md:p-2.5"
-            aria-label="Settings"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="h-4 w-4 md:h-5 md:w-5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-          </button>
+          <h3 class="text-base font-medium tracking-wide md:text-lg">
+            {{ activeChannel()?.name?.en }}
+          </h3>
         </div>
       } @else {
-        <div class="relative h-6 w-36 overflow-hidden rounded-full bg-white/5">
+        <div class="relative h-8 w-32 overflow-hidden rounded-full bg-white/5">
           <!-- Shimmer effect -->
           <div
             class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
           ></div>
         </div>
-        <div class="flex gap-3">
-          <div
-            class="relative h-8 w-16 overflow-hidden rounded-full bg-white/5 md:h-10 md:w-20"
-          >
-            <div
-              class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
-            ></div>
-          </div>
-          <div
-            class="relative h-8 w-8 overflow-hidden rounded-full bg-white/5 md:h-10 md:w-10"
-          >
-            <div
-              class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
-            ></div>
-          </div>
-        </div>
       }
     </div>
 
-    <div class="flex-1 overflow-y-auto">
-      <div class="relative h-full w-full overflow-hidden bg-black shadow-2xl">
+    <div class="flex h-full flex-col">
+      <div class="relative h-full w-full bg-black shadow-2xl">
         <!-- Player loading skeleton -->
         @if (loading()) {
           <div
@@ -344,83 +265,12 @@
               Loading your stream...
             </p>
           </div>
-        } @else if (!activeChannel()) {
-          <div
-            class="absolute inset-0 flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-bg-dark to-bg-card/80 p-4 md:p-8"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="mb-4 h-16 w-16 text-white/20 md:mb-6 md:h-24 md:w-24"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-              />
-            </svg>
-            <p
-              class="mb-2 text-xl font-medium tracking-wide text-white/80 md:mb-3 md:text-2xl"
-            >
-              No channel selected
-            </p>
-            <p
-              class="mb-6 max-w-md text-center text-sm text-white/50 md:mb-8 md:text-base"
-            >
-              Select a channel from the sidebar to start watching your favorite
-              content
-            </p>
-            <div class="flex flex-col gap-3 md:flex-row md:gap-4">
-              <button
-                class="rounded-full bg-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-primary-500/20 transition-all duration-300 hover:bg-primary-500 md:px-6 md:py-3 md:text-base"
-              >
-                Browse popular channels
-              </button>
-              <button
-                class="rounded-full bg-white/10 px-5 py-2.5 text-sm font-medium text-white/80 transition-all duration-300 hover:bg-white/15 hover:text-white md:px-6 md:py-3 md:text-base"
-              >
-                View guide
-              </button>
-            </div>
-
-            <!-- Featured content thumbnails -->
-            <div
-              class="absolute bottom-4 left-0 right-0 px-4 md:bottom-8 md:px-8"
-            >
-              <p class="mb-2 text-xs text-white/60 md:mb-3 md:text-sm">
-                Featured content
-              </p>
-              <div
-                class="scrollbar-hide flex gap-2 overflow-x-auto pb-2 md:gap-4"
-              >
-                @for (i of [].constructor(5); track $index) {
-                  <div
-                    class="group relative h-16 w-28 flex-shrink-0 cursor-pointer overflow-hidden rounded-lg bg-white/5 transition-all duration-300 hover:ring-2 hover:ring-primary-500 md:h-24 md:w-40 md:rounded-xl"
-                  >
-                    <div
-                      class="absolute inset-0 flex items-end bg-gradient-to-t from-black/80 to-transparent p-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:p-2"
-                    >
-                      <span
-                        class="text-[10px] font-medium text-white md:text-xs"
-                        >Featured Show {{ $index + 1 }}</span
-                      >
-                    </div>
-                  </div>
-                }
-              </div>
-            </div>
-          </div>
         } @else {
           <!-- Player container -->
-          <div id="player-container" class="h-full w-full">
-            <app-player
-              [playerData]="playerData()"
-              [playerClass]="'h-full w-full'"
-            ></app-player>
-          </div>
+          <app-player
+            [playerData]="playerData()"
+            [playerClass]="'h-full w-full'"
+          ></app-player>
         }
       </div>
       <!--Player Controls-->
@@ -439,12 +289,7 @@
           class="flex h-10 w-10 items-center justify-center rounded-full bg-red-500 p-3 text-white transition-colors duration-200 hover:bg-red-600 sm:h-12 sm:w-12 sm:p-4"
           (click)="togglePlayer()"
         >
-          @if (isPlaying) {
-            <img
-              src="/assets/icons/play.svg"
-              class="ml-0.5 h-4 w-4 sm:h-auto sm:w-auto"
-            />
-          } @else {
+          @if (isPlaying()) {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 320 512"
@@ -455,6 +300,11 @@
                 d="M48 64C21.5 64 0 85.5 0 112v288c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48v288c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48h-32z"
               />
             </svg>
+          } @else {
+            <img
+              src="/assets/icons/play.svg"
+              class="ml-0.5 h-4 w-4 sm:h-auto sm:w-auto"
+            />
           }
         </button>
         <button

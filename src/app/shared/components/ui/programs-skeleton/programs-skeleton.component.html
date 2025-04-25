@@ -1,0 +1,20 @@
+@for (i of [].constructor(10); track $index) {
+  <div
+    class="flex h-[84px] flex-col justify-between border-b border-white/[0.03] p-4"
+  >
+    <!-- Time Range Skeleton -->
+    <div class="flex items-center justify-between">
+      <div class="relative h-4 w-24 overflow-hidden rounded-lg bg-white/5">
+        <div
+          class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
+        ></div>
+      </div>
+    </div>
+    <!-- Title Skeleton -->
+    <div class="relative mt-1 h-4 w-28 overflow-hidden rounded bg-white/5">
+      <div
+        class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
+      ></div>
+    </div>
+  </div>
+}
