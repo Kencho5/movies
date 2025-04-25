@@ -82,6 +82,16 @@ export class TvComponent implements OnInit {
     });
   }
 
+  setProgram(program: Program): void {
+    this.activeProgram.set(program);
+    this.start = program.start;
+    this.end = program.stop;
+
+    this.playerService.play(
+      streamUrl(this.activeChannel()!.stream, this.start, this.end),
+    );
+  }
+
   convertTimestampToHours(timestamp: number): string {
     const date = new Date(timestamp * 1000);
 

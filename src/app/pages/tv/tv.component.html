@@ -187,6 +187,7 @@
                 'hover:bg-bg-highlight/30':
                   activeProgram()?.start != program.start,
               }"
+              (click)="setProgram(program)"
             >
               <div class="flex items-center justify-between">
                 <span
