@@ -17,3 +17,28 @@ export interface Channel {
     url: string;
   };
 }
+
+export interface ProgramsResponse {
+  request: {
+    date: string;
+    channel_id: string;
+  };
+  tv: {
+    programs: Program[];
+  };
+}
+
+export interface Program {
+  channel: string;
+  title: {
+    lang: string;
+    text: string;
+  };
+  start: number;
+  stop: number;
+  vast: {
+    place: string;
+    enabled: boolean;
+    url: string;
+  };
+}

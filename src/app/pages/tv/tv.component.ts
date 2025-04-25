@@ -1,12 +1,13 @@
 import { Component, signal, OnInit, effect } from "@angular/core";
 import { PlayerData } from "@core/interfaces/player";
-import { Channel } from "@core/interfaces/tv";
+import { Channel, Program } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
 import { TvService } from "@core/services/tv.service";
 import { PlayerComponent } from "@shared/components/player/player.component";
 import { ChannelsSkeletonComponent } from "@shared/components/ui/channels-skeleton/channels-skeleton.component";
 import { ProgramsSkeletonComponent } from "@shared/components/ui/programs-skeleton/programs-skeleton.component";
 import { SharedModule } from "@shared/shared.module";
+import { streamUrl } from "app/utils/streamUrl";
 
 @Component({
   selector: "app-tv",
@@ -21,7 +22,11 @@ import { SharedModule } from "@shared/shared.module";
 export class TvComponent implements OnInit {
   channels = signal<Channel[]>([]);
   activeChannel = signal<Channel | null>(null);
+  programs = signal<Program[] | null>(null);
+  activeProgram = signal<Program | null>(null);
+
   loading = signal<boolean>(true);
+  programsLoading = signal<boolean>(true);
   playerData = signal<PlayerData | null>(null);
   sidebarOpen = signal<boolean>(false);
   isPlaying = signal<boolean>(true);
@@ -38,6 +43,8 @@ export class TvComponent implements OnInit {
       const channel = this.activeChannel();
 
       if (channel) {
+        this.getPrograms(channel.id);
+
         this.playerData.set({
           file: channel.stream,
           poster: channel.thumbnail,
@@ -62,6 +69,28 @@ export class TvComponent implements OnInit {
     }
   }
 
+  getPrograms(id: number): void {
+    this.programsLoading.set(true);
+    const date = new Date().toISOString().split("T")[0];
+
+    this.tvService.getPrograms(id, date).subscribe((res) => {
+      this.programs.set(res.tv.programs);
+      this.activeProgram.set(res.tv.programs[0]);
+      console.log(this.activeProgram());
+
+      this.programsLoading.set(false);
+    });
+  }
+
+  convertTimestampToHours(timestamp: number): string {
+    const date = new Date(timestamp * 1000);
+
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+
+    return `${hours}:${minutes}`;
+  }
+
   toggleSidebar() {
     this.sidebarOpen.update((current) => !current);
   }
@@ -75,22 +104,7 @@ export class TvComponent implements OnInit {
     this.start += seconds;
 
     this.playerService.play(
-      this.streamUrl(this.activeChannel()!.stream, this.start, this.end),
+      streamUrl(this.activeChannel()!.stream, this.start, this.end),
     );
-  }
-
-  streamUrl(url: string, start: number, end: number) {
-    const [base, queryString] = url.split("?");
-    const params = queryString.split("&");
-
-    const idIndex = params.findIndex((p) => p.startsWith("id="));
-    const idParam = params.splice(idIndex, 1)[0];
-
-    params.push(`start=${encodeURIComponent(start)}`);
-    params.push(`end=${encodeURIComponent(end)}`);
-
-    params.push(idParam);
-
-    return `${base}?${params.join("&")}`;
   }
 }

@@ -108,48 +108,43 @@
       } @else {
         <!-- Channel Items -->
         @for (channel of channels(); track channel.id) {
-          <div
-            class="group flex cursor-pointer items-center px-4 py-5 transition-all duration-300 hover:bg-bg-highlight/40"
+          <button
+            class="group flex h-[84px] w-full cursor-pointer items-center justify-between px-4 py-5 transition-all duration-300 hover:bg-bg-highlight/40"
             [ngClass]="{
               'border-l-3 border-primary-500 bg-primary-500/10 hover:bg-primary-500/15':
                 activeChannel()?.id === channel.id,
             }"
             (click)="changeChannel(channel.id)"
           >
+            <div class="flex items-center">
+              <div
+                class="mr-3.5 flex h-11 w-11 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/10 shadow-lg transition-transform duration-300 group-hover:scale-105"
+              >
+                <img
+                  [src]="channel.cover"
+                  class="h-full w-full object-cover"
+                  alt="{{ channel.name.en }}"
+                />
+              </div>
+
+              <div class="flex-grow">
+                <div
+                  class="text-sm font-medium tracking-wide transition-colors duration-300 group-hover:text-primary-300"
+                >
+                  {{ channel.name.en }}
+                </div>
+              </div>
+            </div>
+
             <div
-              class="mr-3.5 flex h-11 w-11 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/10 shadow-lg transition-transform duration-300 group-hover:scale-105"
+              class="flex items-center gap-1 rounded-full bg-red-500/20 px-2 py-0.5 shadow-lg shadow-red-500/10"
             >
-              <img
-                [src]="channel.cover"
-                class="h-full w-full object-cover"
-                alt="{{ channel.name.en }}"
-              />
+              <span
+                class="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500"
+              ></span>
+              <span class="text-[11px] font-medium text-white">Live</span>
             </div>
-
-            <div class="flex-grow">
-              <div
-                class="text-sm font-medium tracking-wide transition-colors duration-300 group-hover:text-primary-300"
-              >
-                {{ channel.name.en }}
-              </div>
-            </div>
-
-            <!-- Live indicator -->
-            @if (channel.live) {
-              <div
-                class="flex items-center gap-1 rounded-full bg-red-500/20 px-2 py-0.5 shadow-lg shadow-red-500/10"
-              >
-                <span
-                  class="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500"
-                ></span>
-                <span class="text-[11px] font-medium text-white">Live</span>
-              </div>
-            } @else {
-              <div class="px-2 py-0.5 text-[11px] font-medium text-white/30">
-                Off-air
-              </div>
-            }
-          </div>
+          </button>
         }
       }
     </div>
@@ -177,43 +172,45 @@
 
     <!-- Content -->
     <div class="scrollbar-hide h-[calc(100vh-133px)] overflow-y-auto">
-      @if (loading()) {
+      @if (loading() || programsLoading()) {
         <app-programs-skeleton />
       } @else {
         <!-- Program Items -->
         <div class="divide-y divide-white/[0.03]">
           <!-- Featured Program -->
-          <a
-            routerLink=""
-            class="flex h-[84px] flex-col justify-between bg-primary-500/10 p-4 transition-colors hover:bg-primary-500/15"
-          >
-            <div class="flex items-center justify-between">
-              <span
-                class="rounded-full bg-primary-500/20 px-2 py-1 text-xs font-bold text-white/90"
-                >20:00 - 21:30</span
-              >
-            </div>
-            <h3 class="mt-1 pl-0.5 text-sm font-medium text-primary-300">
-              Evening News
-            </h3>
-          </a>
-
-          <!-- Regular Programs -->
-          @for (i of [].constructor(15); track $index) {
-            <a
-              routerLink=""
-              class="flex h-[84px] flex-col justify-between p-4 transition-colors hover:bg-bg-highlight/30"
+          @for (program of programs(); track $index) {
+            <button
+              class="flex h-[84px] w-full flex-col items-start justify-between p-4 transition-colors"
+              [ngClass]="{
+                'bg-primary-500/10 hover:bg-primary-500/15':
+                  activeProgram()?.start == program.start,
+                'hover:bg-bg-highlight/30':
+                  activeProgram()?.start != program.start,
+              }"
             >
               <div class="flex items-center justify-between">
                 <span
-                  class="rounded-full bg-white/5 px-2 py-1 text-xs font-medium text-white/80"
-                  >21:30 - 22:30
+                  class="rounded-full px-2 py-1 text-xs"
+                  [ngClass]="{
+                    'bg-primary-500/20 font-bold text-white/90':
+                      activeProgram()?.start == program.start,
+                    'bg-white/5 font-medium text-white/80':
+                      activeProgram()?.start != program.start,
+                  }"
+                >
+                  {{ convertTimestampToHours(program.start) }} -
+                  {{ convertTimestampToHours(program.stop) }}
                 </span>
               </div>
-              <h3 class="mt-1 pl-0.5 text-sm font-medium text-white">
-                Prime Talk
+              <h3
+                class="mt-1 w-full truncate pl-1 text-start text-sm font-medium text-white"
+                [ngClass]="{
+                  'text-primary-300': activeProgram()?.start == program.start,
+                }"
+              >
+                {{ program.title.text }}
               </h3>
-            </a>
+            </button>
           }
         </div>
       }
