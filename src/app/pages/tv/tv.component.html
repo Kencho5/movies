@@ -180,6 +180,7 @@
           <!-- Featured Program -->
           @for (program of programs(); track $index) {
             <button
+              #programBtn
               class="flex h-[84px] w-full flex-col items-start justify-between p-4 transition-colors"
               [ngClass]="{
                 'bg-primary-500/10 hover:bg-primary-500/15':

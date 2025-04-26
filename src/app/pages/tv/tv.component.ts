@@ -1,4 +1,12 @@
-import { Component, signal, OnInit, effect } from "@angular/core";
+import {
+  Component,
+  signal,
+  OnInit,
+  effect,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+} from "@angular/core";
 import { PlayerData } from "@core/interfaces/player";
 import { Channel, Program } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
@@ -20,6 +28,8 @@ import { streamUrl } from "app/utils/streamUrl";
   templateUrl: "./tv.component.html",
 })
 export class TvComponent implements OnInit {
+  @ViewChildren("programBtn") programButtons!: QueryList<ElementRef>;
+
   channels = signal<Channel[]>([]);
   activeChannel = signal<Channel | null>(null);
   programs = signal<Program[] | null>(null);
@@ -44,12 +54,6 @@ export class TvComponent implements OnInit {
 
       if (channel) {
         this.getPrograms(channel.id);
-
-        this.playerData.set({
-          file: channel.stream,
-          poster: channel.thumbnail,
-          autoplay: 0,
-        });
       }
     });
   }
@@ -75,9 +79,7 @@ export class TvComponent implements OnInit {
 
     this.tvService.getPrograms(id, date).subscribe((res) => {
       this.programs.set(res.tv.programs);
-      this.activeProgram.set(res.tv.programs[0]);
-      console.log(this.activeProgram());
-
+      this.setProgram(this.closestProgram()!);
       this.programsLoading.set(false);
     });
   }
@@ -87,18 +89,11 @@ export class TvComponent implements OnInit {
     this.start = program.start;
     this.end = program.stop;
 
-    this.playerService.play(
-      streamUrl(this.activeChannel()!.stream, this.start, this.end),
-    );
-  }
-
-  convertTimestampToHours(timestamp: number): string {
-    const date = new Date(timestamp * 1000);
-
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-
-    return `${hours}:${minutes}`;
+    this.playerData.set({
+      file: streamUrl(this.activeChannel()!.stream, this.start, this.end),
+      poster: this.activeChannel()!.thumbnail,
+      autoplay: 1,
+    });
   }
 
   toggleSidebar() {
@@ -116,5 +111,43 @@ export class TvComponent implements OnInit {
     this.playerService.play(
       streamUrl(this.activeChannel()!.stream, this.start, this.end),
     );
+  }
+
+  convertTimestampToHours(timestamp: number): string {
+    const date = new Date(timestamp * 1000);
+
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+
+    return `${hours}:${minutes}`;
+  }
+
+  closestProgram(): Program | null {
+    if (!this.programs()?.length) return null;
+
+    const nowSeconds = Math.floor(Date.now() / 1000);
+    const currentTime = nowSeconds;
+
+    let minDifference: number = nowSeconds;
+    let lastIndex: number = 0;
+
+    this.programs()?.forEach((program, index) => {
+      const difference = Math.abs(program.start - currentTime);
+
+      if (difference < minDifference) {
+        minDifference = difference;
+        lastIndex = index;
+      }
+    });
+    setTimeout(() => {
+      this.programButtons
+        .toArray()
+        [lastIndex - 1].nativeElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+    }, 100);
+
+    return this.programs()![lastIndex - 1];
   }
 }
