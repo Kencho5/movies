@@ -6,9 +6,10 @@ import {
   ViewChildren,
   QueryList,
   ElementRef,
+  OnDestroy,
 } from "@angular/core";
 import { PlayerData } from "@core/interfaces/player";
-import { Channel, Program } from "@core/interfaces/tv";
+import { Channel, Program, TvParams } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
 import { TvService } from "@core/services/tv.service";
 import { PlayerComponent } from "@shared/components/player/player.component";
@@ -16,6 +17,8 @@ import { ChannelsSkeletonComponent } from "@shared/components/ui/channels-skelet
 import { ProgramsSkeletonComponent } from "@shared/components/ui/programs-skeleton/programs-skeleton.component";
 import { SharedModule } from "@shared/shared.module";
 import { streamUrl } from "app/utils/streamUrl";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-tv",
@@ -27,64 +30,68 @@ import { streamUrl } from "app/utils/streamUrl";
   ],
   templateUrl: "./tv.component.html",
 })
-export class TvComponent implements OnInit {
+export class TvComponent implements OnInit, OnDestroy {
   @ViewChildren("programBtn") programButtons!: QueryList<ElementRef>;
 
+  // signals
   channels = signal<Channel[]>([]);
   activeChannel = signal<Channel | null>(null);
   programs = signal<Program[] | null>(null);
   activeProgram = signal<Program | null>(null);
-
   loading = signal<boolean>(true);
   programsLoading = signal<boolean>(true);
   playerData = signal<PlayerData | null>(null);
   sidebarOpen = signal<boolean>(false);
   isPlaying = signal<boolean>(true);
 
+  // parameters and timing
+  tvParams: TvParams | null = null;
   dateOffset: number = 10800;
   start: number = Math.floor((Date.now() + this.dateOffset) / 1000);
   end: number = Math.floor((Date.now() + this.dateOffset) / 1000);
 
+  private subscriptions: Subscription = new Subscription();
+
   constructor(
     private tvService: TvService,
     private playerService: PlayerService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     effect(() => {
       const channel = this.activeChannel();
-
-      if (channel) {
-        this.getPrograms(channel.id);
-      }
+      if (channel) this.loadPrograms(channel.id);
     });
   }
 
   ngOnInit(): void {
-    this.tvService.getChannels().subscribe((res) => {
-      this.channels.set(res);
-      this.activeChannel.set(res[0]);
-      this.loading.set(false);
-    });
+    this.initializeQueryParams();
+    this.loadChannels();
   }
 
-  changeChannel(id: number) {
-    this.activeChannel.set(this.channels().find((c) => c.id === id)!);
-    if (window.innerWidth < 768) {
-      this.sidebarOpen.set(false);
-    }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
-  getPrograms(id: number): void {
-    this.programsLoading.set(true);
-    const date = new Date().toISOString().split("T")[0];
+  changeChannel(id: number): void {
+    const selectedChannel = this.findChannelById(id);
+    if (!selectedChannel) return;
 
-    this.tvService.getPrograms(id, date).subscribe((res) => {
-      this.programs.set(res.tv.programs);
-      this.setProgram(this.closestProgram()!);
-      this.programsLoading.set(false);
-    });
+    this.activeChannel.set(selectedChannel);
+    this.tvParams = { channel: id, program: null };
+    this.applyRouteParams();
+
+    if (window.innerWidth < 768) this.sidebarOpen.set(false);
   }
 
   setProgram(program: Program): void {
+    if (!program || !this.activeChannel()) return;
+
+    this.tvParams = {
+      channel: this.activeChannel()!.id,
+      program: program.start,
+    };
+
     this.activeProgram.set(program);
     this.start = program.start;
     this.end = program.stop;
@@ -92,22 +99,25 @@ export class TvComponent implements OnInit {
     this.playerData.set({
       file: streamUrl(this.activeChannel()!.stream, this.start, this.end),
       poster: this.activeChannel()!.thumbnail,
-      autoplay: 1,
+      autoplay: 0,
     });
+
+    this.applyRouteParams();
+    this.scrollToActiveProgram();
   }
 
-  toggleSidebar() {
+  toggleSidebar(): void {
     this.sidebarOpen.update((current) => !current);
   }
 
-  togglePlayer() {
-    this.playerService.trigger(this.isPlaying() ? "stop" : "play");
+  togglePlayer(): void {
+    const action = this.isPlaying() ? "stop" : "play";
+    this.playerService.trigger(action);
     this.isPlaying.set(this.playerService.trigger("playing"));
   }
 
-  seek(seconds: number) {
+  seek(seconds: number): void {
     this.start += seconds;
-
     this.playerService.play(
       streamUrl(this.activeChannel()!.stream, this.start, this.end),
     );
@@ -115,39 +125,113 @@ export class TvComponent implements OnInit {
 
   convertTimestampToHours(timestamp: number): string {
     const date = new Date(timestamp * 1000);
-
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
-
     return `${hours}:${minutes}`;
   }
 
-  closestProgram(): Program | null {
+  // Private methods
+  private initializeQueryParams(): void {
+    const paramSubscription = this.route.queryParams.subscribe((params) => {
+      if (!params) return;
+      this.tvParams = {
+        channel: params["channel"],
+        program: params["program"],
+      };
+    });
+    this.subscriptions.add(paramSubscription);
+  }
+
+  private loadChannels(): void {
+    const channelSubscription = this.tvService
+      .getChannels()
+      .subscribe((channels) => {
+        this.channels.set(channels);
+
+        const initialChannel = this.tvParams?.channel
+          ? this.findChannelById(this.tvParams.channel)
+          : channels[0];
+
+        this.activeChannel.set(initialChannel);
+        this.loading.set(false);
+      });
+    this.subscriptions.add(channelSubscription);
+  }
+
+  private loadPrograms(channelId: number): void {
+    this.programsLoading.set(true);
+    const date = this.getCurrentDateString();
+
+    const programsSubscription = this.tvService
+      .getPrograms(channelId, date)
+      .subscribe((response) => {
+        this.programs.set(response.tv.programs);
+
+        const initialProgram = this.tvParams?.program
+          ? this.findProgramByStartTime(this.tvParams.program)
+          : this.findClosestProgram();
+
+        if (initialProgram) this.setProgram(initialProgram);
+
+        this.programsLoading.set(false);
+      });
+    this.subscriptions.add(programsSubscription);
+  }
+
+  private findChannelById(id: number): Channel | null {
+    return this.channels().find((channel) => channel.id == id) || null;
+  }
+
+  private findProgramByStartTime(startTime: number): Program | null {
+    return (
+      this.programs()?.find((program) => program.start == startTime) || null
+    );
+  }
+
+  private findClosestProgram(): Program | null {
     if (!this.programs()?.length) return null;
 
-    const nowSeconds = Math.floor(Date.now() / 1000);
-    const currentTime = nowSeconds;
-
-    let minDifference: number = nowSeconds;
-    let lastIndex: number = 0;
+    const currentTime = Math.floor(Date.now() / 1000);
+    let minDifference = Number.MAX_SAFE_INTEGER;
+    let closestIndex = 0;
 
     this.programs()?.forEach((program, index) => {
       const difference = Math.abs(program.start - currentTime);
-
       if (difference < minDifference) {
         minDifference = difference;
-        lastIndex = index;
+        closestIndex = index;
       }
     });
+
+    return this.programs()![closestIndex - 1];
+  }
+
+  private scrollToActiveProgram(): void {
     setTimeout(() => {
-      this.programButtons
+      const activeButton = this.programButtons
         .toArray()
-        [lastIndex - 1].nativeElement.scrollIntoView({
+        .find((button) =>
+          button.nativeElement.classList.value.includes("bg-primary-500/10"),
+        );
+
+      if (activeButton) {
+        activeButton.nativeElement.scrollIntoView({
           behavior: "smooth",
           block: "start",
         });
+      }
     }, 100);
+  }
 
-    return this.programs()![lastIndex - 1];
+  private applyRouteParams(): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: this.tvParams,
+      queryParamsHandling: "merge",
+    });
+  }
+
+  private getCurrentDateString(): string {
+    return new Date().toISOString().split("T")[0];
   }
 }

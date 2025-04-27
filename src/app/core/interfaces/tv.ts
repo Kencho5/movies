@@ -42,3 +42,8 @@ export interface Program {
     url: string;
   };
 }
+
+export interface TvParams {
+  channel: number;
+  program: number | null;
+}
