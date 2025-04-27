@@ -19,6 +19,7 @@ import { SharedModule } from "@shared/shared.module";
 import { streamUrl } from "app/utils/streamUrl";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
+import { PaginationComponent } from "@shared/components/pagination/pagination.component";
 
 @Component({
   selector: "app-tv",
@@ -27,6 +28,7 @@ import { Subscription } from "rxjs";
     PlayerComponent,
     ChannelsSkeletonComponent,
     ProgramsSkeletonComponent,
+    PaginationComponent,
   ],
   templateUrl: "./tv.component.html",
 })

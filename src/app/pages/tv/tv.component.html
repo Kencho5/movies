@@ -15,14 +15,14 @@
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        stroke-width="1.5"
+        stroke-width="3"
         stroke="currentColor"
         class="h-6 w-6"
       >
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
-          d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          d="M19.5 8.25l-7.5 7.5-7.5-7.5"
         />
       </svg>
     </button>
@@ -40,14 +40,14 @@
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        stroke-width="1.5"
+        stroke-width="3"
         stroke="currentColor"
         class="h-6 w-6"
       >
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
-          d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          d="M19.5 8.25l-7.5 7.5-7.5-7.5"
         />
       </svg>
     </button>
@@ -172,81 +172,7 @@
       }
     </div>
 
-    <!-- Pagination Component -->
-    <div
-      class="flex items-center justify-center border-t border-white/[0.03] px-2 py-5"
-    >
-      <nav class="flex items-center space-x-2">
-        <!-- Previous Button -->
-        <button
-          class="flex h-9 items-center justify-center rounded-md p-2 text-sm text-neutral-300 transition-colors hover:bg-bg-highlight/40 hover:text-primary-300 focus:outline-none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-        </button>
-
-        <!-- Page Numbers -->
-        <div class="flex items-center space-x-1">
-          <button
-            class="flex h-9 w-9 items-center justify-center rounded-md border border-primary-500/20 bg-primary-500/10 text-sm font-medium text-primary-300 transition-colors focus:outline-none"
-          >
-            1
-          </button>
-          <button
-            class="flex h-9 w-9 items-center justify-center rounded-md text-sm text-neutral-300 transition-colors hover:bg-bg-highlight/40 hover:text-primary-300 focus:outline-none"
-          >
-            2
-          </button>
-          <button
-            class="flex h-9 w-9 items-center justify-center rounded-md text-sm text-neutral-300 transition-colors hover:bg-bg-highlight/40 hover:text-primary-300 focus:outline-none"
-          >
-            3
-          </button>
-          <button
-            class="flex h-9 w-9 items-center justify-center rounded-md text-sm text-neutral-300 transition-colors hover:bg-bg-highlight/40 hover:text-primary-300 focus:outline-none"
-          >
-            4
-          </button>
-          <button
-            class="flex h-9 w-9 items-center justify-center rounded-md text-sm text-neutral-300 transition-colors hover:bg-bg-highlight/40 hover:text-primary-300 focus:outline-none"
-          >
-            5
-          </button>
-        </div>
-
-        <!-- Next Button -->
-        <button
-          class="flex h-9 items-center justify-center rounded-md p-2 text-sm text-neutral-300 transition-colors hover:bg-bg-highlight/40 hover:text-primary-300 focus:outline-none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </button>
-      </nav>
-    </div>
+    <app-pagination />
   </div>
 
   <!-- Overlay for mobile sidebar -->
