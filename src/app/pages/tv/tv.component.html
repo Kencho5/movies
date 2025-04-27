@@ -8,7 +8,32 @@
     <h1 class="text-xl font-medium tracking-wide text-white">TV Channels</h1>
     <button
       class="rounded-full bg-white/10 p-2 transition-all duration-300 hover:bg-white/15"
-      (click)="toggleSidebar()"
+      (click)="toggleSidebar('channels')"
+      aria-label="Toggle menu"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="h-6 w-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+        />
+      </svg>
+    </button>
+  </div>
+  <div
+    class="flex items-center justify-between border-b border-white/[0.08] bg-black/60 p-4 md:hidden"
+  >
+    <h1 class="text-xl font-medium tracking-wide text-white">Program List</h1>
+    <button
+      class="rounded-full bg-white/10 p-2 transition-all duration-300 hover:bg-white/15"
+      (click)="toggleSidebar('programs')"
       aria-label="Toggle menu"
     >
       <svg
@@ -78,8 +103,8 @@
         <!-- Close button for mobile -->
         <button
           class="rounded-full p-1.5 text-white/70 transition-all duration-300 hover:bg-white/10 hover:text-white md:hidden"
-          (click)="toggleSidebar()"
-          aria-label="Close menu"
+          (click)="toggleSidebar('channels')"
+          aria-label="Close program list"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +112,7 @@
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="h-4.5 w-4.5"
+            class="h-5 w-5"
           >
             <path
               stroke-linecap="round"
@@ -126,7 +151,6 @@
                   alt="{{ channel.name.en }}"
                 />
               </div>
-
               <div class="flex-grow">
                 <div
                   class="text-sm font-medium tracking-wide transition-colors duration-300 group-hover:text-primary-300"
@@ -135,7 +159,6 @@
                 </div>
               </div>
             </div>
-
             <div
               class="flex items-center gap-1 rounded-full bg-red-500/20 px-2 py-0.5 shadow-lg shadow-red-500/10"
             >
@@ -148,30 +171,135 @@
         }
       }
     </div>
+
+    <!-- Pagination Component -->
+    <div
+      class="flex items-center justify-center border-t border-white/[0.03] px-2 py-5"
+    >
+      <nav class="flex items-center space-x-2">
+        <!-- Previous Button -->
+        <button
+          class="flex h-9 items-center justify-center rounded-md p-2 text-sm text-neutral-300 transition-colors hover:bg-bg-highlight/40 hover:text-primary-300 focus:outline-none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+
+        <!-- Page Numbers -->
+        <div class="flex items-center space-x-1">
+          <button
+            class="flex h-9 w-9 items-center justify-center rounded-md border border-primary-500/20 bg-primary-500/10 text-sm font-medium text-primary-300 transition-colors focus:outline-none"
+          >
+            1
+          </button>
+          <button
+            class="flex h-9 w-9 items-center justify-center rounded-md text-sm text-neutral-300 transition-colors hover:bg-bg-highlight/40 hover:text-primary-300 focus:outline-none"
+          >
+            2
+          </button>
+          <button
+            class="flex h-9 w-9 items-center justify-center rounded-md text-sm text-neutral-300 transition-colors hover:bg-bg-highlight/40 hover:text-primary-300 focus:outline-none"
+          >
+            3
+          </button>
+          <button
+            class="flex h-9 w-9 items-center justify-center rounded-md text-sm text-neutral-300 transition-colors hover:bg-bg-highlight/40 hover:text-primary-300 focus:outline-none"
+          >
+            4
+          </button>
+          <button
+            class="flex h-9 w-9 items-center justify-center rounded-md text-sm text-neutral-300 transition-colors hover:bg-bg-highlight/40 hover:text-primary-300 focus:outline-none"
+          >
+            5
+          </button>
+        </div>
+
+        <!-- Next Button -->
+        <button
+          class="flex h-9 items-center justify-center rounded-md p-2 text-sm text-neutral-300 transition-colors hover:bg-bg-highlight/40 hover:text-primary-300 focus:outline-none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+      </nav>
+    </div>
   </div>
 
   <!-- Overlay for mobile sidebar -->
   @if (sidebarOpen()) {
     <div
       class="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
-      (click)="toggleSidebar()"
+      (click)="toggleSidebar('channels')"
+    ></div>
+  }
+  @if (programSidebarOpen()) {
+    <div
+      class="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
+      (click)="toggleSidebar('programs')"
     ></div>
   }
 
-  <div class="hidden border-r border-white/[0.08] bg-black/30 md:block md:w-64">
+  <div
+    class="fixed inset-0 z-50 flex-col border-r border-white/[0.08] bg-black/90 shadow-2xl backdrop-blur-xl transition-transform duration-300 md:static md:z-auto md:flex md:w-64 md:translate-x-0 md:bg-black/30"
+    [ngClass]="{
+      'flex translate-x-0': programSidebarOpen(),
+      'translate-x-[-100%]': !programSidebarOpen(),
+    }"
+  >
     <!-- Header -->
     <div
-      class="sticky top-0 z-10 border-b border-white/[0.08] bg-black/60 p-4 backdrop-blur-xl"
+      class="sticky top-0 z-10 flex items-center justify-between border-b border-white/[0.08] bg-black/60 p-4 backdrop-blur-xl"
     >
-      <div class="flex items-center justify-between">
-        <h1 class="text-lg font-medium tracking-wide text-white">
-          Program List
-        </h1>
-      </div>
+      <h1 class="text-lg font-medium tracking-wide text-white">Program List</h1>
+      <!-- Close button for mobile -->
+      <button
+        class="rounded-full p-1.5 text-white/70 transition-all duration-300 hover:bg-white/10 hover:text-white md:hidden"
+        (click)="toggleSidebar('programs')"
+        aria-label="Close program list"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="h-5 w-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
     </div>
 
     <!-- Content -->
-    <div class="scrollbar-hide h-[calc(100vh-133px)] overflow-y-auto">
+    <div class="scrollbar-hide flex-1 overflow-y-auto">
       @if (loading() || programsLoading()) {
         <app-programs-skeleton />
       } @else {

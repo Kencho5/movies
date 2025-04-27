@@ -42,6 +42,7 @@ export class TvComponent implements OnInit, OnDestroy {
   programsLoading = signal<boolean>(true);
   playerData = signal<PlayerData | null>(null);
   sidebarOpen = signal<boolean>(false);
+  programSidebarOpen = signal(false);
   isPlaying = signal<boolean>(true);
 
   // parameters and timing
@@ -104,10 +105,15 @@ export class TvComponent implements OnInit, OnDestroy {
 
     this.applyRouteParams();
     this.scrollToActiveProgram();
+    if (this.programSidebarOpen()) this.toggleSidebar("programs");
   }
 
-  toggleSidebar(): void {
-    this.sidebarOpen.update((current) => !current);
+  toggleSidebar(type: "channels" | "programs") {
+    if (type === "channels") {
+      this.sidebarOpen.update((state) => !state);
+    } else if (type === "programs") {
+      this.programSidebarOpen.update((state) => !state);
+    }
   }
 
   togglePlayer(): void {
