@@ -19,7 +19,7 @@ import { SharedModule } from "@shared/shared.module";
 import { streamUrl } from "app/utils/streamUrl";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { PaginationComponent } from "@shared/components/pagination/pagination.component";
+import { InfiniteScrollDirective } from "ngx-infinite-scroll";
 
 @Component({
   selector: "app-tv",
@@ -28,7 +28,7 @@ import { PaginationComponent } from "@shared/components/pagination/pagination.co
     PlayerComponent,
     ChannelsSkeletonComponent,
     ProgramsSkeletonComponent,
-    PaginationComponent,
+    InfiniteScrollDirective,
   ],
   templateUrl: "./tv.component.html",
 })
@@ -52,6 +52,7 @@ export class TvComponent implements OnInit, OnDestroy {
   dateOffset: number = 10800;
   start: number = Math.floor((Date.now() + this.dateOffset) / 1000);
   end: number = Math.floor((Date.now() + this.dateOffset) / 1000);
+  channelsPage = 0;
 
   private subscriptions: Subscription = new Subscription();
 
@@ -138,6 +139,24 @@ export class TvComponent implements OnInit, OnDestroy {
     return `${hours}:${minutes}`;
   }
 
+  loadChannels(): void {
+    const channelSubscription = this.tvService
+      .getChannels(this.channelsPage)
+      .subscribe((channels) => {
+        this.channels.update((prev) => [...prev, ...channels]);
+
+        const initialChannel = this.tvParams?.channel
+          ? this.findChannelById(this.tvParams.channel)
+          : channels[0];
+
+        this.activeChannel.set(initialChannel);
+        this.loading.set(false);
+      });
+
+    this.channelsPage++;
+    this.subscriptions.add(channelSubscription);
+  }
+
   // Private methods
   private initializeQueryParams(): void {
     const paramSubscription = this.route.queryParams.subscribe((params) => {
@@ -148,22 +167,6 @@ export class TvComponent implements OnInit, OnDestroy {
       };
     });
     this.subscriptions.add(paramSubscription);
-  }
-
-  private loadChannels(): void {
-    const channelSubscription = this.tvService
-      .getChannels()
-      .subscribe((channels) => {
-        this.channels.set(channels);
-
-        const initialChannel = this.tvParams?.channel
-          ? this.findChannelById(this.tvParams.channel)
-          : channels[0];
-
-        this.activeChannel.set(initialChannel);
-        this.loading.set(false);
-      });
-    this.subscriptions.add(channelSubscription);
   }
 
   private loadPrograms(channelId: number): void {

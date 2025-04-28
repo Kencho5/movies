@@ -9,11 +9,11 @@ import { delay, Observable } from "rxjs";
 export class TvService {
   constructor(private http: HttpClient) {}
 
-  getChannels(): Observable<Channel[]> {
+  getChannels(page: number): Observable<Channel[]> {
     return this.http.get<Channel[]>(
-      "https://api.oho.ge/tv/streaming/channels/?page=1",
+      `https://api.oho.ge/tv/streaming/channels/?page=${page}`,
     );
-    //.pipe(delay(400));
+    //.pipe(delay(800));
   }
 
   getPrograms(id: number, date: string): Observable<ProgramsResponse> {
