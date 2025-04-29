@@ -1,1 +1,16 @@
-<div class="h-[60px] w-full border-t border-white/[0.08]"></div>
+<div
+  class="hidden h-[60px] w-full justify-between border-t border-white/[0.08] p-2 text-[10px] text-white/80 xl:flex"
+>
+  @for (program of programs; track $index) {
+    <div class="flex flex-col justify-between">
+      <p class="font-normal">{{ convertTimestampToHours(program.start) }}</p>
+
+      <div class="-ml-4 flex items-end justify-between">
+        <div class="h-3 w-px bg-neutral-500"></div>
+        <div class="h-1.5 w-px bg-neutral-500"></div>
+        <div class="h-5 w-px bg-neutral-500"></div>
+        <div class="h-1.5 w-px bg-neutral-500"></div>
+      </div>
+    </div>
+  }
+</div>
