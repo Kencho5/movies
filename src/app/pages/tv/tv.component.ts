@@ -21,6 +21,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { InfiniteScrollDirective } from "ngx-infinite-scroll";
 import { TimelineComponent } from "@shared/components/timeline/timeline.component";
+import { PlayerControlsComponent } from "@shared/components/player-controls/player-controls.component";
 
 @Component({
   selector: "app-tv",
@@ -31,6 +32,7 @@ import { TimelineComponent } from "@shared/components/timeline/timeline.componen
     ProgramsSkeletonComponent,
     InfiniteScrollDirective,
     TimelineComponent,
+    PlayerControlsComponent,
   ],
   templateUrl: "./tv.component.html",
 })
