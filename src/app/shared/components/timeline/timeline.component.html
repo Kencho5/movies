@@ -1,16 +1,81 @@
 <div
-  class="hidden h-[60px] w-full justify-between border-t border-white/[0.08] p-2 text-[10px] text-white/80 xl:flex"
+  class="hidden h-[70px] border-t border-white/[0.08] p-2 text-[10px] text-white/80 xl:block"
 >
-  @for (program of programs; track $index) {
-    <div class="flex flex-col justify-between">
-      <p class="font-normal">{{ convertTimestampToHours(program.start) }}</p>
-
-      <div class="-ml-4 flex items-end justify-between">
-        <div class="h-3 w-px bg-neutral-500"></div>
-        <div class="h-1.5 w-px bg-neutral-500"></div>
-        <div class="h-5 w-px bg-neutral-500"></div>
-        <div class="h-1.5 w-px bg-neutral-500"></div>
-      </div>
+  <div class="flex w-full cursor-pointer flex-col">
+    <div
+      class="grid w-full"
+      style="grid-template-columns: repeat({{ programs.length }}, 1fr);"
+    >
+      @for (program of programs; track $index) {
+        <p class="text-center font-normal">
+          {{ convertTimestampToHours(program.start) }}
+        </p>
+      }
     </div>
-  }
+    <div
+      class="grid w-full"
+      style="grid-template-columns: repeat({{ programs.length }}, 1fr);"
+    >
+      @for (x of [].constructor(programs.length); track x) {
+        <svg class="h-4 w-full">
+          <!-- Tallest (center) -->
+          <line
+            x1="50%"
+            x2="50%"
+            y1="100%"
+            y2="0%"
+            stroke="#CCC"
+            stroke-width="1"
+          />
+          <!-- Short left -->
+          <line
+            x1="0"
+            x2="0"
+            y1="100%"
+            y2="75%"
+            stroke="#CCC"
+            stroke-width="1.5"
+          />
+          <!-- Medium left -->
+          <line
+            x1="20%"
+            x2="20%"
+            y1="100%"
+            y2="50%"
+            stroke="#CCC"
+            stroke-width="0.8"
+          />
+          <!-- Short left -->
+          <line
+            x1="35%"
+            x2="35%"
+            y1="100%"
+            y2="75%"
+            stroke="#CCC"
+            stroke-width="0.8"
+          />
+
+          <!-- Short right -->
+          <line
+            x1="65%"
+            x2="65%"
+            y1="100%"
+            y2="75%"
+            stroke="#CCC"
+            stroke-width="0.8"
+          />
+          <!-- Medium right -->
+          <line
+            x1="80%"
+            x2="80%"
+            y1="100%"
+            y2="50%"
+            stroke="#CCC"
+            stroke-width="0.8"
+          />
+        </svg>
+      }
+    </div>
+  </div>
+  <div class="h-1 w-full rounded bg-neutral-600"></div>
 </div>
