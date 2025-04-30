@@ -1,22 +1,19 @@
 <div
-  class="hidden h-[70px] border-t border-white/[0.08] p-2 text-[10px] text-white/80 xl:block"
+  class="hidden h-[70px] border-t border-primary-700/30 bg-bg-dark p-2 text-xs text-white/90 xl:block"
 >
-  <div class="flex w-full cursor-pointer flex-col">
-    <div
-      class="grid w-full"
-      style="grid-template-columns: repeat({{ programs.length }}, 1fr);"
-    >
-      @for (program of programs; track $index) {
-        <p class="text-center font-normal">
-          {{ convertTimestampToHours(program.start) }}
+  <!-- Hours labels -->
+  <div class="flex w-full flex-col">
+    <div class="grid w-full" style="grid-template-columns: repeat(24, 1fr)">
+      @for (x of [].constructor(24); track $index) {
+        <p class="text-center text-[10px] font-normal text-neutral-400">
+          {{ $index.toString().padStart(2, "0") }}:00
         </p>
       }
     </div>
-    <div
-      class="grid w-full"
-      style="grid-template-columns: repeat({{ programs.length }}, 1fr);"
-    >
-      @for (x of [].constructor(programs.length); track x) {
+
+    <!-- Time markers -->
+    <div class="grid w-full" style="grid-template-columns: repeat(24, 1fr)">
+      @for (x of [].constructor(24); track $index) {
         <svg class="h-4 w-full">
           <!-- Tallest (center) -->
           <line
@@ -24,7 +21,8 @@
             x2="50%"
             y1="100%"
             y2="0%"
-            stroke="#6d6d6d"
+            stroke="currentColor"
+            class="text-primary-600/70"
             stroke-width="1"
           />
           <!-- Short left -->
@@ -33,8 +31,9 @@
             x2="0"
             y1="100%"
             y2="75%"
-            stroke="#6d6d6d"
-            stroke-width="1.5"
+            stroke="currentColor"
+            class="text-neutral-500/60"
+            stroke-width="1"
           />
           <!-- Medium left -->
           <line
@@ -42,7 +41,8 @@
             x2="20%"
             y1="100%"
             y2="50%"
-            stroke="#6d6d6d"
+            stroke="currentColor"
+            class="text-neutral-500/60"
             stroke-width="0.8"
           />
           <!-- Short left -->
@@ -51,17 +51,18 @@
             x2="35%"
             y1="100%"
             y2="75%"
-            stroke="#6d6d6d"
+            stroke="currentColor"
+            class="text-neutral-500/60"
             stroke-width="0.8"
           />
-
           <!-- Short right -->
           <line
             x1="65%"
             x2="65%"
             y1="100%"
             y2="75%"
-            stroke="#6d6d6d"
+            stroke="currentColor"
+            class="text-neutral-500/60"
             stroke-width="0.8"
           />
           <!-- Medium right -->
@@ -70,12 +71,39 @@
             x2="80%"
             y1="100%"
             y2="50%"
-            stroke="#6d6d6d"
+            stroke="currentColor"
+            class="text-neutral-500/60"
             stroke-width="0.8"
           />
         </svg>
       }
     </div>
   </div>
-  <div class="h-1 w-full rounded bg-neutral-600"></div>
+
+  <!-- Progress bar and tooltip -->
+  <div
+    class="relative cursor-pointer pb-3"
+    (mousemove)="hover($event)"
+    (mouseleave)="tooltipShown.set(false)"
+  >
+    <!-- Progress track -->
+    <div class="h-1.5 w-full rounded-full bg-neutral-800">
+      <div
+        class="h-full w-[15%] rounded-full bg-gradient-to-r from-primary-700 to-primary-500"
+      ></div>
+    </div>
+
+    <!-- Tooltip -->
+    @if (tooltipShown()) {
+      <div
+        [ngStyle]="{ left: tooltipX + 'px' }"
+        class="pointer-events-none absolute -top-10 -translate-x-1/2 transform rounded-md border border-primary-800/50 bg-bg-card px-2 py-1 text-xs font-medium text-white/90 shadow-lg"
+      >
+        {{ tooltipText }}
+        <div
+          class="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 transform border-b border-r border-primary-800/50 bg-bg-card"
+        ></div>
+      </div>
+    }
+  </div>
 </div>
