@@ -1,83 +1,74 @@
 <div
   class="hidden h-[70px] border-t border-primary-700/30 bg-bg-dark p-2 text-xs text-white/90 xl:block"
 >
-  <!-- Hours labels -->
   <div class="flex w-full flex-col">
-    <div class="grid w-full" style="grid-template-columns: repeat(24, 1fr)">
+    <!-- Hour labels -->
+    <div class="relative h-4 w-full">
       @for (x of [].constructor(24); track $index) {
-        <p class="text-center text-[10px] font-normal text-neutral-400">
+        <span
+          class="absolute text-[10px] font-normal text-neutral-400"
+          [ngStyle]="
+            $index === 0
+              ? { left: '0%', transform: 'none' }
+              : $index === 23
+                ? { left: '100%', transform: 'translateX(-100%)' }
+                : {
+                    left: ($index / 23) * 100 + '%',
+                    transform: 'translateX(-50%)',
+                  }
+          "
+        >
           {{ $index.toString().padStart(2, "0") }}:00
-        </p>
+        </span>
       }
     </div>
-
     <!-- Time markers -->
-    <div class="grid w-full" style="grid-template-columns: repeat(24, 1fr)">
+    <svg class="h-4 w-full">
       @for (x of [].constructor(24); track $index) {
-        <svg class="h-4 w-full">
-          <!-- Tallest (center) -->
-          <line
-            x1="50%"
-            x2="50%"
-            y1="100%"
-            y2="0%"
-            stroke="currentColor"
-            class="text-primary-600/70"
-            stroke-width="1"
-          />
-          <!-- Short left -->
-          <line
-            x1="0"
-            x2="0"
-            y1="100%"
-            y2="75%"
-            stroke="currentColor"
-            class="text-neutral-500/60"
-            stroke-width="1"
-          />
-          <!-- Medium left -->
-          <line
-            x1="20%"
-            x2="20%"
-            y1="100%"
-            y2="50%"
-            stroke="currentColor"
-            class="text-neutral-500/60"
-            stroke-width="0.8"
-          />
-          <!-- Short left -->
-          <line
-            x1="35%"
-            x2="35%"
-            y1="100%"
-            y2="75%"
-            stroke="currentColor"
-            class="text-neutral-500/60"
-            stroke-width="0.8"
-          />
-          <!-- Short right -->
-          <line
-            x1="65%"
-            x2="65%"
-            y1="100%"
-            y2="75%"
-            stroke="currentColor"
-            class="text-neutral-500/60"
-            stroke-width="0.8"
-          />
-          <!-- Medium right -->
-          <line
-            x1="80%"
-            x2="80%"
-            y1="100%"
-            y2="50%"
-            stroke="currentColor"
-            class="text-neutral-500/60"
-            stroke-width="0.8"
-          />
-        </svg>
+        <line
+          [attr.x1]="($index / 23) * 100 + '%'"
+          [attr.x2]="($index / 23) * 100 + '%'"
+          y1="100%"
+          y2="0%"
+          stroke="currentColor"
+          class="text-primary-600/70"
+          stroke-width="1"
+        />
+
+        <!-- 15 minute marker -->
+        <line
+          [attr.x1]="(($index + 0.25) / 23) * 100 + '%'"
+          [attr.x2]="(($index + 0.25) / 23) * 100 + '%'"
+          y1="100%"
+          y2="75%"
+          stroke="currentColor"
+          class="text-neutral-500/60"
+          stroke-width="0.8"
+        />
+
+        <!-- 30 minute marker -->
+        <line
+          [attr.x1]="(($index + 0.5) / 23) * 100 + '%'"
+          [attr.x2]="(($index + 0.5) / 23) * 100 + '%'"
+          y1="100%"
+          y2="50%"
+          stroke="currentColor"
+          class="text-neutral-500/60"
+          stroke-width="0.8"
+        />
+
+        <!-- 45 minute marker -->
+        <line
+          [attr.x1]="(($index + 0.75) / 23) * 100 + '%'"
+          [attr.x2]="(($index + 0.75) / 23) * 100 + '%'"
+          y1="100%"
+          y2="75%"
+          stroke="currentColor"
+          class="text-neutral-500/60"
+          stroke-width="0.8"
+        />
       }
-    </div>
+    </svg>
   </div>
 
   <!-- Progress bar and tooltip -->
@@ -92,7 +83,6 @@
         class="h-full w-[15%] rounded-full bg-gradient-to-r from-primary-700 to-primary-500"
       ></div>
     </div>
-
     <!-- Tooltip -->
     @if (tooltipShown()) {
       <div
