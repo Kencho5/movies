@@ -1,0 +1,82 @@
+<div
+  class="hidden h-[70px] border-t border-primary-700/30 bg-bg-dark p-2 text-xs text-white/90 xl:block"
+>
+  <div class="flex w-full flex-col">
+    <!-- Hour label skeletons (original style) -->
+    <div class="relative h-4 w-full">
+      @for (x of [].constructor(24); track $index) {
+        <span
+          class="absolute"
+          [ngStyle]="
+            $index === 0
+              ? { left: '0%', transform: 'none' }
+              : $index === 23
+                ? { left: '100%', transform: 'translateX(-100%)' }
+                : {
+                    left: ($index / 23) * 100 + '%',
+                    transform: 'translateX(-50%)',
+                  }
+          "
+        >
+          <span
+            class="relative block h-3 w-8 overflow-hidden rounded bg-white/5"
+          >
+            <span
+              class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
+            ></span>
+          </span>
+        </span>
+      }
+    </div>
+    <!-- Tick mark skeletons (SVG rects, non-jitter) -->
+    <svg class="h-4 w-full">
+      @for (x of [].constructor(24); track $index) {
+        <!-- Main hour marker -->
+        <rect
+          [attr.x]="($index / 23) * 100 + '%'"
+          y="0"
+          width="2"
+          height="16"
+          rx="1"
+          class="fill-white/5"
+        />
+        <!-- 15 min marker -->
+        <rect
+          [attr.x]="(($index + 0.25) / 23) * 100 + '%'"
+          y="4"
+          width="1"
+          height="8"
+          rx="0.5"
+          class="fill-white/5"
+        />
+        <!-- 30 min marker -->
+        <rect
+          [attr.x]="(($index + 0.5) / 23) * 100 + '%'"
+          y="6"
+          width="1"
+          height="6"
+          rx="0.5"
+          class="fill-white/5"
+        />
+        <!-- 45 min marker -->
+        <rect
+          [attr.x]="(($index + 0.75) / 23) * 100 + '%'"
+          y="4"
+          width="1"
+          height="8"
+          rx="0.5"
+          class="fill-white/5"
+        />
+      }
+    </svg>
+  </div>
+
+  <!-- Progress bar skeleton (non-jitter) -->
+  <div class="relative pb-3">
+    <div class="relative h-1.5 w-full overflow-hidden rounded-full bg-white/5">
+      <div
+        class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
+      ></div>
+    </div>
+  </div>
+</div>

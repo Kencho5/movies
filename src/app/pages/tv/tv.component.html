@@ -346,5 +346,7 @@
   </div>
   @if (programs()) {
     <app-timeline [programs]="programs()!" />
+  } @else {
+    <app-timeline-skeleton />
   }
 </div>
