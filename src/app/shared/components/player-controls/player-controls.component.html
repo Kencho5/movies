@@ -1,31 +1,36 @@
 <div
-  class="flex items-center justify-center gap-2 rounded-lg bg-bg-dark p-3 text-sm sm:gap-4 sm:text-sm"
+  class="flex items-center justify-center gap-2 rounded-lg bg-bg-dark p-3 text-sm shadow-lg backdrop-blur-sm backdrop-filter sm:gap-4 sm:text-sm"
 >
   <button
     type="button"
-    class="flex items-center justify-center rounded-full bg-bg-highlight px-2.5 py-1.5 text-white transition-colors duration-200 hover:bg-neutral-700 sm:px-3 sm:py-2"
+    class="flex items-center justify-center rounded-full border border-neutral-700/10 bg-bg-highlight px-2.5 py-1.5 text-white shadow-sm transition-all duration-200 hover:bg-neutral-700 active:scale-95 sm:px-3 sm:py-2"
     (click)="onSeek(-300)"
   >
-    -5min
+    <span class="font-medium tracking-wide">-5min</span>
   </button>
+
   <button
     type="button"
-    class="flex items-center justify-center rounded-full bg-bg-highlight px-2.5 py-1.5 text-white transition-colors duration-200 hover:bg-neutral-700 sm:px-3 sm:py-2"
+    class="flex items-center justify-center rounded-full border border-neutral-700/10 bg-bg-highlight px-2.5 py-1.5 text-white shadow-sm transition-all duration-200 hover:bg-neutral-700 active:scale-95 sm:px-3 sm:py-2"
     (click)="onSeek(-30)"
   >
-    -30
+    <span class="font-medium tracking-wide">-30</span>
   </button>
+
   <button
     type="button"
-    class="flex h-9 w-9 items-center justify-center rounded-full bg-red-500 text-white transition-colors duration-200 hover:bg-red-600 sm:h-10 sm:w-10"
+    class="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-red-500 text-white shadow-md transition-all duration-200 hover:bg-red-600 active:scale-95 sm:h-10 sm:w-10"
     (click)="onTogglePlayer()"
   >
+    <span
+      class="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent"
+    ></span>
     @if (isPlaying) {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 320 512"
         fill="#ffffff"
-        class="h-3.5 w-3.5 sm:h-4 sm:w-4"
+        class="h-3.5 w-3.5 drop-shadow-sm sm:h-4 sm:w-4"
       >
         <path
           d="M48 64C21.5 64 0 85.5 0 112v288c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48v288c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48h-32z"
@@ -34,22 +39,24 @@
     } @else {
       <img
         src="/assets/icons/play.svg"
-        class="ml-0.5 h-3.5 w-3.5 sm:h-4 sm:w-4"
+        class="ml-0.5 h-3.5 w-3.5 drop-shadow-sm sm:h-4 sm:w-4"
       />
     }
   </button>
+
   <button
     type="button"
-    class="flex items-center justify-center rounded-full bg-bg-highlight px-2.5 py-1.5 text-white transition-colors duration-200 hover:bg-neutral-700 sm:px-3 sm:py-2"
+    class="flex items-center justify-center rounded-full border border-neutral-700/10 bg-bg-highlight px-2.5 py-1.5 text-white shadow-sm transition-all duration-200 hover:bg-neutral-700 active:scale-95 sm:px-3 sm:py-2"
     (click)="onSeek(30)"
   >
-    +30
+    <span class="font-medium tracking-wide">+30</span>
   </button>
+
   <button
     type="button"
-    class="flex items-center justify-center rounded-full bg-bg-highlight px-2.5 py-1.5 text-white transition-colors duration-200 hover:bg-neutral-700 sm:px-3 sm:py-2"
+    class="flex items-center justify-center rounded-full border border-neutral-700/10 bg-bg-highlight px-2.5 py-1.5 text-white shadow-sm transition-all duration-200 hover:bg-neutral-700 active:scale-95 sm:px-3 sm:py-2"
     (click)="onSeek(300)"
   >
-    +5min
+    <span class="font-medium tracking-wide">+5min</span>
   </button>
 </div>
