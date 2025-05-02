@@ -1,33 +1,26 @@
 <div
-  class="hidden h-[70px] border-t border-white/[0.08] bg-bg-dark p-2 text-xs text-white/90 xl:block"
+  class="hidden h-[90px] border-t border-white/[0.08] bg-bg-dark p-2 text-xs text-white/90 xl:block"
 >
   <div class="flex w-full flex-col">
     <!-- Hour labels -->
     <div class="relative h-4 w-full">
-      @for (x of [].constructor(24); track $index) {
+      @for (hour of [].constructor(24); track $index) {
         <span
           class="absolute text-[10px] font-normal text-neutral-400"
-          [ngStyle]="
-            $index === 0
-              ? { left: '0%', transform: 'none' }
-              : $index === 23
-                ? { left: '100%', transform: 'translateX(-100%)' }
-                : {
-                    left: ($index / 23) * 100 + '%',
-                    transform: 'translateX(-50%)',
-                  }
-          "
+          [ngStyle]="getHourLabelStyle($index)"
         >
           {{ $index.toString().padStart(2, "0") }}:00
         </span>
       }
     </div>
+
     <!-- Time markers -->
     <svg class="h-4 w-full">
-      @for (x of [].constructor(24); track $index) {
+      @for (hour of [].constructor(24); track $index) {
+        <!-- Hour marker -->
         <line
-          [attr.x1]="($index / 23) * 100 + '%'"
-          [attr.x2]="($index / 23) * 100 + '%'"
+          [attr.x1]="getTimePosition($index)"
+          [attr.x2]="getTimePosition($index)"
           y1="100%"
           y2="0%"
           stroke="currentColor"
@@ -37,8 +30,8 @@
 
         <!-- 15 minute marker -->
         <line
-          [attr.x1]="(($index + 0.25) / 23) * 100 + '%'"
-          [attr.x2]="(($index + 0.25) / 23) * 100 + '%'"
+          [attr.x1]="getTimePosition($index + 0.25)"
+          [attr.x2]="getTimePosition($index + 0.25)"
           y1="100%"
           y2="75%"
           stroke="currentColor"
@@ -48,8 +41,8 @@
 
         <!-- 30 minute marker -->
         <line
-          [attr.x1]="(($index + 0.5) / 23) * 100 + '%'"
-          [attr.x2]="(($index + 0.5) / 23) * 100 + '%'"
+          [attr.x1]="getTimePosition($index + 0.5)"
+          [attr.x2]="getTimePosition($index + 0.5)"
           y1="100%"
           y2="50%"
           stroke="currentColor"
@@ -59,8 +52,8 @@
 
         <!-- 45 minute marker -->
         <line
-          [attr.x1]="(($index + 0.75) / 23) * 100 + '%'"
-          [attr.x2]="(($index + 0.75) / 23) * 100 + '%'"
+          [attr.x1]="getTimePosition($index + 0.75)"
+          [attr.x2]="getTimePosition($index + 0.75)"
           y1="100%"
           y2="75%"
           stroke="currentColor"
@@ -73,20 +66,48 @@
 
   <!-- Progress bar and tooltip -->
   <div
-    class="relative cursor-pointer pb-3"
+    class="relative cursor-pointer pb-4"
     (mousemove)="hover($event)"
+    (click)="setTime($event)"
     (mouseleave)="tooltipShown.set(false)"
   >
-    <!-- Progress track -->
-    <div class="h-1.5 w-full bg-neutral-800">
+    <div class="relative h-1.5 w-full bg-neutral-800">
       <div
-        class="h-full w-[15%] rounded-r-full bg-gradient-to-r from-primary-700 to-primary-500"
+        class="h-full rounded-r-full bg-gradient-to-r from-primary-700 to-primary-500"
+        [style.width.%]="progress"
       ></div>
+
+      <!-- Invisible expanded hit area -->
+      <div class="absolute -bottom-3 -top-3 left-0 right-0 z-10"></div>
+
+      <!-- Progress marker -->
+      @if (progress > 0) {
+        <div
+          class="absolute top-2.5 z-20 transition-all duration-200"
+          [style.left.%]="progress"
+          style="transform: translateX(-50%)"
+        >
+          <div class="flex flex-col items-center">
+            <div class="flex h-1 justify-center overflow-visible">
+              <div
+                class="h-2 w-2 translate-y-[1px] rotate-45 transform bg-primary-600 shadow-sm"
+              ></div>
+            </div>
+
+            <div
+              class="origin-top transform rounded-md border border-neutral-700/30 bg-bg-card/80 px-2 py-1 text-xs font-medium text-white shadow-lg backdrop-blur-md transition-all duration-200"
+            >
+              <span class="text-primary-400">{{ currentTimeText }}</span>
+            </div>
+          </div>
+        </div>
+      }
     </div>
-    <!-- Tooltip -->
+
+    <!-- Hover tooltip -->
     @if (tooltipShown()) {
       <div
-        [ngStyle]="{ left: tooltipX + 'px' }"
+        [style.left.px]="tooltipX"
         class="pointer-events-none absolute -top-10 -translate-x-1/2 transform rounded-md border border-primary-800/50 bg-bg-card px-2 py-1 text-xs font-medium text-white/90 shadow-lg"
       >
         {{ tooltipText }}
