@@ -216,14 +216,18 @@ export class TvComponent implements OnInit, OnDestroy {
     let closestIndex = 0;
 
     this.programs()?.forEach((program, index) => {
-      const difference = Math.abs(program.start - currentTime);
+      const difference =
+        new Date(program.start * 1000).getHours() -
+        new Date(currentTime * 1000).getHours();
+      if (difference < 0) return;
+
       if (difference < minDifference) {
         minDifference = difference;
         closestIndex = index;
       }
     });
 
-    return this.programs()![closestIndex - 1];
+    return this.programs()![closestIndex];
   }
 
   private scrollToActiveProgram(): void {
