@@ -8,6 +8,7 @@ declare var Playerjs: any;
 })
 export class PlayerService {
   private player: any = null;
+  isPlaying: boolean = false;
 
   initialize(data: PlayerData): void {
     this.destroy();

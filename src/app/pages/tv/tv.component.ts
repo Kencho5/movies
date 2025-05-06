@@ -51,11 +51,10 @@ export class TvComponent implements OnInit, OnDestroy {
   playerData = signal<PlayerData | null>(null);
   sidebarOpen = signal<boolean>(false);
   programSidebarOpen = signal(false);
-  isPlaying = signal<boolean>(true);
 
   // parameters and timing
   tvParams: TvParams | null = null;
-  dateOffset: number = 10800;
+  dateOffset: number = 0;
   start: number = Math.floor((Date.now() + this.dateOffset) / 1000);
   end: number = Math.floor((Date.now() + this.dateOffset) / 1000);
   channelsPage = 0;
@@ -64,7 +63,7 @@ export class TvComponent implements OnInit, OnDestroy {
 
   constructor(
     private tvService: TvService,
-    private playerService: PlayerService,
+    public playerService: PlayerService,
     private route: ActivatedRoute,
     private router: Router,
   ) {
@@ -126,9 +125,9 @@ export class TvComponent implements OnInit, OnDestroy {
   }
 
   togglePlayer(): void {
-    const action = this.isPlaying() ? "stop" : "play";
+    const action = this.playerService.isPlaying ? "stop" : "play";
     this.playerService.trigger(action);
-    this.isPlaying.set(this.playerService.trigger("playing"));
+    this.playerService.isPlaying = this.playerService.trigger("playing");
   }
 
   seek(seconds: number): void {
@@ -219,9 +218,8 @@ export class TvComponent implements OnInit, OnDestroy {
       const difference =
         new Date(program.start * 1000).getHours() -
         new Date(currentTime * 1000).getHours();
-      if (difference < 0) return;
 
-      if (difference < minDifference) {
+      if (difference > 0 && difference < minDifference) {
         minDifference = difference;
         closestIndex = index;
       }

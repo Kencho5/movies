@@ -20,9 +20,7 @@ export class PlayerComponent implements OnInit, OnDestroy, OnChanges {
   constructor(private playerService: PlayerService) {}
 
   ngOnInit(): void {
-    if (this.playerData) {
-      setTimeout(() => this.initPlayer(), 0);
-    }
+    if (this.playerData) setTimeout(() => this.initPlayer(), 0);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
