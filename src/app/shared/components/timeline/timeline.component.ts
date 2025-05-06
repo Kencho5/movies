@@ -21,6 +21,7 @@ export class TimelineComponent {
   progress = 0;
   currentTimeText = "00:00";
   hoveredProgram = signal<Program | null>(null);
+  activeProgram = signal<Program | null>(null);
 
   hover(event: MouseEvent): void {
     if (this.hoveredProgram()) return;
@@ -46,6 +47,7 @@ export class TimelineComponent {
 
   setTimeToProgram(): void {
     const program = this.hoveredProgram()!;
+    this.activeProgram.set(program);
     const totalMinutes = this.getProgramTotalMinutes(program);
 
     this.progress = (totalMinutes / this.DAY_MINUTES) * 100;

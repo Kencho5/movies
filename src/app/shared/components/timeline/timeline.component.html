@@ -111,7 +111,12 @@
           (mouseover)="onProgramHover($event, program)"
           (mouseleave)="onProgramLeave()"
         >
-          <div class="h-3 w-3 rounded-full bg-neutral-800"></div>
+          <div
+            class="h-3 w-3 rounded-full bg-neutral-800"
+            [ngClass]="{
+              'bg-primary-600': activeProgram()?.start == program.start,
+            }"
+          ></div>
         </div>
       }
     </div>
