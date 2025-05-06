@@ -64,7 +64,7 @@
     </svg>
   </div>
 
-  <!-- Progress bar and tooltip -->
+  <!-- Timeline with progress bar -->
   <div
     class="relative cursor-pointer pb-4"
     (mousemove)="hover($event)"
@@ -72,15 +72,16 @@
     (mouseleave)="tooltipShown.set(false)"
   >
     <div class="relative h-1.5 w-full bg-neutral-800">
+      <!-- Progress bar -->
       <div
         class="h-full rounded-r-full bg-gradient-to-r from-primary-700 to-primary-500"
         [style.width.%]="progress"
       ></div>
 
-      <!-- Invisible expanded hit area -->
+      <!-- Touch area -->
       <div class="absolute -bottom-3 -top-3 left-0 right-0 z-10"></div>
 
-      <!-- Progress marker -->
+      <!-- Current time indicator -->
       @if (progress > 0) {
         <div
           class="absolute top-3 z-50 transition-all duration-200"
@@ -93,9 +94,8 @@
                 class="h-2 w-2 translate-y-[1px] rotate-45 transform bg-primary-600 shadow-sm"
               ></div>
             </div>
-
             <div
-              class="origin-top transform rounded-md border border-neutral-700/30 bg-bg-card/80 px-2 py-1 text-xs font-medium text-white shadow-lg backdrop-blur-md transition-all duration-200"
+              class="origin-top transform rounded-md border border-neutral-700/30 bg-bg-card/80 px-2 py-1 text-xs font-medium text-white shadow-lg backdrop-blur-md"
             >
               <span class="text-primary-400">{{ currentTimeText }}</span>
             </div>
@@ -103,8 +103,8 @@
         </div>
       }
 
-      <!--PROGRAMS-->
-      @for (program of programs; track $index) {
+      <!-- Program markers -->
+      @for (program of programs; track program.start) {
         <div
           class="absolute top-1/2 z-20 -ml-2.5 -translate-y-1/2 cursor-pointer rounded-full bg-bg-dark p-1"
           [style.left]="getProgramPosition(program)"
@@ -116,7 +116,7 @@
       }
     </div>
 
-    <!-- Hover tooltip -->
+    <!-- Tooltip -->
     @if (tooltipShown()) {
       <div
         [style.left.px]="tooltipX"
