@@ -177,7 +177,10 @@ export class TvComponent implements OnInit, OnDestroy {
 
   private loadPrograms(channelId: number): void {
     this.programsLoading.set(true);
-    const date = this.getCurrentDateString();
+    //const date = this.currentDateString;
+    const date = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0];
 
     const programsSubscription = this.tvService
       .getPrograms(channelId, date)
@@ -208,7 +211,7 @@ export class TvComponent implements OnInit, OnDestroy {
   private findClosestProgram(): Program | null {
     if (!this.programs()?.length) return null;
 
-    const currentTime = Math.floor(Date.now() / 1000);
+    const currentTime = Math.floor((Date.now() + this.dateOffset) / 1000);
     let minDifference = Number.MAX_SAFE_INTEGER;
     let closestIndex = 0;
 
@@ -248,7 +251,7 @@ export class TvComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getCurrentDateString(): string {
+  get currentDateString(): string {
     return new Date().toISOString().split("T")[0];
   }
 }

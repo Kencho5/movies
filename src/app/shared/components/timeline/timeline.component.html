@@ -83,7 +83,7 @@
       <!-- Progress marker -->
       @if (progress > 0) {
         <div
-          class="absolute top-2.5 z-20 transition-all duration-200"
+          class="absolute top-3 z-50 transition-all duration-200"
           [style.left.%]="progress"
           style="transform: translateX(-50%)"
         >
@@ -102,13 +102,25 @@
           </div>
         </div>
       }
+
+      <!--PROGRAMS-->
+      @for (program of programs; track $index) {
+        <div
+          class="absolute top-1/2 z-20 -ml-2.5 -translate-y-1/2 cursor-pointer rounded-full bg-bg-dark p-1"
+          [style.left]="getProgramPosition(program)"
+          (mouseover)="onProgramHover($event, program)"
+          (mouseleave)="onProgramLeave()"
+        >
+          <div class="h-3 w-3 rounded-full bg-neutral-800"></div>
+        </div>
+      }
     </div>
 
     <!-- Hover tooltip -->
     @if (tooltipShown()) {
       <div
         [style.left.px]="tooltipX"
-        class="pointer-events-none absolute -top-10 -translate-x-1/2 transform rounded-md border border-primary-800/50 bg-bg-card px-2 py-1 text-xs font-medium text-white/90 shadow-lg"
+        class="pointer-events-none absolute -top-10 max-w-[240px] -translate-x-1/2 transform truncate rounded-md border border-primary-800/50 bg-bg-card px-2 py-1 text-xs font-medium text-white/90 shadow-lg"
       >
         {{ tooltipText }}
         <div

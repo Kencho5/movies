@@ -6,7 +6,6 @@ import { SharedModule } from "@shared/shared.module";
   selector: "app-timeline",
   imports: [SharedModule],
   templateUrl: "./timeline.component.html",
-  standalone: true,
 })
 export class TimelineComponent implements OnInit {
   @Input() programs!: Program[];
@@ -16,15 +15,18 @@ export class TimelineComponent implements OnInit {
   tooltipShown = signal<boolean>(false);
   progress: number = 0;
   currentTimeText: string = "00:00";
+  hoveredProgram = signal<Program | null>(null);
 
-  private readonly TOTAL_MINUTES_IN_TIMELINE = 23 * 60;
-  private readonly HOURS_IN_TIMELINE = 23;
+  private readonly TOTAL_MINUTES_IN_TIMELINE = 24 * 60;
+  private readonly HOURS_IN_TIMELINE = 24;
 
   ngOnInit(): void {
     this.updateCurrentTimeText();
   }
 
   hover(event: MouseEvent): void {
+    if (this.hoveredProgram()) return;
+
     const { relativeX, percent } = this.calculatePositionFromEvent(event);
     const minutes = Math.floor(percent * this.TOTAL_MINUTES_IN_TIMELINE);
     const formattedTime = this.formatMinutesToTime(minutes);
@@ -55,6 +57,41 @@ export class TimelineComponent implements OnInit {
         transform: "translateX(-50%)",
       };
     }
+  }
+
+  getProgramPosition(program: Program): string {
+    const date = new Date(program.start * 1000);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const totalMinutes = hours * 60 + minutes;
+
+    return `${(totalMinutes / this.TOTAL_MINUTES_IN_TIMELINE) * 100}%`;
+  }
+
+  onProgramHover(event: MouseEvent, program: Program): void {
+    event.stopPropagation();
+
+    const target = event.currentTarget as HTMLElement;
+    const parentElement = target.parentElement as HTMLElement;
+    const rect = target.getBoundingClientRect();
+
+    this.tooltipX =
+      rect.left +
+      rect.width / 2 -
+      (parentElement as HTMLElement).getBoundingClientRect().left;
+
+    const startDate = new Date(program.start * 1000);
+    const hours = startDate.getHours().toString().padStart(2, "0");
+    const minutes = startDate.getMinutes().toString().padStart(2, "0");
+
+    this.tooltipText = `${hours}:${minutes} - ${program.title.text}`;
+    this.tooltipShown.set(true);
+    this.hoveredProgram.set(program);
+  }
+
+  onProgramLeave(): void {
+    this.hoveredProgram.set(null);
+    this.tooltipShown.set(false);
   }
 
   private updateCurrentTimeText(): void {
