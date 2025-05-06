@@ -1,1 +1,6 @@
-<div id="player" [class]="playerClass"></div>
+<div
+  id="player"
+  [class]="playerClass"
+  (play)="playerService.trigger('play')"
+  (pause)="playerService.trigger('pause')"
+></div>

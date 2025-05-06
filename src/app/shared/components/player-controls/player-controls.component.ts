@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
+import { PlayerService } from "@core/services/player.service";
 
 @Component({
   selector: "app-player-controls",
@@ -6,7 +7,8 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
   templateUrl: "./player-controls.component.html",
 })
 export class PlayerControlsComponent {
-  @Input() isPlaying: boolean = false;
+  constructor(public playerService: PlayerService) {}
+
   @Output() togglePlayer = new EventEmitter<void>();
   @Output() seek = new EventEmitter<number>();
 

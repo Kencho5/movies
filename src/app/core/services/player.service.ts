@@ -30,6 +30,7 @@ export class PlayerService {
   }
 
   trigger(command: string) {
+    this.isPlaying = true ? command == "play" : false;
     return this.player.api(command);
   }
 
