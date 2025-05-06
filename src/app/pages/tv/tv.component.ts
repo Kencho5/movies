@@ -177,7 +177,7 @@ export class TvComponent implements OnInit, OnDestroy {
   private loadPrograms(channelId: number): void {
     this.programsLoading.set(true);
     //const date = this.currentDateString;
-    const date = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
+    const date = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0];
 
@@ -219,13 +219,13 @@ export class TvComponent implements OnInit, OnDestroy {
         new Date(program.start * 1000).getHours() -
         new Date(currentTime * 1000).getHours();
 
-      if (difference > 0 && difference < minDifference) {
+      if (difference >= 0 && difference < minDifference) {
         minDifference = difference;
         closestIndex = index;
       }
     });
 
-    return this.programs()![closestIndex];
+    return this.programs()![closestIndex - 1];
   }
 
   private scrollToActiveProgram(): void {
