@@ -65,13 +65,13 @@
   </div>
 
   <!-- Timeline with progress bar -->
-  <div
-    class="relative cursor-pointer pb-4"
-    (mousemove)="hover($event)"
-    (click)="setTime($event)"
-    (mouseleave)="tooltipShown.set(false)"
-  >
-    <div class="relative h-1.5 w-full bg-neutral-800">
+  <div class="relative cursor-pointer pb-4">
+    <div
+      class="relative h-1.5 w-full bg-neutral-800"
+      (click)="setTime($event)"
+      (mousemove)="hover($event)"
+      (mouseleave)="tooltipShown = false"
+    >
       <!-- Progress bar -->
       <div
         class="h-full rounded-r-full bg-gradient-to-r from-primary-700 to-primary-500"
@@ -109,12 +109,13 @@
           class="absolute top-1/2 z-20 -ml-2.5 -translate-y-1/2 cursor-pointer rounded-full bg-bg-dark p-1"
           [style.left]="getProgramPosition(program)"
           (mouseover)="onProgramHover($event, program)"
+          (click)="setTimeToProgram()"
           (mouseleave)="onProgramLeave()"
         >
           <div
             class="h-3 w-3 rounded-full bg-neutral-800"
             [ngClass]="{
-              'bg-primary-600': activeProgram()?.start == program.start,
+              'bg-primary-600': activeProgram?.start == program.start,
             }"
           ></div>
         </div>
@@ -122,7 +123,7 @@
     </div>
 
     <!-- Tooltip -->
-    @if (tooltipShown()) {
+    @if (tooltipShown) {
       <div
         [style.left.px]="tooltipX"
         class="pointer-events-none absolute -top-10 max-w-[240px] -translate-x-1/2 transform truncate rounded-md border border-primary-800/50 bg-bg-card px-2 py-1 text-xs font-medium text-white/90 shadow-lg"

@@ -1,4 +1,4 @@
-import { Component, Input, signal } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Program } from "@core/interfaces/tv";
 import { SharedModule } from "@shared/shared.module";
 
@@ -17,25 +17,25 @@ export class TimelineComponent {
   // UI state
   tooltipX = 0;
   tooltipText = "";
-  tooltipShown = signal<boolean>(false);
+  tooltipShown: boolean = false;
   progress = 0;
-  currentTimeText = "00:00";
-  hoveredProgram = signal<Program | null>(null);
-  activeProgram = signal<Program | null>(null);
+  currentTimeText = "";
+  activeProgram: Program | null = null;
+  hoveredProgram: Program | null = null;
 
   hover(event: MouseEvent): void {
-    if (this.hoveredProgram()) return;
+    if (this.hoveredProgram) return;
 
     const { relativeX, percent } = this.getPositionData(event);
     const minutes = Math.floor(percent * this.DAY_MINUTES);
 
     this.tooltipX = relativeX;
-    this.tooltipText = this.formatMinutesToTime(minutes);
-    this.tooltipShown.set(true);
+    this.tooltipText = this.formatTooltipTime(minutes);
+    this.tooltipShown = true;
   }
 
   setTime(event: MouseEvent): void {
-    if (this.hoveredProgram()) {
+    if (this.hoveredProgram) {
       this.setTimeToProgram();
       return;
     }
@@ -46,12 +46,11 @@ export class TimelineComponent {
   }
 
   setTimeToProgram(): void {
-    const program = this.hoveredProgram()!;
-    this.activeProgram.set(program);
-    const totalMinutes = this.getProgramTotalMinutes(program);
+    this.activeProgram = this.hoveredProgram;
+    const totalMinutes = this.getProgramTotalMinutes(this.hoveredProgram!);
 
     this.progress = (totalMinutes / this.DAY_MINUTES) * 100;
-    this.updateCurrentTimeText();
+    this.currentTimeText = this.formatTooltipTime(totalMinutes);
   }
 
   getTimePosition(hourFraction: number): string {
@@ -59,15 +58,16 @@ export class TimelineComponent {
   }
 
   getHourLabelStyle(hour: number): object {
-    if (hour === 0) {
-      return { left: "0%", transform: "none" };
-    } else if (hour === this.TOTAL_HOURS) {
-      return { left: "100%", transform: "translateX(-100%)" };
-    } else {
-      return {
-        left: `${(hour / this.TOTAL_HOURS) * 100}%`,
-        transform: "translateX(-50%)",
-      };
+    switch (hour) {
+      case 0:
+        return { left: "0%", transform: "none" };
+      case this.TOTAL_HOURS:
+        return { left: "100%", transform: "translateX(-100%)" };
+      default:
+        return {
+          left: `${(hour / this.TOTAL_HOURS) * 100}%`,
+          transform: "translateX(-50%)",
+        };
     }
   }
 
@@ -90,18 +90,18 @@ export class TimelineComponent {
     const timeString = this.formatTimeFromDate(startDate);
     this.tooltipText = `${timeString} - ${program.title.text}`;
 
-    this.tooltipShown.set(true);
-    this.hoveredProgram.set(program);
+    this.tooltipShown = true;
+    this.hoveredProgram = program;
   }
 
   onProgramLeave(): void {
-    this.hoveredProgram.set(null);
-    this.tooltipShown.set(false);
+    this.hoveredProgram = null;
+    this.tooltipShown = false;
   }
 
   private updateCurrentTimeText(): void {
     const minutes = Math.floor((this.progress / 100) * this.DAY_MINUTES);
-    this.currentTimeText = this.formatMinutesToTime(minutes);
+    this.currentTimeText = this.formatTooltipTime(minutes);
   }
 
   private getPositionData(event: MouseEvent): {
@@ -116,13 +116,11 @@ export class TimelineComponent {
     return { relativeX, percent };
   }
 
-  private formatMinutesToTime(totalMinutes: number): string {
-    const hours = Math.round(totalMinutes / 60)
+  private formatTooltipTime(totalMinutes: number): string {
+    const hours = Math.floor(totalMinutes / 60)
       .toString()
       .padStart(2, "0");
-    const minutes = ((Math.ceil(totalMinutes / 5) * 5) % 60)
-      .toString()
-      .padStart(2, "0");
+    const minutes = (totalMinutes % 60).toString().padStart(2, "0");
 
     return `${hours}:${minutes}`;
   }
