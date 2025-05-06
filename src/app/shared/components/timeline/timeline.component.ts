@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { Program } from "@core/interfaces/tv";
+import { PlayerService } from "@core/services/player.service";
 import { SharedModule } from "@shared/shared.module";
 
 @Component({
@@ -8,6 +9,8 @@ import { SharedModule } from "@shared/shared.module";
   templateUrl: "./timeline.component.html",
 })
 export class TimelineComponent {
+  constructor(private playerService: PlayerService) {}
+
   @Input() programs!: Program[];
 
   // Constants
@@ -22,6 +25,12 @@ export class TimelineComponent {
   currentTimeText = "";
   activeProgram: Program | null = null;
   hoveredProgram: Program | null = null;
+
+  ngOnInit() {
+    const minutesPassed = new Date().getMinutes() + new Date().getHours() * 60;
+    this.progress = (minutesPassed / this.DAY_MINUTES) * 100;
+    this.updateCurrentTimeText();
+  }
 
   hover(event: MouseEvent): void {
     if (this.hoveredProgram) return;
