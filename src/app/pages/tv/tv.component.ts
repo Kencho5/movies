@@ -54,7 +54,7 @@ export class TvComponent implements OnInit, OnDestroy {
 
   // parameters and timing
   tvParams: TvParams | null = null;
-  dateOffset: number = 0;
+  dateOffset: number = (new Date().getTimezoneOffset() * 60 + 3 * 3600) * 1000;
   start: number = Math.floor((Date.now() + this.dateOffset) / 1000);
   end: number = Math.floor((Date.now() + this.dateOffset) / 1000);
   channelsPage = 0;
@@ -221,9 +221,7 @@ export class TvComponent implements OnInit, OnDestroy {
     let closestIndex = 0;
 
     this.programs()?.forEach((program, index) => {
-      const difference =
-        new Date(program.start * 1000).getHours() -
-        new Date(currentTime * 1000).getHours();
+      const difference = program.start - currentTime;
 
       if (difference >= 0 && difference < minDifference) {
         minDifference = difference;
