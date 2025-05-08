@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { PlayerData } from "@core/interfaces/player";
 
 declare var Playerjs: any;
@@ -8,7 +8,7 @@ declare var Playerjs: any;
 })
 export class PlayerService {
   private player: any = null;
-  isPlaying: boolean = false;
+  isPlaying = signal<boolean>(false);
 
   initialize(data: PlayerData): void {
     this.destroy();
@@ -30,7 +30,7 @@ export class PlayerService {
   }
 
   trigger(command: string) {
-    this.isPlaying = true ? command == "play" : false;
+    this.isPlaying.set(command === "play");
     return this.player.api(command);
   }
 

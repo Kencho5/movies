@@ -148,7 +148,7 @@ export class TvComponent implements OnInit, OnDestroy {
 
   // Player control methods
   togglePlayer(): void {
-    const action = this.playerService.isPlaying ? "pause" : "play";
+    const action = this.playerService.isPlaying() ? "pause" : "play";
     this.playerService.trigger(action);
   }
 

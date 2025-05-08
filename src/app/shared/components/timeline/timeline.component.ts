@@ -20,6 +20,8 @@ export class TimelineComponent {
   private timer: any;
   private isManuallySet: boolean = false;
   private manualTimeOffsetMinutes: number = 0;
+  private pausedOffset: number = 0;
+  private pausedAt: number | null = null;
 
   // UI state
   tooltipX = 0;
@@ -34,6 +36,15 @@ export class TimelineComponent {
     this.updateTimeProgress();
 
     this.timer = setInterval(() => {
+      if (!this.playerService.isPlaying()) {
+        if (!this.pausedAt) {
+          this.pausedAt = Date.now();
+        }
+        return;
+      } else if (this.pausedAt) {
+        this.pausedOffset += Math.floor((Date.now() - this.pausedAt) / 1000);
+        this.pausedAt = null;
+      }
       this.updateTimeProgress();
     }, 1000);
   }
@@ -66,7 +77,6 @@ export class TimelineComponent {
     const now = new Date();
     const currentMinutes = now.getMinutes() + now.getHours() * 60;
 
-    // Calculate the offset between selected time and current time
     this.manualTimeOffsetMinutes = selectedMinutes - currentMinutes;
     this.isManuallySet = true;
 
@@ -143,6 +153,7 @@ export class TimelineComponent {
   }
 
   private updateTimeProgress(): void {
+    if (!this.playerService.isPlaying) return;
     const now = new Date();
     let minutesPassed = now.getMinutes() + now.getHours() * 60;
 
@@ -159,25 +170,32 @@ export class TimelineComponent {
 
   private updateCurrentTimeText(minutesPassed?: number): void {
     const now = new Date();
-    let minutes: number;
-    let seconds: string;
+    let totalSeconds: number;
 
     if (this.isManuallySet && minutesPassed !== undefined) {
-      minutes = minutesPassed;
-      seconds = now.getSeconds().toString().padStart(2, "0");
+      totalSeconds = minutesPassed * 60 + now.getSeconds();
     } else {
-      minutes = now.getMinutes() + now.getHours() * 60;
-      seconds = now.getSeconds().toString().padStart(2, "0");
-
+      totalSeconds =
+        (now.getHours() * 60 + now.getMinutes()) * 60 + now.getSeconds();
       if (this.isManuallySet) {
-        minutes += this.manualTimeOffsetMinutes;
-        // Handle overflow (next day)
-        minutes = minutes % this.DAY_MINUTES;
-        if (minutes < 0) minutes += this.DAY_MINUTES;
+        totalSeconds += this.manualTimeOffsetMinutes * 60;
       }
     }
 
-    this.currentTimeText.set(this.formatTooltipTime(minutes) + `:${seconds}`);
+    totalSeconds -= this.pausedOffset;
+
+    totalSeconds = totalSeconds % (this.DAY_MINUTES * 60);
+    if (totalSeconds < 0) totalSeconds += this.DAY_MINUTES * 60;
+
+    const hours = Math.floor(totalSeconds / 3600)
+      .toString()
+      .padStart(2, "0");
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
+      .toString()
+      .padStart(2, "0");
+    const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+
+    this.currentTimeText.set(`${hours}:${minutes}:${seconds}`);
   }
 
   private formatTooltipTime(totalMinutes: number): string {
