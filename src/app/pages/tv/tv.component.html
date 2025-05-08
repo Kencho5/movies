@@ -344,7 +344,7 @@
     </div>
   </div>
   @if (programs()) {
-    <app-timeline [programs]="programs()!" />
+    <app-timeline [programs]="programs()!" (timeSet)="timeSet($event)" />
   } @else {
     <app-timeline-skeleton />
   }

@@ -1,4 +1,4 @@
-import { Component, Input, signal } from "@angular/core";
+import { Component, EventEmitter, Input, Output, signal } from "@angular/core";
 import { Program } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
 import { SharedModule } from "@shared/shared.module";
@@ -12,6 +12,8 @@ export class TimelineComponent {
   constructor(private playerService: PlayerService) {}
 
   @Input() programs!: Program[];
+
+  @Output() timeSet = new EventEmitter<number>();
 
   // Constants
   private readonly DAY_MINUTES = 1440;
@@ -83,7 +85,9 @@ export class TimelineComponent {
     this.progress = percent * 100;
     this.updateCurrentTimeText();
 
-    this.playerService.start.set(this.convertTimeToTimestamp());
+    const timestamp = this.convertTimeToTimestamp();
+    this.playerService.start.set(timestamp);
+    this.timeSet.emit(timestamp);
   }
 
   setTimeToProgram(): void {
@@ -98,7 +102,10 @@ export class TimelineComponent {
 
     this.progress = (totalMinutes / this.DAY_MINUTES) * 100;
     this.updateCurrentTimeText();
-    this.playerService.start.set(this.convertTimeToTimestamp());
+
+    const timestamp = this.convertTimeToTimestamp();
+    this.playerService.start.set(timestamp);
+    this.timeSet.emit(timestamp);
   }
 
   getTimePosition(hourFraction: number): string {
