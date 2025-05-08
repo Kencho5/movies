@@ -45,5 +45,6 @@ export interface Program {
 
 export interface TvParams {
   channel: number;
-  program: number | null;
+  start: number | null;
+  stop: number | null;
 }

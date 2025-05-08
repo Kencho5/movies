@@ -2,6 +2,7 @@ import { Component, Input, signal } from "@angular/core";
 import { Program } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
 import { SharedModule } from "@shared/shared.module";
+import { streamUrl } from "app/utils/streamUrl";
 
 @Component({
   selector: "app-timeline",

@@ -10,6 +10,10 @@ export class PlayerService {
   private player: any = null;
   isPlaying = signal<boolean>(false);
 
+  dateOffset: number = (new Date().getTimezoneOffset() * 60 + 3 * 3600) * 1000;
+  start: number = Math.floor((Date.now() + this.dateOffset) / 1000);
+  end: number = Math.floor((Date.now() + this.dateOffset) / 1000);
+
   initialize(data: PlayerData): void {
     this.destroy();
 
