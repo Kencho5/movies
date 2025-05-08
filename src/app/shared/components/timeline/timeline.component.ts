@@ -18,6 +18,8 @@ export class TimelineComponent {
   private readonly TOTAL_HOURS = 24;
 
   private timer: any;
+  private isManuallySet: boolean = false;
+  private manualTimeOffsetMinutes: number = 0;
 
   // UI state
   tooltipX = 0;
@@ -60,6 +62,14 @@ export class TimelineComponent {
     }
 
     const { percent } = this.getPositionData(event);
+    const selectedMinutes = Math.floor(percent * this.DAY_MINUTES);
+    const now = new Date();
+    const currentMinutes = now.getMinutes() + now.getHours() * 60;
+
+    // Calculate the offset between selected time and current time
+    this.manualTimeOffsetMinutes = selectedMinutes - currentMinutes;
+    this.isManuallySet = true;
+
     this.progress = percent * 100;
     this.updateCurrentTimeText();
   }
@@ -68,8 +78,22 @@ export class TimelineComponent {
     this.activeProgram = this.hoveredProgram;
     const totalMinutes = this.getProgramTotalMinutes(this.hoveredProgram!);
 
+    // Calculate the offset between program time and current time
+    const now = new Date();
+    const currentMinutes = now.getMinutes() + now.getHours() * 60;
+    this.manualTimeOffsetMinutes = totalMinutes - currentMinutes;
+    this.isManuallySet = true;
+
     this.progress = (totalMinutes / this.DAY_MINUTES) * 100;
-    this.currentTimeText.set(this.formatTooltipTime(totalMinutes));
+    this.updateCurrentTimeText();
+  }
+
+  // Reset to current time
+  resetToCurrentTime(): void {
+    this.isManuallySet = false;
+    this.manualTimeOffsetMinutes = 0;
+    this.activeProgram = null;
+    this.updateTimeProgress();
   }
 
   getTimePosition(hourFraction: number): string {
@@ -120,19 +144,47 @@ export class TimelineComponent {
 
   private updateTimeProgress(): void {
     const now = new Date();
-    const minutesPassed = now.getMinutes() + now.getHours() * 60;
+    let minutesPassed = now.getMinutes() + now.getHours() * 60;
+
+    if (this.isManuallySet) {
+      minutesPassed += this.manualTimeOffsetMinutes;
+
+      minutesPassed = minutesPassed % this.DAY_MINUTES;
+      if (minutesPassed < 0) minutesPassed += this.DAY_MINUTES;
+    }
+
     this.progress = (minutesPassed / this.DAY_MINUTES) * 100;
-    this.updateCurrentTimeText();
+    this.updateCurrentTimeText(minutesPassed);
   }
 
-  private updateCurrentTimeText(): void {
+  private updateCurrentTimeText(minutesPassed?: number): void {
     const now = new Date();
-    const minutes = now.getMinutes() + now.getHours() * 60;
-    const seconds = now.getSeconds().toString().padStart(2, "0");
+    let minutes: number;
+    let seconds: string;
+
+    if (this.isManuallySet && minutesPassed !== undefined) {
+      minutes = minutesPassed;
+      seconds = now.getSeconds().toString().padStart(2, "0");
+    } else {
+      minutes = now.getMinutes() + now.getHours() * 60;
+      seconds = now.getSeconds().toString().padStart(2, "0");
+
+      if (this.isManuallySet) {
+        minutes += this.manualTimeOffsetMinutes;
+        // Handle overflow (next day)
+        minutes = minutes % this.DAY_MINUTES;
+        if (minutes < 0) minutes += this.DAY_MINUTES;
+      }
+    }
+
     this.currentTimeText.set(this.formatTooltipTime(minutes) + `:${seconds}`);
   }
 
   private formatTooltipTime(totalMinutes: number): string {
+    // Handle overflow
+    totalMinutes = totalMinutes % this.DAY_MINUTES;
+    if (totalMinutes < 0) totalMinutes += this.DAY_MINUTES;
+
     const hours = Math.floor(totalMinutes / 60)
       .toString()
       .padStart(2, "0");
