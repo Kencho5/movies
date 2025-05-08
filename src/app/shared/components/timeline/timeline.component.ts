@@ -1,5 +1,4 @@
 import { Component, Input, signal } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
 import { Program } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
 import { SharedModule } from "@shared/shared.module";
@@ -10,11 +9,7 @@ import { SharedModule } from "@shared/shared.module";
   templateUrl: "./timeline.component.html",
 })
 export class TimelineComponent {
-  constructor(
-    private playerService: PlayerService,
-    private router: Router,
-    private route: ActivatedRoute,
-  ) {}
+  constructor(private playerService: PlayerService) {}
 
   @Input() programs!: Program[];
 

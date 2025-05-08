@@ -68,18 +68,14 @@ export class TvComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {
     effect(() => {
-      const start = this.playerService.start;
-      if (!this.activeChannel()) return;
-
-      this.playerData.set({
-        file: streamUrl(
-          this.activeChannel()!.stream,
-          start(),
-          this.tvParams?.stop!,
-        ),
-        poster: this.activeChannel()!.thumbnail,
-        autoplay: 1,
-      });
+      const start = this.playerService.start();
+      if (!this.activeChannel() || !start) return;
+      this.tvParams = {
+        channel: this.activeChannel()!.id,
+        start: start!,
+        stop: this.playerService.end,
+      };
+      this.applyRouteParams();
     });
   }
 
