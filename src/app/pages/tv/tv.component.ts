@@ -6,6 +6,7 @@ import {
   QueryList,
   ElementRef,
   OnDestroy,
+  effect,
 } from "@angular/core";
 import { PlayerData } from "@core/interfaces/player";
 import { Channel, Program, TvParams } from "@core/interfaces/tv";
@@ -65,7 +66,22 @@ export class TvComponent implements OnInit, OnDestroy {
     public playerService: PlayerService,
     private route: ActivatedRoute,
     private router: Router,
-  ) {}
+  ) {
+    effect(() => {
+      const start = this.playerService.start;
+      if (!this.activeChannel()) return;
+
+      this.playerData.set({
+        file: streamUrl(
+          this.activeChannel()!.stream,
+          start(),
+          this.tvParams?.stop!,
+        ),
+        poster: this.activeChannel()!.thumbnail,
+        autoplay: 1,
+      });
+    });
+  }
 
   ngOnInit(): void {
     this.initializeQueryParams();
@@ -120,8 +136,8 @@ export class TvComponent implements OnInit, OnDestroy {
     };
 
     this.activeProgram.set(program);
-    this.start = program.start;
-    this.end = program.stop;
+    this.playerService.start.set(program.start);
+    this.playerService.end = program.stop;
 
     this.applyRouteParams();
     this.scrollToActiveProgram();
@@ -151,9 +167,13 @@ export class TvComponent implements OnInit, OnDestroy {
   }
 
   seek(seconds: number): void {
-    this.start += seconds;
+    this.playerService.start.update((prev) => prev + seconds);
     this.playerService.play(
-      streamUrl(this.activeChannel()!.stream, this.start, this.end),
+      streamUrl(
+        this.activeChannel()!.stream,
+        this.playerService.start(),
+        this.playerService.end,
+      ),
     );
   }
 

@@ -1,8 +1,8 @@
 import { Component, Input, signal } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Program } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
 import { SharedModule } from "@shared/shared.module";
-import { streamUrl } from "app/utils/streamUrl";
 
 @Component({
   selector: "app-timeline",
@@ -10,7 +10,11 @@ import { streamUrl } from "app/utils/streamUrl";
   templateUrl: "./timeline.component.html",
 })
 export class TimelineComponent {
-  constructor(private playerService: PlayerService) {}
+  constructor(
+    private playerService: PlayerService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
   @Input() programs!: Program[];
 
@@ -83,6 +87,8 @@ export class TimelineComponent {
 
     this.progress = percent * 100;
     this.updateCurrentTimeText();
+
+    this.playerService.start.set(this.convertTimeToTimestamp());
   }
 
   setTimeToProgram(): void {
@@ -97,14 +103,7 @@ export class TimelineComponent {
 
     this.progress = (totalMinutes / this.DAY_MINUTES) * 100;
     this.updateCurrentTimeText();
-  }
-
-  // Reset to current time
-  resetToCurrentTime(): void {
-    this.isManuallySet = false;
-    this.manualTimeOffsetMinutes = 0;
-    this.activeProgram = null;
-    this.updateTimeProgress();
+    this.playerService.start.set(this.convertTimeToTimestamp());
   }
 
   getTimePosition(hourFraction: number): string {
@@ -173,14 +172,12 @@ export class TimelineComponent {
     const now = new Date();
     let totalSeconds: number;
 
-    if (this.isManuallySet && minutesPassed !== undefined) {
+    if (this.isManuallySet && minutesPassed) {
       totalSeconds = minutesPassed * 60 + now.getSeconds();
     } else {
       totalSeconds =
         (now.getHours() * 60 + now.getMinutes()) * 60 + now.getSeconds();
-      if (this.isManuallySet) {
-        totalSeconds += this.manualTimeOffsetMinutes * 60;
-      }
+      if (this.isManuallySet) totalSeconds += this.manualTimeOffsetMinutes * 60;
     }
 
     totalSeconds -= this.pausedOffset;
@@ -188,6 +185,26 @@ export class TimelineComponent {
     totalSeconds = totalSeconds % (this.DAY_MINUTES * 60);
     if (totalSeconds < 0) totalSeconds += this.DAY_MINUTES * 60;
 
+    this.currentTimeText.set(this.getTimeText(totalSeconds));
+  }
+
+  private convertTimeToTimestamp(): number {
+    const now = new Date();
+    let totalSeconds =
+      (now.getHours() * 60 + now.getMinutes()) * 60 + now.getSeconds();
+    totalSeconds += this.manualTimeOffsetMinutes * 60;
+
+    const today = new Date();
+    const [hours, minutes, seconds] = this.getTimeText(totalSeconds)
+      .split(":")
+      .map(Number);
+    today.setHours(hours, minutes, seconds, 0);
+    const timestamp = today.getTime();
+
+    return timestamp / 1000;
+  }
+
+  private getTimeText(totalSeconds: number): string {
     const hours = Math.floor(totalSeconds / 3600)
       .toString()
       .padStart(2, "0");
@@ -196,7 +213,7 @@ export class TimelineComponent {
       .padStart(2, "0");
     const seconds = (totalSeconds % 60).toString().padStart(2, "0");
 
-    this.currentTimeText.set(`${hours}:${minutes}:${seconds}`);
+    return `${hours}:${minutes}:${seconds}`;
   }
 
   private formatTooltipTime(totalMinutes: number): string {
