@@ -82,6 +82,30 @@ export class TvComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  loadChannels(): void {
+    const channelSubscription = this.tvService
+      .getChannels(this.channelsPage)
+      .subscribe((channels) => {
+        this.channels.update((prev) => [...prev, ...channels]);
+
+        const initialChannel = this.tvParams?.channel
+          ? this.findChannelById(this.tvParams.channel)
+          : channels[0];
+
+        this.activeChannel.set(initialChannel);
+        this.loading.set(false);
+
+        this.playerData.set({
+          file: this.activeChannel()!.stream,
+          poster: this.activeChannel()!.thumbnail,
+          autoplay: 1,
+        });
+      });
+
+    this.channelsPage++;
+    this.subscriptions.add(channelSubscription);
+  }
+
   changeChannel(id: number): void {
     const selectedChannel = this.findChannelById(id);
     if (!selectedChannel) return;
@@ -94,8 +118,6 @@ export class TvComponent implements OnInit, OnDestroy {
   }
 
   setProgram(program: Program): void {
-    if (!program || !this.activeChannel()) return;
-
     this.tvParams = {
       channel: this.activeChannel()!.id,
       program: program.start,
@@ -108,11 +130,20 @@ export class TvComponent implements OnInit, OnDestroy {
     this.playerData.set({
       file: streamUrl(this.activeChannel()!.stream, this.start, this.end),
       poster: this.activeChannel()!.thumbnail,
-      autoplay: 0,
+      autoplay: 1,
     });
 
     this.applyRouteParams();
     this.scrollToActiveProgram();
+    if (this.programSidebarOpen()) this.toggleSidebar("programs");
+  }
+
+  setActiveProgram(program: Program): void {
+    if (!program || !this.activeChannel()) return;
+
+    this.activeProgram.set(program);
+    this.scrollToActiveProgram();
+
     if (this.programSidebarOpen()) this.toggleSidebar("programs");
   }
 
@@ -143,24 +174,6 @@ export class TvComponent implements OnInit, OnDestroy {
     return `${hours}:${minutes}`;
   }
 
-  loadChannels(): void {
-    const channelSubscription = this.tvService
-      .getChannels(this.channelsPage)
-      .subscribe((channels) => {
-        this.channels.update((prev) => [...prev, ...channels]);
-
-        const initialChannel = this.tvParams?.channel
-          ? this.findChannelById(this.tvParams.channel)
-          : channels[0];
-
-        this.activeChannel.set(initialChannel);
-        this.loading.set(false);
-      });
-
-    this.channelsPage++;
-    this.subscriptions.add(channelSubscription);
-  }
-
   // Private methods
   private initializeQueryParams(): void {
     const paramSubscription = this.route.queryParams.subscribe((params) => {
@@ -175,25 +188,19 @@ export class TvComponent implements OnInit, OnDestroy {
 
   private loadPrograms(channelId: number): void {
     this.programsLoading.set(true);
-    //const date = this.currentDateString;
-    const date = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
-      .toISOString()
-      .split("T")[0];
+    const date = this.currentDateString;
 
-    const programsSubscription = this.tvService
-      .getPrograms(channelId, date)
-      .subscribe((response) => {
-        this.programs.set(response.tv.programs);
+    this.tvService.getPrograms(channelId, date).subscribe((response) => {
+      this.programs.set(response.tv.programs);
 
-        const initialProgram = this.tvParams?.program
-          ? this.findProgramByStartTime(this.tvParams.program)
-          : this.findClosestProgram();
+      const initialProgram = this.tvParams?.program
+        ? this.findProgramByStartTime(this.tvParams.program)
+        : this.findClosestProgram();
 
-        if (initialProgram) this.setProgram(initialProgram);
+      if (initialProgram) this.setActiveProgram(initialProgram);
 
-        this.programsLoading.set(false);
-      });
-    this.subscriptions.add(programsSubscription);
+      this.programsLoading.set(false);
+    });
   }
 
   private findChannelById(id: number): Channel | null {
@@ -224,7 +231,7 @@ export class TvComponent implements OnInit, OnDestroy {
       }
     });
 
-    return this.programs()![closestIndex - 1];
+    return this.programs()![closestIndex];
   }
 
   private scrollToActiveProgram(): void {
