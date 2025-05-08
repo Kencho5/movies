@@ -41,18 +41,22 @@ import { TimelineSkeletonComponent } from "@shared/components/ui/timeline-skelet
 export class TvComponent implements OnInit, OnDestroy {
   @ViewChildren("programBtn") programButtons!: QueryList<ElementRef>;
 
-  // signals
+  // Channel state signals
   channels = signal<Channel[]>([]);
   activeChannel = signal<Channel | null>(null);
+  loading = signal<boolean>(true);
+
+  // Program state signals
   programs = signal<Program[] | null>(null);
   activeProgram = signal<Program | null>(null);
-  loading = signal<boolean>(true);
   programsLoading = signal<boolean>(true);
+
+  // Player and UI state signals
   playerData = signal<PlayerData | null>(null);
   sidebarOpen = signal<boolean>(false);
   programSidebarOpen = signal(false);
 
-  // parameters and timing
+  // Time and navigation parameters
   tvParams: TvParams | null = null;
   dateOffset: number = (new Date().getTimezoneOffset() * 60 + 3 * 3600) * 1000;
   start: number = Math.floor((Date.now() + this.dateOffset) / 1000);
@@ -82,25 +86,11 @@ export class TvComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  // Channel-related methods
   loadChannels(): void {
     const channelSubscription = this.tvService
       .getChannels(this.channelsPage)
-      .subscribe((channels) => {
-        this.channels.update((prev) => [...prev, ...channels]);
-
-        const initialChannel = this.tvParams?.channel
-          ? this.findChannelById(this.tvParams.channel)
-          : channels[0];
-
-        this.activeChannel.set(initialChannel);
-        this.loading.set(false);
-
-        this.playerData.set({
-          file: this.activeChannel()!.stream,
-          poster: this.activeChannel()!.thumbnail,
-          autoplay: 1,
-        });
-      });
+      .subscribe(this.handleChannelsLoaded.bind(this));
 
     this.channelsPage++;
     this.subscriptions.add(channelSubscription);
@@ -113,29 +103,27 @@ export class TvComponent implements OnInit, OnDestroy {
     this.activeChannel.set(selectedChannel);
     this.tvParams = { channel: id, program: null };
     this.applyRouteParams();
+    this.updatePlayer({ channel: selectedChannel });
 
-    if (window.innerWidth < 768) this.sidebarOpen.set(false);
+    this.closeSidebarOnMobile();
   }
 
+  // Program-related methods
   setProgram(program: Program): void {
-    this.tvParams = {
-      channel: this.activeChannel()!.id,
-      program: program.start,
-    };
+    if (!this.activeChannel()) return;
 
-    this.activeProgram.set(program);
     this.start = program.start;
     this.end = program.stop;
 
-    this.playerData.set({
-      file: streamUrl(this.activeChannel()!.stream, this.start, this.end),
-      poster: this.activeChannel()!.thumbnail,
-      autoplay: 1,
-    });
-
+    this.activeProgram.set(program);
+    this.updateTvParams(program);
+    this.updatePlayer({ program });
     this.applyRouteParams();
     this.scrollToActiveProgram();
-    if (this.programSidebarOpen()) this.toggleSidebar("programs");
+
+    if (this.programSidebarOpen()) {
+      this.toggleSidebar("programs");
+    }
   }
 
   setActiveProgram(program: Program): void {
@@ -144,9 +132,12 @@ export class TvComponent implements OnInit, OnDestroy {
     this.activeProgram.set(program);
     this.scrollToActiveProgram();
 
-    if (this.programSidebarOpen()) this.toggleSidebar("programs");
+    if (this.programSidebarOpen()) {
+      this.toggleSidebar("programs");
+    }
   }
 
+  // UI-related methods
   toggleSidebar(type: "channels" | "programs") {
     if (type === "channels") {
       this.sidebarOpen.update((state) => !state);
@@ -155,6 +146,7 @@ export class TvComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Player control methods
   togglePlayer(): void {
     const action = this.playerService.isPlaying ? "pause" : "play";
     this.playerService.trigger(action);
@@ -162,11 +154,15 @@ export class TvComponent implements OnInit, OnDestroy {
 
   seek(seconds: number): void {
     this.start += seconds;
+
+    if (!this.activeChannel()) return;
+
     this.playerService.play(
       streamUrl(this.activeChannel()!.stream, this.start, this.end),
     );
   }
 
+  // Utility methods
   convertTimestampToHours(timestamp: number): string {
     const date = new Date(timestamp * 1000);
     const hours = date.getHours().toString().padStart(2, "0");
@@ -174,7 +170,11 @@ export class TvComponent implements OnInit, OnDestroy {
     return `${hours}:${minutes}`;
   }
 
-  // Private methods
+  get currentDateString(): string {
+    return new Date().toISOString().split("T")[0];
+  }
+
+  // Private implementation methods
   private initializeQueryParams(): void {
     const paramSubscription = this.route.queryParams.subscribe((params) => {
       if (!params) return;
@@ -186,21 +186,38 @@ export class TvComponent implements OnInit, OnDestroy {
     this.subscriptions.add(paramSubscription);
   }
 
+  private handleChannelsLoaded(channels: Channel[]): void {
+    this.channels.update((prev) => [...prev, ...channels]);
+
+    const initialChannel = this.tvParams?.channel
+      ? this.findChannelById(this.tvParams.channel)
+      : channels[0];
+
+    this.activeChannel.set(initialChannel);
+    this.loading.set(false);
+
+    this.updatePlayer({ channel: initialChannel });
+  }
+
   private loadPrograms(channelId: number): void {
     this.programsLoading.set(true);
     const date = this.currentDateString;
 
-    this.tvService.getPrograms(channelId, date).subscribe((response) => {
-      this.programs.set(response.tv.programs);
+    this.tvService
+      .getPrograms(channelId, date)
+      .subscribe(this.handleProgramsLoaded.bind(this));
+  }
 
-      const initialProgram = this.tvParams?.program
-        ? this.findProgramByStartTime(this.tvParams.program)
-        : this.findClosestProgram();
+  private handleProgramsLoaded(response: any): void {
+    this.programs.set(response.tv.programs);
 
-      if (initialProgram) this.setActiveProgram(initialProgram);
+    const initialProgram = this.tvParams?.program
+      ? this.findProgramByStartTime(this.tvParams.program)
+      : this.findClosestProgram();
 
-      this.programsLoading.set(false);
-    });
+    if (initialProgram) this.setActiveProgram(initialProgram);
+
+    this.programsLoading.set(false);
   }
 
   private findChannelById(id: number): Channel | null {
@@ -257,7 +274,37 @@ export class TvComponent implements OnInit, OnDestroy {
     });
   }
 
-  get currentDateString(): string {
-    return new Date().toISOString().split("T")[0];
+  private updatePlayer(options: {
+    channel?: Channel | null;
+    program?: Program | null;
+  }): void {
+    const channel = options.channel || this.activeChannel();
+    if (!channel) return;
+
+    let file: string;
+
+    if (options.program) file = streamUrl(channel.stream, this.start, this.end);
+    else file = channel.stream;
+
+    this.playerData.set({
+      file,
+      poster: channel.thumbnail,
+      autoplay: 1,
+    });
+  }
+
+  private updateTvParams(program: Program): void {
+    if (!this.activeChannel()) return;
+
+    this.tvParams = {
+      channel: this.activeChannel()!.id,
+      program: program.start,
+    };
+  }
+
+  private closeSidebarOnMobile(): void {
+    if (window.innerWidth < 768) {
+      this.sidebarOpen.set(false);
+    }
   }
 }
