@@ -187,6 +187,7 @@ export class TvComponent implements OnInit, OnDestroy {
         start: params["start"],
         stop: params["stop"],
       };
+      this.playerService.start.set(params["start"]);
     });
     this.subscriptions.add(paramSubscription);
   }

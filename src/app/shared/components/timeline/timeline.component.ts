@@ -156,7 +156,10 @@ export class TimelineComponent {
 
   private updateTimeProgress(): void {
     if (!this.playerService.isPlaying) return;
-    const now = new Date();
+
+    const now = this.playerService.start()
+      ? new Date(this.playerService.start() * 1000)
+      : new Date();
     let minutesPassed = now.getMinutes() + now.getHours() * 60;
 
     if (this.isManuallySet) {
@@ -171,7 +174,9 @@ export class TimelineComponent {
   }
 
   private updateCurrentTimeText(minutesPassed?: number): void {
-    const now = new Date();
+    const now = this.playerService.start()
+      ? new Date(this.playerService.start() * 1000)
+      : new Date();
     let totalSeconds: number;
 
     if (this.isManuallySet && minutesPassed) {
