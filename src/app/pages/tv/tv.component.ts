@@ -6,6 +6,7 @@ import {
   QueryList,
   ElementRef,
   OnDestroy,
+  computed,
 } from "@angular/core";
 import { PlayerData } from "@core/interfaces/player";
 import { Channel, Program, TvParams } from "@core/interfaces/tv";
@@ -50,6 +51,7 @@ export class TvComponent implements OnInit, OnDestroy {
   playerData = signal<PlayerData | null>(null);
   sidebarOpen = signal<boolean>(false);
   programSidebarOpen = signal(false);
+  isLive = computed(() => !this.playerService.start());
 
   // parameters and timing
   tvParams: TvParams | null = null;

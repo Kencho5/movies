@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, Output, signal } from "@angular/core";
+import {
+  Component,
+  effect,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  signal,
+} from "@angular/core";
 import { Program } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
 import { SharedModule } from "@shared/shared.module";
@@ -8,45 +17,37 @@ import { SharedModule } from "@shared/shared.module";
   imports: [SharedModule],
   templateUrl: "./timeline.component.html",
 })
-export class TimelineComponent {
-  constructor(private playerService: PlayerService) {}
+export class TimelineComponent implements OnInit, OnDestroy {
+  constructor(private playerService: PlayerService) {
+    effect(() => {
+      const start = this.playerService.start();
+      if (start) this.updateTimeProgress();
+    });
+  }
 
   @Input() programs!: Program[];
-
   @Output() timeSet = new EventEmitter<number>();
 
-  // Constants
+  // constants
   private readonly DAY_MINUTES = 1440;
   private readonly TOTAL_HOURS = 24;
 
   private timer: any;
-  private isManuallySet: boolean = false;
-  private manualTimeOffsetMinutes: number = 0;
-  private pausedOffset: number = 0;
-  private pausedAt: number | null = null;
 
-  // UI state
-  tooltipX = 0;
-  tooltipText = "";
-  tooltipShown: boolean = false;
-  progress = 0;
+  // signals
+  tooltipX = signal<number>(0);
+  tooltipText = signal<string>("");
+  tooltipShown = signal<boolean>(false);
+  progress = signal<number>(0);
   currentTimeText = signal<string>("");
-  activeProgram: Program | null = null;
-  hoveredProgram: Program | null = null;
+  activeProgram = signal<Program | null>(null);
+  hoveredProgram = signal<Program | null>(null);
 
   ngOnInit() {
     this.updateTimeProgress();
 
     this.timer = setInterval(() => {
-      if (!this.playerService.isPlaying()) {
-        if (!this.pausedAt) {
-          this.pausedAt = Date.now();
-        }
-        return;
-      } else if (this.pausedAt) {
-        this.pausedOffset += Math.floor((Date.now() - this.pausedAt) / 1000);
-        this.pausedAt = null;
-      }
+      if (!this.playerService.isPlaying()) return;
       this.updateTimeProgress();
     }, 1000);
   }
@@ -58,52 +59,52 @@ export class TimelineComponent {
   }
 
   hover(event: MouseEvent): void {
-    if (this.hoveredProgram) return;
+    if (this.hoveredProgram()) return;
 
     const { relativeX, percent } = this.getPositionData(event);
     const minutes = Math.floor(percent * this.DAY_MINUTES);
 
-    this.tooltipX = relativeX;
-    this.tooltipText = this.formatTooltipTime(minutes);
-    this.tooltipShown = true;
+    this.tooltipX.set(relativeX);
+    this.tooltipText.set(this.formatTooltipTime(minutes));
+    this.tooltipShown.set(true);
   }
 
   setTime(event: MouseEvent): void {
-    if (this.hoveredProgram) {
+    if (this.hoveredProgram()) {
       this.setTimeToProgram();
       return;
     }
 
     const { percent } = this.getPositionData(event);
-    const selectedMinutes = Math.floor(percent * this.DAY_MINUTES);
-    const now = new Date();
-    const currentMinutes = now.getMinutes() + now.getHours() * 60;
+    this.progress.set(percent * 100);
 
-    this.manualTimeOffsetMinutes = selectedMinutes - currentMinutes;
-    this.isManuallySet = true;
+    const timeInSeconds = Math.floor(percent * this.DAY_MINUTES * 60);
+    const hours = Math.floor(timeInSeconds / 3600);
+    const minutes = Math.floor((timeInSeconds % 3600) / 60);
+    const seconds = timeInSeconds % 60;
 
-    this.progress = percent * 100;
-    this.updateCurrentTimeText();
+    const timestamp = this.createTimestamp(hours, minutes, seconds);
+    this.updateCurrentTimeFromTimestamp(timestamp);
 
-    const timestamp = this.convertTimeToTimestamp();
     this.playerService.start.set(timestamp);
     this.timeSet.emit(timestamp);
   }
 
   setTimeToProgram(): void {
-    this.activeProgram = this.hoveredProgram;
-    const totalMinutes = this.getProgramTotalMinutes(this.hoveredProgram!);
+    const program = this.hoveredProgram();
+    if (!program) return;
 
-    // Calculate the offset between program time and current time
-    const now = new Date();
-    const currentMinutes = now.getMinutes() + now.getHours() * 60;
-    this.manualTimeOffsetMinutes = totalMinutes - currentMinutes;
-    this.isManuallySet = true;
+    this.activeProgram.set(program);
 
-    this.progress = (totalMinutes / this.DAY_MINUTES) * 100;
-    this.updateCurrentTimeText();
+    // Set timestamp to program start time
+    const timestamp = program.start;
+    this.updateCurrentTimeFromTimestamp(timestamp);
 
-    const timestamp = this.convertTimeToTimestamp();
+    // Calculate progress percentage
+    const date = new Date(timestamp * 1000);
+    const minutesPassed = date.getHours() * 60 + date.getMinutes();
+    this.progress.set((minutesPassed / this.DAY_MINUTES) * 100);
+
     this.playerService.start.set(timestamp);
     this.timeSet.emit(timestamp);
   }
@@ -127,7 +128,8 @@ export class TimelineComponent {
   }
 
   getProgramPosition(program: Program): string {
-    const totalMinutes = this.getProgramTotalMinutes(program);
+    const date = new Date(program.start * 1000);
+    const totalMinutes = date.getHours() * 60 + date.getMinutes();
     return `${(totalMinutes / this.DAY_MINUTES) * 100}%`;
   }
 
@@ -139,88 +141,52 @@ export class TimelineComponent {
     const rect = target.getBoundingClientRect();
     const parentRect = parentElement.getBoundingClientRect();
 
-    this.tooltipX = rect.left + rect.width / 2 - parentRect.left;
+    this.tooltipX.set(rect.left + rect.width / 2 - parentRect.left);
 
     const startDate = new Date(program.start * 1000);
     const timeString = this.formatTimeFromDate(startDate);
-    this.tooltipText = `${timeString} - ${program.title.text}`;
+    this.tooltipText.set(`${timeString} - ${program.title.text}`);
 
-    this.tooltipShown = true;
-    this.hoveredProgram = program;
+    this.tooltipShown.set(true);
+    this.hoveredProgram.set(program);
   }
 
   onProgramLeave(): void {
-    this.hoveredProgram = null;
-    this.tooltipShown = false;
+    this.hoveredProgram.set(null);
+    this.tooltipShown.set(false);
   }
 
   private updateTimeProgress(): void {
-    if (!this.playerService.isPlaying) return;
+    if (!this.playerService.isPlaying()) return;
 
-    const now = this.playerService.start()
-      ? new Date(this.playerService.start() * 1000)
-      : new Date();
-    let minutesPassed = now.getMinutes() + now.getHours() * 60;
+    const currentTimestamp =
+      this.playerService.start() || Math.floor(Date.now() / 1000);
+    const now = new Date(currentTimestamp * 1000);
 
-    if (this.isManuallySet) {
-      minutesPassed += this.manualTimeOffsetMinutes;
+    // Calculate minutes passed in the current day
+    const minutesPassed = now.getHours() * 60 + now.getMinutes();
+    this.progress.set((minutesPassed / this.DAY_MINUTES) * 100);
 
-      minutesPassed = minutesPassed % this.DAY_MINUTES;
-      if (minutesPassed < 0) minutesPassed += this.DAY_MINUTES;
-    }
-
-    this.progress = (minutesPassed / this.DAY_MINUTES) * 100;
-    this.updateCurrentTimeText(minutesPassed);
+    this.updateCurrentTimeFromTimestamp(currentTimestamp);
   }
 
-  private updateCurrentTimeText(minutesPassed?: number): void {
-    const now = this.playerService.start()
-      ? new Date(this.playerService.start() * 1000)
-      : new Date();
-    let totalSeconds: number;
+  private updateCurrentTimeFromTimestamp(timestamp: number): void {
+    const date = new Date(timestamp * 1000);
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
 
-    if (this.isManuallySet && minutesPassed) {
-      totalSeconds = minutesPassed * 60 + now.getSeconds();
-    } else {
-      totalSeconds =
-        (now.getHours() * 60 + now.getMinutes()) * 60 + now.getSeconds();
-      if (this.isManuallySet) totalSeconds += this.manualTimeOffsetMinutes * 60;
-    }
-
-    totalSeconds -= this.pausedOffset;
-
-    totalSeconds = totalSeconds % (this.DAY_MINUTES * 60);
-    if (totalSeconds < 0) totalSeconds += this.DAY_MINUTES * 60;
-
-    this.currentTimeText.set(this.getTimeText(totalSeconds));
+    this.currentTimeText.set(`${hours}:${minutes}:${seconds}`);
   }
 
-  private convertTimeToTimestamp(): number {
+  private createTimestamp(
+    hours: number,
+    minutes: number,
+    seconds: number,
+  ): number {
     const now = new Date();
-    let totalSeconds =
-      (now.getHours() * 60 + now.getMinutes()) * 60 + now.getSeconds();
-    totalSeconds += this.manualTimeOffsetMinutes * 60;
-
-    const today = new Date();
-    const [hours, minutes, seconds] = this.getTimeText(totalSeconds)
-      .split(":")
-      .map(Number);
-    today.setHours(hours, minutes, seconds, 0);
-    const timestamp = today.getTime();
-
-    return timestamp / 1000;
-  }
-
-  private getTimeText(totalSeconds: number): string {
-    const hours = Math.floor(totalSeconds / 3600)
-      .toString()
-      .padStart(2, "0");
-    const minutes = Math.floor((totalSeconds % 3600) / 60)
-      .toString()
-      .padStart(2, "0");
-    const seconds = (totalSeconds % 60).toString().padStart(2, "0");
-
-    return `${hours}:${minutes}:${seconds}`;
+    now.setHours(hours, minutes, seconds, 0);
+    return Math.floor(now.getTime() / 1000);
   }
 
   private formatTooltipTime(totalMinutes: number): string {
@@ -242,7 +208,7 @@ export class TimelineComponent {
     const el = event.currentTarget as HTMLElement;
     const rect = el.getBoundingClientRect();
     const relativeX = event.clientX - rect.left;
-    const percent = relativeX / rect.width;
+    const percent = Math.max(0, Math.min(1, relativeX / rect.width));
 
     return { relativeX, percent };
   }
@@ -251,10 +217,5 @@ export class TimelineComponent {
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
-  }
-
-  private getProgramTotalMinutes(program: Program): number {
-    const date = new Date(program.start * 1000);
-    return date.getHours() * 60 + date.getMinutes();
   }
 }

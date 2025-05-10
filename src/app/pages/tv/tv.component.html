@@ -300,6 +300,35 @@
               {{ activeChannel()?.name?.en }}
             </h3>
           </div>
+          <!-- Live button   -->
+          <button
+            type="button"
+            [disabled]="!isLive()"
+            [ngClass]="{
+              'border-neutral-700/10 bg-red-500 text-white hover:bg-red-600':
+                isLive(),
+              'cursor-not-allowed border-neutral-300 bg-neutral-200 text-neutral-500 opacity-60':
+                !isLive(),
+            }"
+            class="flex h-8 items-center justify-center gap-1.5 rounded-full border px-3 text-sm shadow-sm transition-all duration-200 active:scale-95 md:h-9 md:px-4"
+          >
+            <div class="relative">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+                fill="currentColor"
+                [ngClass]="{
+                  'animate-pulse': isLive(),
+                  'opacity-50': !isLive(),
+                }"
+                class="h-1.5 w-1.5 md:h-2 md:w-2"
+                style="filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.7))"
+              >
+                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
+              </svg>
+            </div>
+            <span class="font-medium tracking-wide">Live</span>
+          </button>
         } @else {
           <div
             class="relative h-8 w-32 overflow-hidden rounded-full bg-white/5"
@@ -311,7 +340,6 @@
           </div>
         }
       </div>
-
       <div class="flex h-full flex-col">
         <div class="relative h-full w-full bg-black shadow-2xl">
           <!-- Player loading skeleton -->
