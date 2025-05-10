@@ -144,6 +144,7 @@ export class TvComponent implements OnInit, OnDestroy {
       stop: this.playerService.end,
     };
     this.applyRouteParams();
+    this.setActiveProgram(this.findClosestProgram(timestamp)!);
   }
 
   toggleSidebar(type: "channels" | "programs") {
@@ -219,10 +220,12 @@ export class TvComponent implements OnInit, OnDestroy {
     );
   }
 
-  private findClosestProgram(): Program | null {
+  private findClosestProgram(timestamp?: number): Program | null {
     if (!this.programs()?.length) return null;
 
-    const currentTime = Math.floor((Date.now() + this.dateOffset) / 1000);
+    const currentTime = timestamp
+      ? timestamp
+      : Math.floor((Date.now() + this.dateOffset) / 1000);
     let minDifference = Number.MAX_SAFE_INTEGER;
     let closestIndex = 0;
 
