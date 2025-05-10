@@ -14,7 +14,7 @@ import { PlayerData } from "@core/interfaces/player";
   templateUrl: "./player.component.html",
 })
 export class PlayerComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() playerData!: PlayerData | null;
+  @Input() playerData: PlayerData | null = null;
   @Input() playerClass: string = "";
 
   constructor(public playerService: PlayerService) {}

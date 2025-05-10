@@ -67,15 +67,6 @@ export class TvComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {}
 
-  timeSet(timestamp: number) {
-    this.tvParams = {
-      channel: this.activeChannel()!.id,
-      start: timestamp,
-      stop: this.playerService.end,
-    };
-    this.applyRouteParams();
-  }
-
   ngOnInit(): void {
     this.initializeQueryParams();
     this.loadChannels();
@@ -144,6 +135,15 @@ export class TvComponent implements OnInit, OnDestroy {
     this.scrollToActiveProgram();
 
     if (this.programSidebarOpen()) this.toggleSidebar("programs");
+  }
+
+  timeSet(timestamp: number) {
+    this.tvParams = {
+      channel: this.activeChannel()!.id,
+      start: timestamp,
+      stop: this.playerService.end,
+    };
+    this.applyRouteParams();
   }
 
   toggleSidebar(type: "channels" | "programs") {
@@ -259,11 +259,13 @@ export class TvComponent implements OnInit, OnDestroy {
     if (!this.tvParams?.channel) return;
 
     this.playerData.set({
-      file: streamUrl(
-        this.activeChannel()!.stream,
-        this.tvParams.start!,
-        this.tvParams.stop!,
-      ),
+      file: this.tvParams.start
+        ? streamUrl(
+            this.activeChannel()!.stream,
+            this.tvParams.start!,
+            this.tvParams.stop!,
+          )
+        : this.activeChannel()!.stream,
       poster: this.activeChannel()!.thumbnail,
       autoplay: 1,
     });
