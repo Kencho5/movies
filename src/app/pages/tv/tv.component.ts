@@ -199,6 +199,8 @@ export class TvComponent implements OnInit {
         : this.findClosestProgram();
 
       if (initialProgram) this.setActiveProgram(initialProgram);
+      else
+        this.setActiveProgram(this.findClosestProgram(this.tvParams?.start!)!);
 
       this.applyRouteParams();
       this.programsLoading.set(false);
@@ -219,6 +221,7 @@ export class TvComponent implements OnInit {
     if (!this.programs()?.length) return null;
 
     const currentTime = timestamp ? timestamp : Math.floor(Date.now() / 1000);
+
     let minDifference = Number.MAX_SAFE_INTEGER;
     let closestIndex = 0;
 

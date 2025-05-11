@@ -27,6 +27,10 @@ export class TimelineComponent implements OnInit, OnDestroy {
   private readonly TOTAL_HOURS = 24;
 
   private timer: any;
+  private manualStartTimestamp: number | null = null; // The timeline's "current" time in seconds
+  private manualStartDate: number | null = null; // The wall-clock time (ms) when playback started or resumed
+  private pausedAtTimestamp: number | null = null; // The timestamp when paused
+  private isManuallyTracking = false; // Are we tracking manually?
 
   // signals
   tooltipX = signal<number>(0);
@@ -45,9 +49,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
+    if (this.timer) clearInterval(this.timer);
   }
 
   hover(event: MouseEvent): void {
@@ -80,6 +82,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     this.playerService.start.set(timestamp);
     this.timeSet.emit(timestamp);
+
+    this.manualStartTimestamp = timestamp;
+    this.manualStartDate = Date.now();
   }
 
   setTimeToProgram(): void {
@@ -99,6 +104,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     this.playerService.start.set(timestamp);
     this.timeSet.emit(timestamp);
+
+    this.manualStartTimestamp = timestamp;
+    this.manualStartDate = Date.now();
   }
 
   getTimePosition(hourFraction: number): string {
@@ -151,11 +159,17 @@ export class TimelineComponent implements OnInit, OnDestroy {
   private updateTimeProgress(): void {
     if (!this.playerService.isPlaying()) return;
 
-    const currentTimestamp =
-      this.playerService.start() || Math.floor(Date.now() / 1000);
-    const now = new Date(currentTimestamp * 1000);
+    let currentTimestamp: number;
 
-    // Calculate minutes passed in the current day
+    if (this.manualStartTimestamp !== null && this.manualStartDate !== null) {
+      // Calculate how many seconds have passed since manual set
+      const elapsed = Math.floor((Date.now() - this.manualStartDate) / 1000);
+      currentTimestamp = this.manualStartTimestamp + elapsed;
+    } else {
+      currentTimestamp = Math.floor(Date.now() / 1000);
+    }
+
+    const now = new Date(currentTimestamp * 1000);
     const minutesPassed = now.getHours() * 60 + now.getMinutes();
     this.progress.set((minutesPassed / this.DAY_MINUTES) * 100);
 
