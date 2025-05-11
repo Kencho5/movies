@@ -5,7 +5,6 @@ import {
   ViewChildren,
   QueryList,
   ElementRef,
-  OnDestroy,
   computed,
 } from "@angular/core";
 import { PlayerData } from "@core/interfaces/player";
@@ -18,7 +17,6 @@ import { ProgramsSkeletonComponent } from "@shared/components/ui/programs-skelet
 import { SharedModule } from "@shared/shared.module";
 import { streamUrl } from "app/utils/streamUrl";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Subscription } from "rxjs";
 import { InfiniteScrollDirective } from "ngx-infinite-scroll";
 import { TimelineComponent } from "@shared/components/timeline/timeline.component";
 import { PlayerControlsComponent } from "@shared/components/player-controls/player-controls.component";
@@ -65,7 +63,7 @@ export class TvComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //this.initializeQueryParams();
+    this.initializeQueryParams();
     this.loadChannels();
   }
 
@@ -179,7 +177,7 @@ export class TvComponent implements OnInit {
   // Private methods
   private initializeQueryParams(): void {
     this.route.queryParams.subscribe((params) => {
-      if (Object.keys(params).length === 0) return;
+      if (!params) return;
       this.tvParams = {
         channel: params["channel"],
         start: params["start"],
