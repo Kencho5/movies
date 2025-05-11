@@ -38,7 +38,7 @@ import { TimelineSkeletonComponent } from "@shared/components/ui/timeline-skelet
   ],
   templateUrl: "./tv.component.html",
 })
-export class TvComponent implements OnInit, OnDestroy {
+export class TvComponent implements OnInit {
   @ViewChildren("programBtn") programButtons!: QueryList<ElementRef>;
 
   // signals
@@ -55,12 +55,7 @@ export class TvComponent implements OnInit, OnDestroy {
 
   // parameters and timing
   tvParams: TvParams | null = null;
-  dateOffset: number = (new Date().getTimezoneOffset() * 60 + 3 * 3600) * 1000;
-  start: number = Math.floor((Date.now() + this.dateOffset) / 1000);
-  end: number = Math.floor((Date.now() + this.dateOffset) / 1000);
   channelsPage = 0;
-
-  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private tvService: TvService,
@@ -70,37 +65,38 @@ export class TvComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.initializeQueryParams();
+    //this.initializeQueryParams();
     this.loadChannels();
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-  }
-
   loadChannels(): void {
-    const channelSubscription = this.tvService
-      .getChannels(this.channelsPage)
-      .subscribe((channels) => {
-        this.channels.update((prev) => [...prev, ...channels]);
+    this.tvService.getChannels(this.channelsPage).subscribe((channels) => {
+      this.channels.set(channels);
 
-        const initialChannel = this.tvParams?.channel
-          ? this.findChannelById(this.tvParams.channel)
-          : channels[0];
+      const initialChannel = this.tvParams?.channel
+        ? this.findChannelById(this.tvParams.channel)
+        : channels[0];
 
-        this.activeChannel.set(initialChannel);
-        this.loadPrograms(initialChannel?.id!);
-        this.loading.set(false);
+      this.activeChannel.set(initialChannel);
+      this.loadPrograms(initialChannel?.id!);
+      this.loading.set(false);
 
-        this.playerData.set({
-          file: this.activeChannel()!.stream,
-          poster: this.activeChannel()!.thumbnail,
-          autoplay: 1,
-        });
+      this.playerData.set({
+        file: this.activeChannel()!.stream,
+        poster: this.activeChannel()!.thumbnail,
+        autoplay: 1,
       });
+    });
 
     this.channelsPage++;
-    this.subscriptions.add(channelSubscription);
+  }
+
+  updateChannels(): void {
+    this.tvService.getChannels(this.channelsPage).subscribe((channels) => {
+      this.channels.update((prev) => [...prev, ...channels]);
+      this.loading.set(false);
+    });
+    this.channelsPage++;
   }
 
   changeChannel(id: number): void {
@@ -182,8 +178,8 @@ export class TvComponent implements OnInit, OnDestroy {
 
   // Private methods
   private initializeQueryParams(): void {
-    const paramSubscription = this.route.queryParams.subscribe((params) => {
-      if (!params) return;
+    this.route.queryParams.subscribe((params) => {
+      if (Object.keys(params).length === 0) return;
       this.tvParams = {
         channel: params["channel"],
         start: params["start"],
@@ -191,7 +187,6 @@ export class TvComponent implements OnInit, OnDestroy {
       };
       this.playerService.start.set(params["start"]);
     });
-    this.subscriptions.add(paramSubscription);
   }
 
   private loadPrograms(channelId: number): void {
@@ -208,7 +203,6 @@ export class TvComponent implements OnInit, OnDestroy {
       if (initialProgram) this.setActiveProgram(initialProgram);
 
       this.applyRouteParams();
-
       this.programsLoading.set(false);
     });
   }

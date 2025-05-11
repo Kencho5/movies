@@ -131,7 +131,7 @@
         infiniteScroll
         [infiniteScrollDistance]="2"
         [infiniteScrollContainer]="scrollContainer"
-        (scrolled)="loadChannels()"
+        (scrolled)="updateChannels()"
       >
         <!-- Skeleton Loading for Channels -->
         @if (loading()) {

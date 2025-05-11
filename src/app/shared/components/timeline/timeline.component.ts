@@ -1,6 +1,5 @@
 import {
   Component,
-  effect,
   EventEmitter,
   Input,
   OnDestroy,
@@ -18,12 +17,7 @@ import { SharedModule } from "@shared/shared.module";
   templateUrl: "./timeline.component.html",
 })
 export class TimelineComponent implements OnInit, OnDestroy {
-  constructor(private playerService: PlayerService) {
-    effect(() => {
-      const start = this.playerService.start();
-      if (start) this.updateTimeProgress();
-    });
-  }
+  constructor(private playerService: PlayerService) {}
 
   @Input() programs!: Program[];
   @Output() timeSet = new EventEmitter<number>();
