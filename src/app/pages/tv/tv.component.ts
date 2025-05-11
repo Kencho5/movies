@@ -21,6 +21,7 @@ import { InfiniteScrollDirective } from "ngx-infinite-scroll";
 import { TimelineComponent } from "@shared/components/timeline/timeline.component";
 import { PlayerControlsComponent } from "@shared/components/player-controls/player-controls.component";
 import { TimelineSkeletonComponent } from "@shared/components/ui/timeline-skeleton/timeline-skeleton.component";
+import { DaysSelectorComponent } from "@shared/components/days-selector/days-selector.component";
 
 @Component({
   selector: "app-tv",
@@ -33,6 +34,7 @@ import { TimelineSkeletonComponent } from "@shared/components/ui/timeline-skelet
     TimelineComponent,
     TimelineSkeletonComponent,
     PlayerControlsComponent,
+    DaysSelectorComponent,
   ],
   templateUrl: "./tv.component.html",
 })

@@ -27,10 +27,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
   private readonly TOTAL_HOURS = 24;
 
   private timer: any;
-  private manualStartTimestamp: number | null = null; // The timeline's "current" time in seconds
-  private manualStartDate: number | null = null; // The wall-clock time (ms) when playback started or resumed
-  private pausedAtTimestamp: number | null = null; // The timestamp when paused
-  private isManuallyTracking = false; // Are we tracking manually?
+  private manualStartTimestamp: number | null = null;
+  private manualStartDate: number | null = null;
 
   // signals
   tooltipX = signal<number>(0);
@@ -162,7 +160,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
     let currentTimestamp: number;
 
     if (this.manualStartTimestamp !== null && this.manualStartDate !== null) {
-      // Calculate how many seconds have passed since manual set
       const elapsed = Math.floor((Date.now() - this.manualStartDate) / 1000);
       currentTimestamp = this.manualStartTimestamp + elapsed;
     } else {

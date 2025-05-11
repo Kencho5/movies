@@ -1,0 +1,19 @@
+<div class="float-right flex overflow-x-auto text-white/70" #container>
+  <button
+    class="flex flex-shrink-0 items-center gap-2 border border-white/[0.08] p-3 pr-10 text-left"
+    style="min-width: 120px"
+  ></button>
+
+  @for (day of days; track $index) {
+    <button
+      class="flex flex-shrink-0 items-center gap-2 border border-white/[0.08] p-3 pr-10 text-left"
+      style="min-width: 120px"
+    >
+      <h1 class="text-xl">{{ day.dateNumber }}</h1>
+      <div class="text-xs">
+        <p>{{ day.weekDay }}</p>
+        <p>{{ day.month }}</p>
+      </div>
+    </button>
+  }
+</div>
