@@ -44,8 +44,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
   hoveredProgram = signal<Program | null>(null);
 
   ngOnInit() {
-    this.updateTimeProgress();
-
     this.timer = setInterval(() => {
       if (!this.playerService.isPlaying()) return;
       this.updateTimeProgress();

@@ -226,14 +226,12 @@ export class TvComponent implements OnInit, OnDestroy {
   private findClosestProgram(timestamp?: number): Program | null {
     if (!this.programs()?.length) return null;
 
-    const currentTime = timestamp
-      ? timestamp
-      : Math.floor((Date.now() + this.dateOffset) / 1000);
+    const currentTime = timestamp ? timestamp : Math.floor(Date.now() / 1000);
     let minDifference = Number.MAX_SAFE_INTEGER;
     let closestIndex = 0;
 
     this.programs()?.forEach((program, index) => {
-      const difference = program.start - currentTime;
+      const difference = currentTime - program.start;
 
       if (difference >= 0 && difference < minDifference) {
         minDifference = difference;
@@ -241,7 +239,7 @@ export class TvComponent implements OnInit, OnDestroy {
       }
     });
 
-    return this.programs()![closestIndex - 1];
+    return this.programs()![closestIndex];
   }
 
   private scrollToActiveProgram(): void {
