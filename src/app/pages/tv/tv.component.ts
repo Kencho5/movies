@@ -184,6 +184,20 @@ export class TvComponent implements OnInit {
     return `${hours}:${minutes}`;
   }
 
+  resetPlayer(): void {
+    this.tvParams = null;
+    this.playerData.set({
+      file: this.activeChannel()!.stream,
+      poster: this.activeChannel()!.thumbnail,
+      autoplay: 1,
+    });
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: [],
+    });
+  }
+
   // Private methods
   private initializeQueryParams(): void {
     this.route.queryParams.subscribe((params) => {

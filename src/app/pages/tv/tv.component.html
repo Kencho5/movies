@@ -303,14 +303,14 @@
           <!-- Live button   -->
           <button
             type="button"
-            [disabled]="!isLive()"
             [ngClass]="{
               'border-neutral-700/10 bg-red-500 text-white hover:bg-red-600':
                 isLive(),
-              'cursor-not-allowed border-neutral-300 bg-neutral-200 text-neutral-500 opacity-60':
+              'border-neutral-300 bg-neutral-200 text-neutral-500 opacity-60':
                 !isLive(),
             }"
             class="flex h-8 items-center justify-center gap-1.5 rounded-full border px-3 text-sm shadow-sm transition-all duration-200 active:scale-95 md:h-9 md:px-4"
+            (click)="resetPlayer()"
           >
             <div class="relative">
               <svg
