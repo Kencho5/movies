@@ -84,12 +84,4 @@ export class DaysSelectorComponent implements OnInit {
   private formatDayOfMonth(date: Date): string {
     return date.getDate().toString().padStart(2, "0");
   }
-
-  private isCurrentDay(date: Date, today: Date): boolean {
-    return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
-    );
-  }
 }

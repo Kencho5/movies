@@ -1,12 +1,11 @@
 <div class="relative flex w-full items-center">
   <!-- Left arrow button -->
   <button
-    class="z-10 flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-l-xl border border-white/10 bg-bg-card/70 text-2xl text-white/70 backdrop-blur-md transition hover:bg-bg-highlight/80 hover:text-white hover:shadow-lg"
+    class="z-10 flex h-12 w-10 flex-shrink-0 items-center justify-center rounded-tl-xl border border-white/10 bg-bg-card/70 text-xl text-white/70 backdrop-blur-md transition hover:bg-bg-highlight/80 hover:text-white hover:shadow-lg md:h-16 md:w-16 md:text-2xl"
     (click)="scroll('left')"
   >
     ←
   </button>
-
   <!-- Scrollable container -->
   <div
     #scrollContainer
@@ -14,7 +13,7 @@
   >
     @for (day of days; track day.key) {
       <button
-        class="group relative flex h-16 flex-shrink-0 items-center gap-2 border border-l-0 border-white/10 bg-bg-card/70 px-5 pr-10 text-left text-white/80 transition-all duration-200 hover:bg-bg-highlight/80 hover:text-white hover:shadow-lg active:scale-95"
+        class="group relative flex h-12 flex-shrink-0 items-center gap-1 border border-l-0 border-white/10 bg-bg-card/70 px-3 pr-6 text-left text-white/80 transition-all duration-200 hover:bg-bg-highlight/80 hover:text-white hover:shadow-lg active:scale-95 md:h-16 md:gap-2 md:px-5 md:pr-10"
         [style.min-width.px]="buttonMinWidth"
         [ngClass]="{
           'relative z-10 border-b-2 border-b-primary-500 bg-bg-highlight/80 text-white shadow-md':
@@ -23,14 +22,14 @@
         (click)="selectDay(day)"
       >
         <h1
-          class="text-xl font-semibold tracking-wide transition-all"
+          class="text-lg font-semibold tracking-wide transition-all md:text-xl"
           [ngClass]="{
             'scale-110 text-primary-500': activeDay() == day,
           }"
         >
           {{ day.dateNumber }}
         </h1>
-        <div class="text-xs leading-tight">
+        <div class="text-[10px] leading-tight md:text-xs">
           <p class="font-medium">{{ day.weekDay }}</p>
           <p
             class="text-white/50"
@@ -41,16 +40,15 @@
         </div>
         @if (activeDay() == day) {
           <div
-            class="absolute bottom-0 left-1/2 -mb-0.5 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-primary-500"
+            class="absolute bottom-0 left-1/2 -mb-0.5 h-1 w-1 -translate-x-1/2 rounded-full bg-primary-500 md:h-1.5 md:w-1.5"
           ></div>
         }
       </button>
     }
   </div>
-
   <!-- Right arrow button -->
   <button
-    class="z-10 flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-r-xl border border-l-0 border-white/10 bg-bg-card/70 text-2xl text-white/70 backdrop-blur-md transition hover:bg-bg-highlight/80 hover:text-white hover:shadow-lg"
+    class="z-10 flex h-12 w-10 flex-shrink-0 items-center justify-center rounded-tr-xl border border-l-0 border-white/10 bg-bg-card/70 text-xl text-white/70 backdrop-blur-md transition hover:bg-bg-highlight/80 hover:text-white hover:shadow-lg md:h-16 md:w-16 md:text-2xl"
     (click)="scroll('right')"
   >
     →
