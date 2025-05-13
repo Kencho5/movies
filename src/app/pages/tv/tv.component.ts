@@ -163,17 +163,18 @@ export class TvComponent implements OnInit {
   }
 
   seek(seconds: number): void {
-    this.playerService.start.update(
-      (prev) => (prev ? prev : Math.floor(Date.now() / 1000)) + seconds,
-    );
+    this.playerService.start.update((prev) => {
+      const prevValue = Number(prev);
+      return (prevValue || Math.floor(Date.now() / 1000)) + Number(seconds);
+    });
 
-    this.playerService.play(
-      streamUrl(
-        this.activeChannel()!.stream,
-        this.playerService.start(),
-        this.playerService.end,
-      ),
-    );
+    this.tvParams = {
+      channel: this.activeChannel()?.id!,
+      start: this.playerService.start(),
+      stop: this.playerService.end,
+    };
+
+    this.applyRouteParams();
   }
 
   convertTimestampToHours(timestamp: number): string {

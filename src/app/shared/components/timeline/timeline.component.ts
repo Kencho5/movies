@@ -10,6 +10,7 @@ import {
 import { Program } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
 import { SharedModule } from "@shared/shared.module";
+import { timestamp } from "rxjs";
 
 @Component({
   selector: "app-timeline",
@@ -27,8 +28,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   private readonly TOTAL_HOURS = 24;
 
   private timer: any;
-  private manualStartTimestamp: number | null = null;
-  private manualStartDate: number | null = null;
+  private secondsPassed: number = 0;
 
   // signals
   tooltipX = signal<number>(0);
@@ -80,9 +80,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     this.playerService.start.set(timestamp);
     this.timeSet.emit(timestamp);
-
-    this.manualStartTimestamp = timestamp;
-    this.manualStartDate = Date.now();
+    this.secondsPassed = 0;
   }
 
   setTimeToProgram(): void {
@@ -102,9 +100,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     this.playerService.start.set(timestamp);
     this.timeSet.emit(timestamp);
-
-    this.manualStartTimestamp = timestamp;
-    this.manualStartDate = Date.now();
+    this.secondsPassed = 0;
   }
 
   getTimePosition(hourFraction: number): string {
@@ -157,24 +153,21 @@ export class TimelineComponent implements OnInit, OnDestroy {
   private updateTimeProgress(): void {
     if (!this.playerService.isPlaying()) return;
 
-    let currentTimestamp: number;
+    const startTime = this.playerService.start()
+      ? this.playerService.start() * 1000
+      : Date.now();
+    const currentTime = startTime + this.secondsPassed * 1000;
+    const now = new Date(currentTime);
 
-    if (this.manualStartTimestamp !== null && this.manualStartDate !== null) {
-      const elapsed = Math.floor((Date.now() - this.manualStartDate) / 1000);
-      currentTimestamp = this.manualStartTimestamp + elapsed;
-    } else {
-      currentTimestamp = Math.floor(Date.now() / 1000);
-    }
-
-    const now = new Date(currentTimestamp * 1000);
     const minutesPassed = now.getHours() * 60 + now.getMinutes();
     this.progress.set((minutesPassed / this.DAY_MINUTES) * 100);
 
-    this.updateCurrentTimeFromTimestamp(currentTimestamp);
+    this.updateCurrentTimeFromTimestamp(currentTime);
+    this.secondsPassed++;
   }
 
   private updateCurrentTimeFromTimestamp(timestamp: number): void {
-    const date = new Date(timestamp * 1000);
+    const date = new Date(timestamp);
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const seconds = date.getSeconds().toString().padStart(2, "0");
