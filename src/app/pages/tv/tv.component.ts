@@ -163,7 +163,10 @@ export class TvComponent implements OnInit {
   }
 
   seek(seconds: number): void {
-    this.playerService.start.update((prev) => prev + seconds);
+    this.playerService.start.update(
+      (prev) => (prev ? prev : Math.floor(Date.now() / 1000)) + seconds,
+    );
+
     this.playerService.play(
       streamUrl(
         this.activeChannel()!.stream,
