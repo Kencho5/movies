@@ -1,17 +1,20 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   OnInit,
+  Output,
   signal,
   ViewChild,
 } from "@angular/core";
+import { PlayerService } from "@core/services/player.service";
 import { SharedModule } from "@shared/shared.module";
 
 interface Day {
-  key: string;
   dateNumber: string;
   month: string;
   weekDay: string;
+  timestamp: number;
 }
 
 @Component({
@@ -20,7 +23,11 @@ interface Day {
   templateUrl: "./days-selector.component.html",
 })
 export class DaysSelectorComponent implements OnInit {
+  constructor(private playerService: PlayerService) {}
+
   @ViewChild("scrollContainer") scrollContainer!: ElementRef;
+
+  @Output() daySelected = new EventEmitter<void>();
 
   buttonMinWidth = 120;
   days: Day[] = [];
@@ -43,7 +50,9 @@ export class DaysSelectorComponent implements OnInit {
   }
 
   selectDay(day: Day): void {
+    this.playerService.dayOffset = day.timestamp;
     this.activeDay.set(day);
+    this.daySelected.emit();
   }
 
   private generateDaysArray(): Day[] {
@@ -70,15 +79,11 @@ export class DaysSelectorComponent implements OnInit {
 
   private createDayObject(date: Date): Day {
     return {
-      key: this.formatDateToISOString(date),
       dateNumber: this.formatDayOfMonth(date),
       month: date.toLocaleDateString("en-US", { month: "short" }),
       weekDay: date.toLocaleDateString("en-US", { weekday: "short" }),
+      timestamp: date.getTime(),
     };
-  }
-
-  private formatDateToISOString(date: Date): string {
-    return date.toISOString().split("T")[0];
   }
 
   private formatDayOfMonth(date: Date): string {

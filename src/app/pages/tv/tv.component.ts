@@ -135,7 +135,7 @@ export class TvComponent implements OnInit {
     if (this.programSidebarOpen()) this.toggleSidebar("programs");
   }
 
-  timeSet(timestamp: number) {
+  timeSet(timestamp: number): void {
     this.tvParams = {
       channel: this.activeChannel()!.id,
       start: timestamp,
@@ -143,6 +143,10 @@ export class TvComponent implements OnInit {
     };
     this.applyRouteParams();
     this.setActiveProgram(this.findClosestProgram(timestamp)!);
+  }
+
+  daySelected(): void {
+    this.loadPrograms(this.activeChannel()?.id!);
   }
 
   toggleSidebar(type: "channels" | "programs") {
@@ -191,7 +195,9 @@ export class TvComponent implements OnInit {
 
   private loadPrograms(channelId: number): void {
     this.programsLoading.set(true);
-    const date = this.currentDateString;
+    const date = this.playerService.dayOffset
+      ? new Date(this.playerService.dayOffset!).toISOString().split("T")[0]
+      : this.currentDateString;
 
     this.tvService.getPrograms(channelId, date).subscribe((response) => {
       this.programs.set(response.tv.programs);

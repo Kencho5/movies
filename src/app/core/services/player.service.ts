@@ -11,6 +11,7 @@ export class PlayerService {
   isPlaying = signal<boolean>(false);
 
   dateOffset: number = (new Date().getTimezoneOffset() * 60 + 3 * 3600) * 1000;
+  dayOffset: number | null = null;
   start = signal<number>(Math.floor((Date.now() + this.dateOffset) / 1000));
   end: number = Math.floor((Date.now() + this.dateOffset) / 1000);
 
