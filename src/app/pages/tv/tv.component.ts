@@ -196,6 +196,7 @@ export class TvComponent implements OnInit {
       relativeTo: this.route,
       queryParams: [],
     });
+    this.setActiveProgram(this.findClosestProgram()!);
   }
 
   // Private methods
