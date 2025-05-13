@@ -1,51 +1,95 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  signal,
+  ViewChild,
+} from "@angular/core";
 import { SharedModule } from "@shared/shared.module";
+
+interface Day {
+  key: string;
+  dateNumber: string;
+  month: string;
+  weekDay: string;
+}
 
 @Component({
   selector: "app-days-selector",
   imports: [SharedModule],
   templateUrl: "./days-selector.component.html",
 })
-export class DaysSelectorComponent {
+export class DaysSelectorComponent implements OnInit {
   @ViewChild("scrollContainer") scrollContainer!: ElementRef;
+
   buttonMinWidth = 120;
+  days: Day[] = [];
+  activeDay = signal<Day | null>(null);
 
-  days: any[] = [];
+  private readonly DAYS_TO_DISPLAY = 30;
+  private readonly SCROLL_ITEMS = 3;
 
-  ngOnInit() {
-    const days = [];
+  ngOnInit(): void {
+    this.days = this.generateDaysArray();
+  }
+
+  scroll(dir: "left" | "right"): void {
+    this.scrollContainer.nativeElement.scrollBy({
+      left:
+        (dir == "left" ? -this.buttonMinWidth : this.buttonMinWidth) *
+        this.SCROLL_ITEMS,
+      behavior: "smooth",
+    });
+  }
+
+  selectDay(day: Day): void {
+    this.activeDay.set(day);
+  }
+
+  private generateDaysArray(): Day[] {
+    const days: Day[] = [];
     const today = new Date();
-    for (let i = 29; i >= 0; i--) {
-      let current = false;
 
-      const date = new Date();
-      date.setDate(today.getDate() - i);
-      const dateNumber = date.getDate().toString().padStart(2, "0");
-      const month = date.toLocaleDateString("en-US", { month: "short" });
-      const weekDay = date.toLocaleDateString("en-US", { weekday: "short" });
-      const key = date.toISOString().split("T")[0];
+    for (let i = this.DAYS_TO_DISPLAY - 1; i >= 0; i--) {
+      const date = this.getDateWithOffset(today, -i);
+      const dayObject = this.createDayObject(date);
 
-      current =
-        date.getDate() === today.getDate() &&
-        date.getMonth() === today.getMonth() &&
-        date.getFullYear() === today.getFullYear();
-
-      days.push({ key, dateNumber, month, weekDay, current });
+      days.push(dayObject);
+      if (date.toUTCString() == today.toUTCString())
+        this.activeDay.set(dayObject);
     }
-    this.days = days.reverse();
+
+    return days.reverse();
   }
 
-  scrollLeft() {
-    this.scrollContainer.nativeElement.scrollBy({
-      left: -this.buttonMinWidth * 3,
-      behavior: "smooth",
-    });
+  private getDateWithOffset(referenceDate: Date, offsetDays: number): Date {
+    const date = new Date(referenceDate);
+    date.setDate(referenceDate.getDate() + offsetDays);
+    return date;
   }
 
-  scrollRight() {
-    this.scrollContainer.nativeElement.scrollBy({
-      left: this.buttonMinWidth * 3,
-      behavior: "smooth",
-    });
+  private createDayObject(date: Date): Day {
+    return {
+      key: this.formatDateToISOString(date),
+      dateNumber: this.formatDayOfMonth(date),
+      month: date.toLocaleDateString("en-US", { month: "short" }),
+      weekDay: date.toLocaleDateString("en-US", { weekday: "short" }),
+    };
+  }
+
+  private formatDateToISOString(date: Date): string {
+    return date.toISOString().split("T")[0];
+  }
+
+  private formatDayOfMonth(date: Date): string {
+    return date.getDate().toString().padStart(2, "0");
+  }
+
+  private isCurrentDay(date: Date, today: Date): boolean {
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
   }
 }
