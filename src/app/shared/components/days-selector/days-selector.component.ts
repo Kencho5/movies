@@ -66,6 +66,8 @@ export class DaysSelectorComponent implements OnInit {
     const paramTimestamp = this.route.snapshot.queryParams["start"] * 1000;
     const paramDate = paramTimestamp ? new Date(paramTimestamp) : null;
 
+    this.playerService.dayOffset = paramTimestamp || null;
+
     for (let i = this.DAYS_TO_DISPLAY - 1; i >= 0; i--) {
       const date = this.getDateWithOffset(today, -i);
       const dayObject = this.createDayObject(date);
