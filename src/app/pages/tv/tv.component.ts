@@ -6,6 +6,7 @@ import {
   QueryList,
   ElementRef,
   computed,
+  ViewChild,
 } from "@angular/core";
 import { PlayerData } from "@core/interfaces/player";
 import { Channel, Program, TvParams } from "@core/interfaces/tv";
@@ -22,6 +23,9 @@ import { TimelineComponent } from "@shared/components/timeline/timeline.componen
 import { PlayerControlsComponent } from "@shared/components/player-controls/player-controls.component";
 import { TimelineSkeletonComponent } from "@shared/components/ui/timeline-skeleton/timeline-skeleton.component";
 import { DaysSelectorComponent } from "@shared/components/days-selector/days-selector.component";
+import { PreviewSkeletonComponent } from "@shared/components/ui/preview-skeleton/preview-skeleton.component";
+
+declare var Hls: any;
 
 @Component({
   selector: "app-tv",
@@ -35,11 +39,14 @@ import { DaysSelectorComponent } from "@shared/components/days-selector/days-sel
     TimelineSkeletonComponent,
     PlayerControlsComponent,
     DaysSelectorComponent,
+    PreviewSkeletonComponent,
   ],
   templateUrl: "./tv.component.html",
 })
 export class TvComponent implements OnInit {
   @ViewChildren("programBtn") programButtons!: QueryList<ElementRef>;
+  @ViewChild("previewPlayer", { static: false })
+  videoRef!: ElementRef<HTMLVideoElement>;
 
   // signals
   channels = signal<Channel[]>([]);
@@ -47,6 +54,7 @@ export class TvComponent implements OnInit {
   programs = signal<Program[] | null>(null);
   activeProgram = signal<Program | null>(null);
   loading = signal<boolean>(true);
+  previewLoading = signal<boolean>(true);
   programsLoading = signal<boolean>(true);
   playerData = signal<PlayerData | null>(null);
   previewPlayerData = signal<PlayerData | null>(null);
@@ -58,6 +66,8 @@ export class TvComponent implements OnInit {
   // parameters and timing
   tvParams: TvParams | null = null;
   channelsPage = 0;
+
+  hoveredChannelPosition: number = 0;
 
   constructor(
     private tvService: TvService,
@@ -85,7 +95,7 @@ export class TvComponent implements OnInit {
 
       this.playerData.set({
         file: this.activeChannel()!.stream,
-        poster: this.activeChannel()!.thumbnail,
+        poster: this.activeChannel()!.cover,
         autoplay: 1,
       });
     });
@@ -190,7 +200,7 @@ export class TvComponent implements OnInit {
     this.tvParams = null;
     this.playerData.set({
       file: this.activeChannel()!.stream,
-      poster: this.activeChannel()!.thumbnail,
+      poster: this.activeChannel()!.cover,
       autoplay: 1,
     });
 
@@ -201,9 +211,43 @@ export class TvComponent implements OnInit {
     this.setActiveProgram(this.findClosestProgram()!);
   }
 
-  hover(channel: Channel): void {}
+  hover(channel: Channel, event: MouseEvent): void {
+    this.hoveredChannelPosition = event.clientY - 20;
 
-  clearHover(): void {}
+    this.hoveredChannel.set(channel);
+    this.previewPlayerData.set({
+      file: channel.thumbnail,
+      poster: channel.cover,
+      autoplay: 1,
+    });
+
+    this.previewLoading.set(true);
+
+    setTimeout(() => {
+      if (!this.videoRef) return;
+      const video = this.videoRef.nativeElement;
+      video.muted = true;
+
+      video.style.width = "100%";
+      video.style.height = "100%";
+      video.style.objectFit = "cover";
+
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(channel.thumbnail);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = channel.thumbnail;
+        video.addEventListener("canplay", () => video.play());
+      }
+    });
+  }
+
+  clearHover(): void {
+    this.hoveredChannel.set(null);
+    this.previewPlayerData.set(null);
+  }
 
   // Private methods
   private initializeQueryParams(): void {
@@ -298,7 +342,7 @@ export class TvComponent implements OnInit {
             this.tvParams.stop!,
           )
         : this.activeChannel()!.stream,
-      poster: this.activeChannel()!.thumbnail,
+      poster: this.activeChannel()!.cover,
       autoplay: 1,
     });
 

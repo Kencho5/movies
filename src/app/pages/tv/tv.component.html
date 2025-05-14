@@ -146,6 +146,8 @@
                   activeChannel()?.id === channel.id,
               }"
               (click)="changeChannel(channel.id)"
+              (mouseenter)="hover(channel, $event)"
+              (mouseleave)="clearHover()"
             >
               <div class="flex items-center">
                 <div
@@ -178,6 +180,24 @@
         }
       </div>
     </div>
+    @if (hoveredChannel()) {
+      <div
+        class="fixed z-50 h-52 w-[245px] overflow-hidden rounded-lg shadow-xl"
+        [style.top.px]="hoveredChannelPosition"
+        style="left: calc(265px + 1rem)"
+      >
+        @if (previewLoading()) {
+          <app-preview-skeleton />
+        }
+        <video
+          #previewPlayer
+          (playing)="this.previewLoading.set(false)"
+          class="h-full w-full rounded-lg object-cover"
+          muted
+          autoplay
+        ></video>
+      </div>
+    }
 
     <!-- Overlay for mobile sidebar -->
     @if (sidebarOpen()) {
@@ -359,7 +379,7 @@
             <app-player
               [playerData]="playerData()"
               [playerClass]="'h-full w-full'"
-            ></app-player>
+            />
           }
         </div>
         <!--Player Controls-->
