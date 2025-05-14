@@ -40,6 +40,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
   activeProgram = signal<Program | null>(null);
   hoveredProgram = signal<Program | null>(null);
 
+  isFutureTime: boolean = false;
+
   ngOnInit() {
     this.timer = setInterval(() => {
       if (!this.playerService.isPlaying()) return;
@@ -58,12 +60,22 @@ export class TimelineComponent implements OnInit, OnDestroy {
     const { relativeX, percent } = this.getPositionData(event);
     const minutes = Math.floor(percent * this.DAY_MINUTES);
 
-    this.tooltipX.set(relativeX);
-    this.tooltipText.set(this.formatTooltipTime(minutes));
-    this.tooltipShown.set(true);
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    this.isFutureTime = minutes > currentMinutes;
+
+    if (!this.isFutureTime) {
+      this.tooltipX.set(relativeX);
+      this.tooltipText.set(this.formatTooltipTime(minutes));
+      this.tooltipShown.set(true);
+    } else {
+      this.tooltipShown.set(false);
+    }
   }
 
   setTime(event: MouseEvent): void {
+    if (this.isFutureTime) return;
+
     if (this.hoveredProgram()) {
       this.setTimeToProgram();
       return;

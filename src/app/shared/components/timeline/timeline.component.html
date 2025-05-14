@@ -65,7 +65,10 @@
   </div>
 
   <!-- Timeline with progress bar -->
-  <div class="relative cursor-pointer pb-4">
+  <div
+    class="relative cursor-pointer pb-4"
+    [ngClass]="{ 'cursor-not-allowed': isFutureTime }"
+  >
     <div
       class="relative h-1.5 w-full bg-neutral-800"
       (click)="setTime($event)"
@@ -106,7 +109,11 @@
       <!-- Program markers -->
       @for (program of programs; track program.start) {
         <div
-          class="absolute top-1/2 z-20 -ml-2.5 -translate-y-1/2 cursor-pointer rounded-full bg-bg-dark p-1"
+          class="absolute top-1/2 z-20 -ml-2.5 -translate-y-1/2 rounded-full bg-bg-dark p-1"
+          [ngClass]="{
+            'cursor-not-allowed': isFutureTime,
+            'cursor-pointer': !isFutureTime,
+          }"
           [style.left]="getProgramPosition(program)"
           (mouseover)="onProgramHover($event, program)"
           (click)="setTimeToProgram()"
