@@ -212,6 +212,8 @@ export class TvComponent implements OnInit {
   }
 
   hover(channel: Channel, event: MouseEvent): void {
+    if (window.innerWidth < 768) return;
+
     this.hoveredChannelPosition = event.clientY - 20;
 
     this.hoveredChannel.set(channel);
