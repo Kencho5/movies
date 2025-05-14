@@ -62,7 +62,12 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
-    this.isFutureTime = minutes > currentMinutes;
+    const programTime = new Date(this.selectedProgram?.start! * 1000);
+
+    this.isFutureTime =
+      minutes > currentMinutes &&
+      programTime.getDate() == now.getDate() &&
+      programTime.getMonth() == now.getMonth();
 
     if (!this.isFutureTime) {
       this.tooltipX.set(relativeX);
