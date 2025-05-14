@@ -7,8 +7,10 @@ import {
   signal,
   ViewChild,
 } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { PlayerService } from "@core/services/player.service";
 import { SharedModule } from "@shared/shared.module";
+import { isSameDay } from "app/utils/compareDates";
 
 interface Day {
   dateNumber: string;
@@ -23,7 +25,10 @@ interface Day {
   templateUrl: "./days-selector.component.html",
 })
 export class DaysSelectorComponent implements OnInit {
-  constructor(private playerService: PlayerService) {}
+  constructor(
+    private playerService: PlayerService,
+    private route: ActivatedRoute,
+  ) {}
 
   @ViewChild("scrollContainer") scrollContainer!: ElementRef;
 
@@ -58,16 +63,20 @@ export class DaysSelectorComponent implements OnInit {
   private generateDaysArray(): Day[] {
     const days: Day[] = [];
     const today = new Date();
+    const paramTimestamp = this.route.snapshot.queryParams["start"] * 1000;
+    const paramDate = paramTimestamp ? new Date(paramTimestamp) : null;
 
     for (let i = this.DAYS_TO_DISPLAY - 1; i >= 0; i--) {
       const date = this.getDateWithOffset(today, -i);
       const dayObject = this.createDayObject(date);
-
       days.push(dayObject);
-      if (date.toUTCString() == today.toUTCString())
-        this.activeDay.set(dayObject);
-    }
 
+      if (paramDate && isSameDay(paramDate, date)) {
+        this.activeDay.set(dayObject);
+      } else if (!paramDate && isSameDay(date, today)) {
+        this.activeDay.set(dayObject);
+      }
+    }
     return days.reverse();
   }
 

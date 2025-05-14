@@ -10,6 +10,7 @@ import {
 import { Program } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
 import { SharedModule } from "@shared/shared.module";
+import { isSameDay } from "app/utils/compareDates";
 
 @Component({
   selector: "app-timeline",
@@ -64,10 +65,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
     const programTime = new Date(this.selectedProgram?.start! * 1000);
 
-    this.isFutureTime =
-      minutes > currentMinutes &&
-      programTime.getDate() == now.getDate() &&
-      programTime.getMonth() == now.getMonth();
+    this.isFutureTime = minutes > currentMinutes && isSameDay(programTime, now);
 
     if (!this.isFutureTime) {
       this.tooltipX.set(relativeX);
