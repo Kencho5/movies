@@ -10,7 +10,6 @@ import {
 import { Program } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
 import { SharedModule } from "@shared/shared.module";
-import { timestamp } from "rxjs";
 
 @Component({
   selector: "app-timeline",

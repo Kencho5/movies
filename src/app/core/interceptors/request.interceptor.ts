@@ -6,7 +6,7 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
   const modifiedReq = req.clone({
     headers: req.headers.set(
       "Authorization",
-      "41|19z1p9h8BIGeNHjVFSwcU9P6p1LXDIl8L4PG05GM974ae1d4",
+      "Bearer 41|19z1p9h8BIGeNHjVFSwcU9P6p1LXDIl8L4PG05GM974ae1d4",
     ),
   });
 

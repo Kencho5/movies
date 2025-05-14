@@ -49,6 +49,8 @@ export class TvComponent implements OnInit {
   loading = signal<boolean>(true);
   programsLoading = signal<boolean>(true);
   playerData = signal<PlayerData | null>(null);
+  previewPlayerData = signal<PlayerData | null>(null);
+  hoveredChannel = signal<Channel | null>(null);
   sidebarOpen = signal<boolean>(false);
   programSidebarOpen = signal(false);
   isLive = computed(() => !this.playerService.start());
@@ -198,6 +200,10 @@ export class TvComponent implements OnInit {
     });
     this.setActiveProgram(this.findClosestProgram()!);
   }
+
+  hover(channel: Channel): void {}
+
+  clearHover(): void {}
 
   // Private methods
   private initializeQueryParams(): void {
