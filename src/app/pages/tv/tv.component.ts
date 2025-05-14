@@ -61,6 +61,7 @@ export class TvComponent implements OnInit {
   hoveredChannel = signal<Channel | null>(null);
   sidebarOpen = signal<boolean>(false);
   programSidebarOpen = signal(false);
+  programProgress = signal<number>(0);
   isLive = computed(() => !this.playerService.start());
 
   // parameters and timing

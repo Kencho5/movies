@@ -20,7 +20,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
   constructor(private playerService: PlayerService) {}
 
   @Input() programs!: Program[];
+  @Input() selectedProgram: Program | null = null;
   @Output() timeSet = new EventEmitter<number>();
+  @Output() programProgress = new EventEmitter<number>();
 
   // constants
   private readonly DAY_MINUTES = 1440;
@@ -42,6 +44,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.timer = setInterval(() => {
       if (!this.playerService.isPlaying()) return;
       this.updateTimeProgress();
+      this.updateProgramProgress();
     }, 1000);
   }
 
@@ -163,6 +166,18 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     this.updateCurrentTimeFromTimestamp(currentTime);
     this.secondsPassed++;
+  }
+
+  private updateProgramProgress(): void {
+    const totalMinutes =
+      (this.selectedProgram?.stop! - this.selectedProgram?.start!) / 60;
+    const currentTime = this.playerService.start()
+      ? this.playerService.start()
+      : Math.floor(Date.now() / 1000);
+
+    const minutesPassed = (currentTime - this.selectedProgram?.start!) / 60;
+
+    this.programProgress.emit((minutesPassed * 100) / totalMinutes);
   }
 
   private updateCurrentTimeFromTimestamp(timestamp: number): void {

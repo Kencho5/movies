@@ -261,7 +261,7 @@
             @for (program of programs(); track $index) {
               <button
                 #programBtn
-                class="flex h-[84px] w-full flex-col items-start justify-between p-4 transition-colors"
+                class="relative flex h-[84px] w-full flex-col items-start justify-between p-4 transition-colors"
                 [ngClass]="{
                   'bg-primary-500/10 hover:bg-primary-500/15':
                     activeProgram()?.start == program.start,
@@ -292,6 +292,13 @@
                 >
                   {{ program.title.text }}
                 </h3>
+
+                @if (program == activeProgram()) {
+                  <div
+                    class="absolute bottom-0 left-0 h-1 rounded-r-full bg-gradient-to-r from-primary-700 to-primary-500"
+                    [style.width.%]="programProgress()"
+                  ></div>
+                }
               </button>
             }
           </div>
@@ -392,7 +399,12 @@
     </div>
   </div>
   @if (programs()) {
-    <app-timeline [programs]="programs()!" (timeSet)="timeSet($event)" />
+    <app-timeline
+      [programs]="programs()!"
+      [selectedProgram]="activeProgram()"
+      (timeSet)="timeSet($event)"
+      (programProgress)="programProgress.set($event)"
+    />
   } @else {
     <app-timeline-skeleton />
   }
