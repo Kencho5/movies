@@ -1,6 +1,6 @@
 <div class="flex w-full flex-col">
   <div
-    class="flex h-[calc(100vh-104px)] flex-col bg-gradient-to-br from-bg-dark to-bg-card/80 text-white md:h-[calc(100vh-69px)] md:flex-row xl:h-[calc(100vh-223px)]"
+    class="flex h-[calc(100vh-104px)] flex-col bg-gradient-to-br from-bg-dark to-bg-card/80 text-white md:h-[calc(100vh-133px)] md:flex-row xl:h-[calc(100vh-223px)]"
   >
     <!-- Mobile header with menu button -->
     <div
@@ -146,8 +146,6 @@
                   activeChannel()?.id === channel.id,
               }"
               (click)="changeChannel(channel.id)"
-              (mouseenter)="hover(channel, $event)"
-              (mouseleave)="clearHover()"
             >
               <div class="flex items-center">
                 <div
@@ -169,6 +167,8 @@
               </div>
               <div
                 class="flex items-center gap-1 rounded-full bg-red-500/20 px-2 py-0.5 shadow-lg shadow-red-500/10"
+                (mouseenter)="hover(channel, $event)"
+                (mouseleave)="clearHover()"
               >
                 <span
                   class="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500"
