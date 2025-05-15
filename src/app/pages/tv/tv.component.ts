@@ -79,6 +79,9 @@ export class TvComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeQueryParams();
+    if (this.tvParams?.channel! > 100)
+      this.channelsPage = Math.floor(Number(this.tvParams?.channel! / 100));
+
     this.loadChannels();
   }
 
