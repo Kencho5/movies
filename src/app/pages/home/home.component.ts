@@ -48,4 +48,20 @@ export class HomeComponent implements OnInit {
   get randomYear(): string {
     return (Math.floor(Math.random() * (2024 - 2000 + 1)) + 2000).toString();
   }
+
+  scrollCarousel(carouselId: string, direction: 'left' | 'right'): void {
+    const carousel = document.getElementById(carouselId);
+    if (carousel) {
+      const scrollAmount = 300; // Adjust scroll distance as needed
+      const currentScroll = carousel.scrollLeft;
+      const targetScroll = direction === 'left' 
+        ? currentScroll - scrollAmount 
+        : currentScroll + scrollAmount;
+      
+      carousel.scrollTo({
+        left: targetScroll,
+        behavior: 'smooth'
+      });
+    }
+  }
 }
