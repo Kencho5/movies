@@ -1,7 +1,7 @@
 import { Component, signal } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { TitleResponse } from "@core/interfaces/title";
-import { HomeService } from "@core/services/home.service";
+import { MovieService } from "@core/services/movie.service";
 import { PlayerComponent } from "@shared/components/player/player.component";
 import { SharedModule } from "@shared/shared.module";
 import { PlayerData } from "@core/interfaces/player";
@@ -14,7 +14,7 @@ import { PlayerData } from "@core/interfaces/player";
 export class MovieComponent {
   constructor(
     private route: ActivatedRoute,
-    private homeService: HomeService,
+    private movieService: MovieService,
   ) {}
 
   movieID: string = "";
@@ -27,8 +27,9 @@ export class MovieComponent {
 
   ngOnInit() {
     this.movieID = this.route.snapshot.paramMap.get("id")!;
-    this.homeService.getMovie(this.movieID).subscribe((res) => {
+    this.movieService.getMovie(this.movieID).subscribe((res) => {
       this.movie.set(res);
+      console.log(res);
 
       this.playerData.set({
         file: this.movie()!.title.videos[0].src || null,

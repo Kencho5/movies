@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from "@angular/core";
-import { HomeService } from "@core/services/home.service";
+import { MovieService } from "@core/services/movie.service";
 import { SharedModule } from "@shared/shared.module";
 import { Movie } from "@core/interfaces/movies";
 import { LoadingDotsComponent } from "@shared/components/ui/loading-dots/loading-dots.component";
@@ -15,10 +15,10 @@ export class HomeComponent implements OnInit {
   movies = signal<Movie[]>([]);
   loading = signal<boolean>(true);
 
-  constructor(private homeService: HomeService) {}
+  constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.homeService
+    this.movieService
       .getMovies()
       .pipe(
         catchError((error) => {

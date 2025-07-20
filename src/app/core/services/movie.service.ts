@@ -8,7 +8,7 @@ import { Observable } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class HomeService {
+export class MovieService {
   constructor(private http: HttpClient) {}
 
   getMovies(): Observable<MoviesResponse> {
