@@ -1,6 +1,5 @@
 import { Component, signal } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { TitleResponse } from "@core/interfaces/title";
 import { MovieService } from "@core/services/movie.service";
 import { PlayerComponent } from "@shared/components/player/player.component";
 import { SharedModule } from "@shared/shared.module";
@@ -18,7 +17,7 @@ export class MovieComponent {
   ) {}
 
   movieID: string = "";
-  movie = signal<TitleResponse | null>(null);
+  movie = signal<any | null>(null);
   playerData = signal<PlayerData>({
     file: "",
     poster: "",
@@ -29,7 +28,6 @@ export class MovieComponent {
     this.movieID = this.route.snapshot.paramMap.get("id")!;
     this.movieService.getMovie(this.movieID).subscribe((res) => {
       this.movie.set(res);
-      console.log(res);
 
       this.playerData.set({
         file: this.movie()!.title.videos[0].src || null,

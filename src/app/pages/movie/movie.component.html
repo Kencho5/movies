@@ -1,64 +1,97 @@
-<div class="bg-bg-dark min-h-screen text-white">
-  <div class="relative">
-    @if (movie()) {
+<div
+  class="min-h-screen bg-gradient-to-b from-bg-dark to-bg-dark/95 text-white"
+>
+  <!-- Video Player Section (Refined size) -->
+  <div class="container mx-auto px-4 pt-6 md:px-6">
+    @if (playerData().file) {
       <div
-        class="relative h-[50vh] w-full overflow-hidden sm:h-[60vh] md:h-[70vh]"
+        class="relative overflow-hidden rounded-xl shadow-[0_0_25px_rgba(10,132,255,0.15)]"
       >
+        <!-- Player (reduced size) -->
+        <app-player
+          [playerData]="playerData()"
+          [playerClass]="
+            'w-full aspect-[16/9] md:aspect-[2/1] lg:aspect-[21/9] bg-black'
+          "
+        ></app-player>
+
+        <!-- Subtle control overlay -->
         <div
-          class="from-bg-dark via-bg-dark/80 absolute inset-0 bg-gradient-to-t to-transparent"
+          class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-bg-dark/90 to-transparent"
         ></div>
-        <div
-          class="from-bg-dark absolute inset-0 bg-gradient-to-r to-transparent"
-        ></div>
-        <img
-          [src]="movie()!.title.backdrop"
-          [alt]="movie()!.title.name"
-          class="h-full w-full object-cover object-center"
-        />
       </div>
     } @else {
+      <!-- Placeholder when no video -->
       <div
-        class="from-bg-highlight to-bg-dark animate-pulse-subtle h-[50vh] w-full bg-gradient-to-b sm:h-[60vh] md:h-[70vh]"
-      ></div>
+        class="relative flex aspect-[16/9] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-bg-highlight/30 to-bg-dark shadow-[0_0_25px_rgba(10,132,255,0.15)] md:aspect-[2/1] lg:aspect-[21/9]"
+      >
+        <div class="rounded-2xl bg-bg-dark/30 p-6 text-center backdrop-blur-sm">
+          <svg
+            class="mx-auto mb-2 h-10 w-10 text-primary-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <p class="text-sm text-neutral-300">Video preview unavailable</p>
+        </div>
+
+        <!-- Backdrop Image as fallback with blur -->
+        @if (movie() && movie()!.title.backdrop) {
+          <img
+            [src]="movie()!.title.backdrop"
+            [alt]="movie()!.title.name"
+            class="absolute inset-0 z-[-1] h-full w-full object-cover object-center opacity-20"
+          />
+        }
+      </div>
     }
   </div>
 
-  <!-- Content Section -->
-  <div class="container mx-auto px-4 py-6 sm:py-8 md:px-8">
-    <!-- Content Wrapper -->
-    <div
-      class="bg-bg-card/70 relative -mt-24 rounded-2xl p-4 backdrop-blur-xl sm:-mt-32 sm:p-6 md:-mt-48 md:p-8 lg:-mt-64"
-    >
-      @if (movie()) {
-        <div class="flex flex-col gap-6 sm:gap-8 md:flex-row">
-          <!-- Poster with Glassmorphism Effect -->
-          <div
-            class="mx-auto max-w-[250px] flex-shrink-0 sm:w-2/5 md:mx-0 md:w-1/3 lg:w-1/4"
-          >
-            <div
-              class="relative overflow-hidden rounded-xl shadow-2xl transition duration-300 hover:scale-[1.02]"
+  <!-- Main Content -->
+  <div class="container mx-auto px-4 md:px-6">
+    @if (movie()) {
+      <!-- Title and Quick Actions Section -->
+      <div class="py-6">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <!-- Title -->
+          <div class="min-w-0 flex-1">
+            <h1
+              class="text-2xl font-bold tracking-tight text-white/95 md:text-3xl"
             >
-              <img
-                [src]="movie()!.title.poster"
-                [alt]="movie()!.title.name"
-                class="w-full object-cover"
-              />
-              <div
-                class="absolute inset-0 rounded-xl ring-1 ring-white/10"
-              ></div>
-            </div>
+              {{ movie()!.title.name }}
+            </h1>
 
-            <!-- Rating Badge -->
-            @if (movie()!.title.rating) {
-              <div
-                class="mt-4 flex items-center justify-center gap-2 md:justify-start"
-              >
-                <div class="flex items-center gap-1">
+            @if (movie()!.title.tagline) {
+              <p class="mt-1 text-sm italic text-neutral-300">
+                "{{ movie()!.title.tagline }}"
+              </p>
+            }
+
+            <!-- Quick Stats -->
+            <div
+              class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm"
+            >
+              @if (movie()!.title.rating) {
+                <div
+                  class="flex items-center gap-1.5 rounded-full bg-primary-500/10 px-2 py-0.5 backdrop-blur-sm"
+                >
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="text-primary-500 h-4 w-4 sm:h-5 sm:w-5"
-                    viewBox="0 0 20 20"
+                    class="h-4 w-4 text-primary-400"
                     fill="currentColor"
+                    viewBox="0 0 20 20"
                   >
                     <path
                       d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
@@ -66,205 +99,499 @@
                   </svg>
                   <span class="font-medium">{{ movie()!.title.rating }}</span>
                 </div>
-                <span class="text-xs text-neutral-400"
-                  >({{ movie()!.title.vote_count }} votes)</span
+              }
+
+              <span class="text-neutral-400">{{ movie()!.title.year }}</span>
+
+              @if (movie()!.title.runtime) {
+                <span class="text-neutral-400"
+                  >{{ movie()!.title.runtime }}m</span
                 >
+              }
+
+              @if (movie()!.title.certification) {
+                <span
+                  class="inline-block rounded bg-neutral-800/70 px-1.5 py-0.5 text-xs font-medium backdrop-blur-sm"
+                >
+                  {{ movie()!.title.certification | uppercase }}
+                </span>
+              }
+            </div>
+          </div>
+
+          <!-- Watch Button -->
+          <div>
+            <button
+              class="flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-primary-600 to-primary-500 px-5 py-2.5 text-sm font-medium shadow-[0_2px_10px_rgba(10,132,255,0.25)] transition-all duration-300 hover:from-primary-500 hover:to-primary-400 hover:shadow-[0_2px_15px_rgba(10,132,255,0.4)]"
+            >
+              <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Watch Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="grid grid-cols-1 gap-8 pb-12 lg:grid-cols-7">
+        <!-- Poster Column (Smaller) -->
+        <div class="lg:col-span-2">
+          <div class="sticky top-6 space-y-5">
+            <!-- Poster Card with glow -->
+            <div
+              class="group relative overflow-hidden rounded-lg shadow-[0_5px_30px_rgba(0,0,0,0.7)]"
+            >
+              <!-- Subtle glow effect -->
+              <div
+                class="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary-600/20 to-primary-400/0 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100"
+              ></div>
+
+              <div
+                class="relative aspect-[2/3] overflow-hidden bg-gradient-to-br from-bg-card to-bg-dark"
+              >
+                <img
+                  [src]="movie()!.title.poster"
+                  [alt]="movie()!.title.name"
+                  class="h-full w-full object-cover transition-all duration-700 group-hover:scale-105"
+                />
+              </div>
+
+              <!-- Rating Details -->
+              @if (movie()!.title.rating) {
+                <div
+                  class="bg-gradient-to-b from-bg-card/90 to-bg-card/70 p-4 backdrop-blur-sm"
+                >
+                  <div class="flex items-center gap-2">
+                    <svg
+                      class="h-5 w-5 text-primary-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
+                    </svg>
+                    <div>
+                      <span class="font-semibold">{{
+                        movie()!.title.rating
+                      }}</span>
+                      <span class="text-sm text-neutral-400">/10</span>
+                    </div>
+                  </div>
+                  <p class="mt-1 text-xs text-neutral-400">
+                    {{ movie()!.title.vote_count | number }} votes
+                  </p>
+                </div>
+              }
+            </div>
+
+            <!-- External Links -->
+            <div
+              class="rounded-lg bg-gradient-to-br from-bg-card/70 to-bg-card/40 p-4 backdrop-blur-sm"
+            >
+              <h3 class="mb-3 text-sm font-medium text-neutral-200">Links</h3>
+              <div class="flex gap-3">
+                @if (movie()!.title.imdb_id) {
+                  <a
+                    [href]="
+                      'https://www.imdb.com/title/' + movie()!.title.imdb_id
+                    "
+                    target="_blank"
+                    class="from-yellow-500/20 to-yellow-500/10 hover:from-yellow-500/30 hover:to-yellow-500/20 text-yellow-300 border-yellow-500/20 flex-1 rounded border bg-gradient-to-br px-3 py-1.5 text-center text-xs font-medium transition-all duration-300"
+                  >
+                    IMDb
+                  </a>
+                }
+                @if (movie()!.title.tmdb_id) {
+                  <a
+                    [href]="
+                      'https://www.themoviedb.org/movie/' +
+                      movie()!.title.tmdb_id
+                    "
+                    target="_blank"
+                    class="flex-1 rounded border border-primary-600/20 bg-gradient-to-br from-primary-600/20 to-primary-600/10 px-3 py-1.5 text-center text-xs font-medium text-primary-300 transition-all duration-300 hover:from-primary-600/30 hover:to-primary-600/20"
+                  >
+                    TMDB
+                  </a>
+                }
+              </div>
+            </div>
+
+            <!-- Status if available -->
+            @if (movie()!.title.status) {
+              <div
+                class="rounded-lg bg-gradient-to-br from-bg-card/70 to-bg-card/40 p-4 backdrop-blur-sm"
+              >
+                <h3 class="mb-3 text-sm font-medium text-neutral-200">
+                  Status
+                </h3>
+                <span
+                  class="from-green-600/20 to-green-600/10 text-green-300 border-green-600/20 inline-block rounded-full border bg-gradient-to-r px-3 py-1 text-xs font-medium"
+                >
+                  {{ movie()!.title.status | titlecase }}
+                </span>
               </div>
             }
           </div>
+        </div>
 
-          <!-- Content Details -->
-          <div class="mt-4 flex flex-col md:mt-0">
-            <!-- Title and Metadata -->
-            <h1
-              class="text-center text-2xl font-bold tracking-tight sm:text-3xl md:text-left md:text-4xl lg:text-5xl"
-            >
-              {{ movie()!.title.name }}
-            </h1>
-
-            <!-- Metadata Pills -->
-            <div
-              class="mt-3 flex flex-wrap justify-center gap-2 md:justify-start"
-            >
-              <span
-                class="bg-bg-highlight rounded-full px-3 py-1 text-xs font-medium"
-              >
-                {{ movie()!.title.release_date }}
-              </span>
-              @if (movie()!.title.runtime) {
-                <span
-                  class="bg-bg-highlight rounded-full px-3 py-1 text-xs font-medium"
-                >
-                  {{ movie()!.title.runtime }} min
-                </span>
-              }
-              @if (movie()!.title.certification) {
-                <span
-                  class="rounded-full border border-neutral-500 px-3 py-1 text-xs font-medium"
-                >
-                  {{ movie()!.title.certification }}
-                </span>
-              }
-              @if (movie()!.title.language) {
-                <span
-                  class="bg-bg-highlight rounded-full px-3 py-1 text-xs font-medium"
-                >
-                  {{ movie()!.title.language }}
-                </span>
-              }
-            </div>
-
-            <!-- Tagline -->
-            @if (movie()!.title.tagline) {
-              <p class="mt-2 text-center italic text-neutral-400 md:text-left">
-                "{{ movie()!.title.tagline }}"
-              </p>
-            }
-
-            <!-- Description -->
-            <p class="mt-4 text-base leading-relaxed sm:mt-6 sm:text-lg">
+        <!-- Main Details Column -->
+        <div class="space-y-8 lg:col-span-5">
+          <!-- About & Description -->
+          <div
+            class="rounded-lg bg-gradient-to-br from-bg-card/50 to-bg-card/20 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)] backdrop-blur-sm"
+          >
+            <h2 class="mb-4 text-lg font-medium text-white/90">Synopsis</h2>
+            <p class="leading-relaxed text-neutral-300">
               {{ movie()!.title.description }}
             </p>
 
-            <!-- Action Buttons -->
+            <!-- Genres & Keywords -->
             <div
-              class="mt-6 flex flex-wrap justify-center gap-3 sm:mt-8 md:justify-start"
+              class="mt-5 flex flex-wrap gap-x-8 gap-y-5 border-t border-neutral-800/50 pt-5 text-sm"
             >
-              <button
-                class="bg-primary-600 hover:bg-primary-500 flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all sm:px-6 sm:py-3 sm:text-base"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 sm:h-5 sm:w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                <span>Watch Now</span>
-              </button>
-              <button
-                class="hover:bg-bg-highlight flex items-center gap-2 rounded-full border border-neutral-400 px-5 py-2.5 text-sm font-medium transition-all sm:px-6 sm:py-3 sm:text-base"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 sm:h-5 sm:w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                  <path
-                    fill-rule="evenodd"
-                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                <span>Trailer</span>
-              </button>
-              <button
-                class="hover:bg-bg-highlight flex items-center gap-2 rounded-full border border-neutral-400 px-5 py-2.5 text-sm font-medium transition-all sm:px-6 sm:py-3 sm:text-base"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 sm:h-5 sm:w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
-                </svg>
-                <span>Add to List</span>
-              </button>
+              <!-- Genres -->
+              @if (movie()!.title.genres && movie()!.title.genres.length > 0) {
+                <div>
+                  <h3
+                    class="mb-2.5 text-xs font-medium uppercase text-primary-300"
+                  >
+                    Genres
+                  </h3>
+                  <div class="flex flex-wrap gap-1.5">
+                    @for (genre of movie()!.title.genres; track genre.id) {
+                      <span
+                        class="rounded-full border border-primary-600/30 bg-gradient-to-r from-primary-600/20 to-primary-500/10 px-2.5 py-1 text-xs text-primary-300"
+                      >
+                        {{ genre.display_name }}
+                      </span>
+                    }
+                  </div>
+                </div>
+              }
+
+              <!-- Keywords -->
+              @if (
+                movie()!.title.keywords && movie()!.title.keywords.length > 0
+              ) {
+                <div>
+                  <h3
+                    class="mb-2.5 text-xs font-medium uppercase text-primary-300"
+                  >
+                    Keywords
+                  </h3>
+                  <div class="flex flex-wrap gap-1.5">
+                    @for (
+                      keyword of movie()!.title.keywords.slice(0, 6);
+                      track keyword.id
+                    ) {
+                      <span
+                        class="cursor-default rounded-full bg-gradient-to-r from-neutral-700/50 to-neutral-800/30 px-2.5 py-1 text-xs transition-all duration-300 hover:from-neutral-700/70 hover:to-neutral-700/50"
+                      >
+                        {{ keyword.display_name }}
+                      </span>
+                    }
+                  </div>
+                </div>
+              }
             </div>
           </div>
-        </div>
-      } @else {
-        <!-- Loading Skeleton -->
-        <div class="flex flex-col gap-6 sm:gap-8 md:flex-row">
-          <div class="mx-auto max-w-[250px] sm:w-2/5 md:mx-0 md:w-1/3 lg:w-1/4">
+
+          <!-- Cast Section with subtle gradient -->
+          @if (movie()!.credits?.actors && movie()!.credits.actors.length > 0) {
             <div
-              class="animate-pulse-subtle aspect-[2/3] rounded-xl bg-neutral-700"
-            ></div>
-          </div>
-          <div class="mt-4 flex flex-1 flex-col gap-4 md:mt-0">
-            <div
-              class="animate-pulse-subtle mx-auto h-8 w-full rounded-lg bg-neutral-700 sm:h-10 md:mx-0 md:h-12 md:w-3/4"
-            ></div>
-            <div class="flex flex-wrap justify-center gap-2 md:justify-start">
-              <div
-                class="animate-pulse-subtle h-6 w-16 rounded-full bg-neutral-700"
-              ></div>
-              <div
-                class="animate-pulse-subtle h-6 w-16 rounded-full bg-neutral-700"
-              ></div>
-            </div>
-            <div
-              class="animate-pulse-subtle mx-auto mt-2 h-4 w-2/3 rounded bg-neutral-700 md:mx-0 md:w-1/3"
-            ></div>
-            <div class="mt-4 space-y-2">
-              <div
-                class="animate-pulse-subtle h-5 w-full rounded bg-neutral-700"
-              ></div>
-              <div
-                class="animate-pulse-subtle h-5 w-full rounded bg-neutral-700"
-              ></div>
-              <div
-                class="animate-pulse-subtle h-5 w-full rounded bg-neutral-700 sm:w-5/6"
-              ></div>
-            </div>
-            <div
-              class="mt-6 flex flex-wrap justify-center gap-3 md:justify-start"
+              class="rounded-lg bg-gradient-to-br from-bg-card/50 to-bg-card/20 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)] backdrop-blur-sm"
             >
+              <div class="mb-5 flex items-center justify-between">
+                <h2 class="text-lg font-medium text-white/90">Cast</h2>
+                <button
+                  class="text-xs font-medium text-primary-400 hover:text-primary-300"
+                >
+                  View All
+                </button>
+              </div>
+
               <div
-                class="animate-pulse-subtle h-10 w-32 rounded-full bg-neutral-700 sm:h-12 sm:w-36"
-              ></div>
-              <div
-                class="animate-pulse-subtle h-10 w-28 rounded-full bg-neutral-700 sm:h-12 sm:w-32"
-              ></div>
+                class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+              >
+                @for (
+                  actor of movie()!.credits.actors.slice(0, 6);
+                  track actor.id
+                ) {
+                  <div class="group">
+                    <div
+                      class="mb-2 aspect-[2/3] overflow-hidden rounded-md bg-gradient-to-br from-bg-highlight/50 to-bg-dark shadow-lg"
+                    >
+                      @if (actor.poster) {
+                        <img
+                          [src]="actor.poster"
+                          [alt]="actor.name"
+                          class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:opacity-80"
+                        />
+                      } @else {
+                        <div class="flex h-full items-center justify-center">
+                          <svg
+                            class="h-8 w-8 text-neutral-600"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      }
+                    </div>
+                    <h3
+                      class="truncate text-xs font-medium leading-tight text-white/90"
+                    >
+                      {{ actor.name }}
+                    </h3>
+                    @if (actor.pivot?.character) {
+                      <p class="truncate text-xs text-neutral-400">
+                        {{ actor.pivot.character }}
+                      </p>
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          </div>
-        </div>
-      }
+          }
 
-      <!-- Video Player -->
-      <div class="mt-8 sm:mt-10 md:mt-12">
-        <h2 class="mb-3 text-xl font-bold sm:mb-4 sm:text-2xl">Watch Now</h2>
-
-        @if (playerData().file) {
-          <app-player
-            [playerData]="playerData()"
-            [playerClass]="
-              'aspect-video w-full overflow-hidden rounded-xl bg-black shadow-2xl'
-            "
-          ></app-player>
-        } @else {
+          <!-- Additional details section -->
           <div
-            class="bg-bg-highlight/20 flex aspect-video w-full flex-col items-center justify-center overflow-hidden rounded-xl p-6 text-center shadow-2xl"
+            class="rounded-lg bg-gradient-to-br from-bg-card/50 to-bg-card/20 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)] backdrop-blur-sm"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="mb-4 h-16 w-16 text-neutral-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            <h2 class="mb-5 text-lg font-medium text-white/90">Details</h2>
+
+            <div
+              class="grid grid-cols-2 gap-x-8 gap-y-5 text-sm md:grid-cols-3"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-              />
-            </svg>
-            <h3 class="mb-2 text-lg font-medium">Stream Unavailable</h3>
-            <p class="max-w-md text-neutral-400">
-              The video file for this stream is currently unavailable
-            </p>
+              <!-- Director -->
+              @if (
+                movie()!.credits?.directing &&
+                movie()!.credits.directing.length > 0
+              ) {
+                <div>
+                  <dt
+                    class="mb-1.5 text-xs font-medium uppercase text-primary-300"
+                  >
+                    Director
+                  </dt>
+                  <dd class="text-white/90">
+                    @for (
+                      director of movie()!.credits.directing;
+                      track director.id;
+                      let isLast = $last
+                    ) {
+                      <span>{{ director.name }}</span>
+                      @if (!isLast) {
+                        <span>, </span>
+                      }
+                    }
+                  </dd>
+                </div>
+              }
+
+              <!-- Writers -->
+              @if (
+                movie()!.credits?.writing && movie()!.credits.writing.length > 0
+              ) {
+                <div>
+                  <dt
+                    class="mb-1.5 text-xs font-medium uppercase text-primary-300"
+                  >
+                    Writers
+                  </dt>
+                  <dd class="text-white/90">
+                    @for (
+                      writer of movie()!.credits.writing.slice(0, 3);
+                      track writer.id;
+                      let isLast = $last
+                    ) {
+                      <span>{{ writer.name }}</span>
+                      @if (!isLast) {
+                        <span>, </span>
+                      }
+                    }
+                  </dd>
+                </div>
+              }
+
+              <!-- Release Date -->
+              <div>
+                <dt
+                  class="mb-1.5 text-xs font-medium uppercase text-primary-300"
+                >
+                  Release Date
+                </dt>
+                <dd class="text-white/90">
+                  {{ movie()!.title.release_date | date: "mediumDate" }}
+                </dd>
+              </div>
+
+              <!-- Runtime -->
+              @if (movie()!.title.runtime) {
+                <div>
+                  <dt
+                    class="mb-1.5 text-xs font-medium uppercase text-primary-300"
+                  >
+                    Runtime
+                  </dt>
+                  <dd class="text-white/90">
+                    {{ movie()!.title.runtime }} minutes
+                  </dd>
+                </div>
+              }
+
+              <!-- Language -->
+              @if (movie()!.title.language) {
+                <div>
+                  <dt
+                    class="mb-1.5 text-xs font-medium uppercase text-primary-300"
+                  >
+                    Language
+                  </dt>
+                  <dd class="text-white/90">{{ movie()!.title.language }}</dd>
+                </div>
+              }
+
+              <!-- Country -->
+              @if (
+                movie()!.title.production_countries &&
+                movie()!.title.production_countries.length > 0
+              ) {
+                <div>
+                  <dt
+                    class="mb-1.5 text-xs font-medium uppercase text-primary-300"
+                  >
+                    Country
+                  </dt>
+                  <dd class="text-white/90">
+                    @for (
+                      country of movie()!.title.production_countries;
+                      track country.id;
+                      let isLast = $last
+                    ) {
+                      <span>{{ country.display_name }}</span>
+                      @if (!isLast) {
+                        <span>, </span>
+                      }
+                    }
+                  </dd>
+                </div>
+              }
+
+              <!-- Budget -->
+              @if (movie()!.title.budget && movie()!.title.budget > 0) {
+                <div>
+                  <dt
+                    class="mb-1.5 text-xs font-medium uppercase text-primary-300"
+                  >
+                    Budget
+                  </dt>
+                  <dd class="text-white/90">
+                    ${{ movie()!.title.budget | number: "1.0-0" }}
+                  </dd>
+                </div>
+              }
+
+              <!-- Revenue -->
+              @if (movie()!.title.revenue && movie()!.title.revenue > 0) {
+                <div>
+                  <dt
+                    class="mb-1.5 text-xs font-medium uppercase text-primary-300"
+                  >
+                    Box Office
+                  </dt>
+                  <dd class="text-white/90">
+                    ${{ movie()!.title.revenue | number: "1.0-0" }}
+                  </dd>
+                </div>
+              }
+
+              <!-- Popularity -->
+              @if (movie()!.title.popularity) {
+                <div>
+                  <dt
+                    class="mb-1.5 text-xs font-medium uppercase text-primary-300"
+                  >
+                    Popularity
+                  </dt>
+                  <dd class="text-white/90">
+                    {{ movie()!.title.popularity | number: "1.1-1" }}
+                  </dd>
+                </div>
+              }
+
+              <!-- Views -->
+              @if (movie()!.title.views) {
+                <div>
+                  <dt
+                    class="mb-1.5 text-xs font-medium uppercase text-primary-300"
+                  >
+                    Views
+                  </dt>
+                  <dd class="text-white/90">
+                    {{ movie()!.title.views | number }}
+                  </dd>
+                </div>
+              }
+            </div>
           </div>
-        }
+        </div>
       </div>
-    </div>
+    } @else {
+      <!-- Refined Loading State with subtle gradients -->
+      <div class="space-y-8 py-8">
+        <!-- Title Skeleton -->
+        <div class="space-y-4">
+          <div
+            class="h-6 w-1/3 animate-pulse-subtle rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+          ></div>
+          <div class="flex gap-4">
+            <div
+              class="h-3 w-16 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+            ></div>
+            <div
+              class="h-3 w-16 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Content Skeleton -->
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-7">
+          <div class="lg:col-span-2">
+            <div
+              class="aspect-[2/3] animate-pulse-subtle rounded-lg bg-gradient-to-br from-bg-highlight/30 to-bg-dark shadow-lg"
+            ></div>
+          </div>
+          <div class="space-y-6 lg:col-span-5">
+            <div
+              class="rounded-lg bg-gradient-to-br from-bg-card/30 to-bg-card/10 p-6 backdrop-blur-sm"
+            >
+              <div class="space-y-3">
+                <div
+                  class="h-4 w-full animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                ></div>
+                <div
+                  class="h-4 w-full animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                ></div>
+                <div
+                  class="h-4 w-3/4 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
   </div>
 </div>

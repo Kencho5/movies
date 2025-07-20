@@ -35,6 +35,30 @@ module.exports = {
         600: "#d10913",
         700: "#b00710",
       },
+      // Add yellow colors for IMDb elements
+      yellow: {
+        100: "#fff9c2",
+        200: "#fff085",
+        300: "#ffe047",
+        400: "#ffd11a",
+        500: "#f5c518", // IMDb yellow
+        600: "#d9b00d",
+        700: "#b08800",
+        800: "#8c6900",
+        900: "#6b4f00",
+      },
+      // Add green colors for status indicators
+      green: {
+        100: "#dcfce7",
+        200: "#bbf7d0",
+        300: "#86efac",
+        400: "#4ade80",
+        500: "#22c55e",
+        600: "#16a34a",
+        700: "#15803d",
+        800: "#166534",
+        900: "#14532d",
+      },
       // Background colors
       bg: {
         dark: "#0e0f12", // Main background

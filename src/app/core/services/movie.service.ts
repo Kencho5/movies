@@ -1,7 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { MoviesResponse } from "@core/interfaces/movies";
-import { TitleResponse } from "@core/interfaces/title";
 import { apiUrl } from "app/utils/buildUrl";
 import { Observable } from "rxjs";
 
@@ -19,9 +18,7 @@ export class MovieService {
     );
   }
 
-  getMovie(id: string): Observable<TitleResponse> {
-    return this.http.get<TitleResponse>(
-      apiUrl(`titles/${id}?loader=titlePage`),
-    );
+  getMovie(id: string): Observable<any> {
+    return this.http.get<any>(apiUrl(`titles/${id}?loader=titlePage`));
   }
 }
