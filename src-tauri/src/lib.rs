@@ -1,9 +1,6 @@
 #[tauri::command]
-fn toggle_fullscreen(window: tauri::Window) -> Result<(), String> {
-    let is_fullscreen = window.is_fullscreen().map_err(|e| e.to_string())?;
-    window
-        .set_fullscreen(!is_fullscreen)
-        .map_err(|e| e.to_string())?;
+fn toggle_fullscreen(_window: tauri::Window) -> Result<(), String> {
+    // Fullscreen toggle not available on mobile platforms
     Ok(())
 }
 

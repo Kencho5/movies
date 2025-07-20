@@ -8,7 +8,6 @@ import { of } from "rxjs";
 
 @Component({
   selector: "app-home",
-  standalone: true,
   imports: [SharedModule, LoadingDotsComponent],
   templateUrl: "./home.component.html",
 })
@@ -49,18 +48,19 @@ export class HomeComponent implements OnInit {
     return (Math.floor(Math.random() * (2024 - 2000 + 1)) + 2000).toString();
   }
 
-  scrollCarousel(carouselId: string, direction: 'left' | 'right'): void {
+  scrollCarousel(carouselId: string, direction: "left" | "right"): void {
     const carousel = document.getElementById(carouselId);
     if (carousel) {
-      const scrollAmount = 300; // Adjust scroll distance as needed
+      const scrollAmount = 500;
       const currentScroll = carousel.scrollLeft;
-      const targetScroll = direction === 'left' 
-        ? currentScroll - scrollAmount 
-        : currentScroll + scrollAmount;
-      
+      const targetScroll =
+        direction === "left"
+          ? currentScroll - scrollAmount
+          : currentScroll + scrollAmount;
+
       carousel.scrollTo({
         left: targetScroll,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }
   }
