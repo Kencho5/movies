@@ -43,7 +43,7 @@
 
 html,
 body {
-  overscroll-behavior: none;
+  overscroll-behavior-y: none;
   background-color: #0e0f12;
 }
 

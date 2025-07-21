@@ -323,7 +323,7 @@
                   actor of movie()!.credits.actors.slice(0, 6);
                   track actor.id
                 ) {
-                  <div class="group">
+                  <a [routerLink]="['/people', actor.id]" class="group">
                     <div
                       class="mb-2 aspect-[2/3] overflow-hidden rounded-md bg-gradient-to-br from-bg-highlight/50 to-bg-dark shadow-lg"
                     >
@@ -359,7 +359,7 @@
                         {{ actor.pivot.character }}
                       </p>
                     }
-                  </div>
+                  </a>
                 }
               </div>
             </div>

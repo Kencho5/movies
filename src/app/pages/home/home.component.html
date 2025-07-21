@@ -2,18 +2,26 @@
   <!-- Featured Hero Section -->
   <section class="relative mb-12 sm:mb-16 md:mb-20">
     @if (loading()) {
-      <div class="relative h-[60vh] w-full overflow-hidden rounded-2xl bg-bg-card md:h-[65vh] lg:h-[70vh]">
+      <div
+        class="relative h-[60vh] w-full overflow-hidden rounded-2xl bg-bg-card md:h-[65vh] lg:h-[70vh]"
+      >
         <!-- Background shimmer -->
-        <div class="absolute inset-0 animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
-        
+        <div
+          class="absolute inset-0 animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
+        ></div>
+
         <!-- Loading content -->
         <div class="absolute inset-0 flex items-center justify-center">
           <div class="flex items-center gap-8">
             <!-- Poster placeholder -->
-            <div class="relative h-[320px] w-[220px] overflow-hidden rounded-xl bg-bg-highlight shadow-2xl md:h-[380px] md:w-[260px]">
-              <div class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+            <div
+              class="relative h-[320px] w-[220px] overflow-hidden rounded-xl bg-bg-highlight shadow-2xl md:h-[380px] md:w-[260px]"
+            >
+              <div
+                class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
+              ></div>
             </div>
-            
+
             <!-- Content placeholder -->
             <div class="hidden space-y-6 md:block">
               <div class="h-6 w-32 rounded-full bg-bg-highlight"></div>
@@ -25,7 +33,9 @@
         </div>
       </div>
     } @else if (movies()[0]) {
-      <div class="group relative h-[60vh] w-full overflow-hidden rounded-2xl shadow-2xl md:h-[65vh] lg:h-[70vh]">
+      <div
+        class="group relative h-[60vh] w-full overflow-hidden rounded-2xl shadow-2xl md:h-[65vh] lg:h-[70vh]"
+      >
         <!-- Backdrop Background -->
         <div class="absolute inset-0">
           <img
@@ -33,11 +43,17 @@
             [alt]="movies()[0].name"
             class="h-full w-full object-cover object-center transition-transform duration-1000 group-hover:scale-105"
           />
-          
+
           <!-- Advanced gradient overlays for depth -->
-          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20"></div>
-          <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-          <div class="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-black/60"></div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20"
+          ></div>
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"
+          ></div>
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-black/60"
+          ></div>
         </div>
 
         <!-- Main Content Container -->
@@ -46,24 +62,34 @@
             <div class="flex items-center gap-8 md:gap-12 lg:gap-16">
               <!-- Floating Movie Poster -->
               <div class="relative hidden md:block">
-                <div class="relative group/poster">
+                <div class="group/poster relative">
                   <!-- Poster shadow/glow effect -->
-                  <div class="absolute -inset-4 rounded-2xl bg-gradient-to-br from-white/20 via-primary-500/20 to-red-500/20 opacity-30 blur-xl transition-all duration-500 group-hover/poster:opacity-50"></div>
-                  
+                  <div
+                    class="absolute -inset-4 rounded-2xl bg-gradient-to-br from-white/20 via-primary-500/20 to-red-500/20 opacity-30 blur-xl transition-all duration-500 group-hover/poster:opacity-50"
+                  ></div>
+
                   <!-- Main poster -->
-                  <div class="relative h-[320px] w-[220px] overflow-hidden rounded-xl shadow-2xl transition-all duration-500 group-hover/poster:scale-105 md:h-[380px] md:w-[260px] lg:h-[420px] lg:w-[290px]">
+                  <div
+                    class="relative h-[320px] w-[220px] overflow-hidden rounded-xl shadow-2xl transition-all duration-500 group-hover/poster:scale-105 md:h-[380px] md:w-[260px] lg:h-[420px] lg:w-[290px]"
+                  >
                     <img
                       [src]="movies()[0].poster"
                       [alt]="movies()[0].name"
                       class="h-full w-full object-cover"
                     />
-                    
+
                     <!-- Poster overlay effects -->
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover/poster:opacity-100"></div>
-                    
+                    <div
+                      class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover/poster:opacity-100"
+                    ></div>
+
                     <!-- Play button overlay -->
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-300 group-hover/poster:opacity-100">
-                      <div class="rounded-full bg-white/20 p-4 backdrop-blur-lg transition-transform duration-200 hover:scale-110">
+                    <div
+                      class="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-300 group-hover/poster:opacity-100"
+                    >
+                      <div
+                        class="rounded-full bg-white/20 p-4 backdrop-blur-lg transition-transform duration-200 hover:scale-110"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -86,20 +112,28 @@
               <div class="flex-1 space-y-6 md:max-w-2xl lg:max-w-3xl">
                 <!-- Featured Badge -->
                 <div class="flex items-center gap-4">
-                  <div class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-red-600 to-red-500 px-4 py-2 text-sm font-bold uppercase tracking-wider text-white shadow-lg">
-                    <div class="h-2 w-2 animate-pulse rounded-full bg-white"></div>
+                  <div
+                    class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-red-600 to-red-500 px-4 py-2 text-sm font-bold uppercase tracking-wider text-white shadow-lg"
+                  >
+                    <div
+                      class="h-2 w-2 animate-pulse rounded-full bg-white"
+                    ></div>
                     Featured Movie
                   </div>
                 </div>
 
                 <!-- Title with enhanced typography -->
                 <div class="space-y-2">
-                  <h1 class="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-4xl font-black tracking-tight text-transparent drop-shadow-2xl md:text-5xl lg:text-6xl xl:text-7xl">
+                  <h1
+                    class="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-4xl font-black tracking-tight text-transparent drop-shadow-2xl md:text-5xl lg:text-6xl xl:text-7xl"
+                  >
                     {{ movies()[0].name }}
                   </h1>
-                  
+
                   @if (movies()[0].tagline) {
-                    <p class="text-lg italic text-white/90 md:text-xl lg:text-2xl">
+                    <p
+                      class="text-lg italic text-white/90 md:text-xl lg:text-2xl"
+                    >
                       "{{ movies()[0].tagline }}"
                     </p>
                   }
@@ -107,45 +141,69 @@
 
                 <!-- Enhanced metadata with glassmorphism -->
                 <div class="flex flex-wrap items-center gap-3">
-                  <div class="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 backdrop-blur-lg">
-                    <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  <div
+                    class="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 backdrop-blur-lg"
+                  >
+                    <svg
+                      class="text-yellow-400 h-5 w-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                      />
                     </svg>
                     <span class="font-semibold text-white">9.2</span>
                   </div>
-                  
-                  <div class="rounded-full bg-white/10 px-4 py-2 font-medium text-white backdrop-blur-lg">
+
+                  <div
+                    class="rounded-full bg-white/10 px-4 py-2 font-medium text-white backdrop-blur-lg"
+                  >
                     2024
                   </div>
-                  
-                  <div class="hidden rounded-full bg-white/10 px-4 py-2 font-medium text-white backdrop-blur-lg sm:block">
+
+                  <div
+                    class="hidden rounded-full bg-white/10 px-4 py-2 font-medium text-white backdrop-blur-lg sm:block"
+                  >
                     2h 0m
                   </div>
-                  
-                  <div class="rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-2 font-bold text-white">
+
+                  <div
+                    class="from-blue-500 to-purple-500 rounded-full bg-gradient-to-r px-4 py-2 font-bold text-white"
+                  >
                     4K
                   </div>
                 </div>
 
                 <!-- Genre tags with modern styling -->
                 <div class="flex flex-wrap gap-2">
-                  @for (genre of ['Action', 'Adventure', 'Thriller']; track genre) {
-                    <span class="rounded-lg border border-white/20 bg-white/5 px-3 py-1 text-sm font-medium text-white backdrop-blur-lg transition-all hover:bg-white/10">
+                  @for (
+                    genre of ["Action", "Adventure", "Thriller"];
+                    track genre
+                  ) {
+                    <span
+                      class="rounded-lg border border-white/20 bg-white/5 px-3 py-1 text-sm font-medium text-white backdrop-blur-lg transition-all hover:bg-white/10"
+                    >
                       {{ genre }}
                     </span>
                   }
                 </div>
 
                 <!-- Enhanced description -->
-                <p class="text-base leading-relaxed text-white/80 md:text-lg lg:max-w-2xl">
-                  Experience an epic adventure that pushes the boundaries of action cinema. With breathtaking visuals and heart-stopping moments, this masterpiece delivers an unforgettable journey through spectacular landscapes and intense thrills.
+                <p
+                  class="text-base leading-relaxed text-white/80 md:text-lg lg:max-w-2xl"
+                >
+                  Experience an epic adventure that pushes the boundaries of
+                  action cinema. With breathtaking visuals and heart-stopping
+                  moments, this masterpiece delivers an unforgettable journey
+                  through spectacular landscapes and intense thrills.
                 </p>
 
                 <!-- Modern action buttons -->
                 <div class="flex flex-wrap items-center gap-4">
                   <a
                     [routerLink]="['/movie', movies()[0].id]"
-                    class="group/btn flex items-center gap-3 rounded-xl bg-gradient-to-r from-red-600 to-red-500 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-red-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-red-500/40 hover:scale-105"
+                    class="group/btn flex items-center gap-3 rounded-xl bg-gradient-to-r from-red-600 to-red-500 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-red-500/40"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +220,9 @@
                     Watch Now
                   </a>
 
-                  <button class="flex items-center gap-3 rounded-xl border border-white/20 bg-white/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur-lg transition-all duration-300 hover:bg-white/20 hover:scale-105">
+                  <button
+                    class="flex items-center gap-3 rounded-xl border border-white/20 bg-white/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur-lg transition-all duration-300 hover:scale-105 hover:bg-white/20"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -179,7 +239,7 @@
                   </button>
 
                   <button
-                    class="flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-lg transition-all duration-300 hover:bg-white/20 hover:scale-110"
+                    class="flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-lg transition-all duration-300 hover:scale-110 hover:bg-white/20"
                     aria-label="More information"
                   >
                     <svg
@@ -190,7 +250,11 @@
                       stroke="currentColor"
                       class="h-6 w-6 text-white"
                     >
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                      />
                     </svg>
                   </button>
                 </div>
@@ -200,10 +264,14 @@
         </div>
 
         <!-- Subtle animated elements -->
-        <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-red-500/50 to-transparent"></div>
+        <div
+          class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-red-500/50 to-transparent"
+        ></div>
       </div>
     } @else {
-      <div class="flex h-[60vh] w-full flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-bg-card via-bg-highlight to-bg-card text-white/50">
+      <div
+        class="flex h-[60vh] w-full flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-bg-card via-bg-highlight to-bg-card text-white/50"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="mb-6 h-16 w-16 opacity-40"
@@ -234,12 +302,12 @@
       <h2 class="text-lg font-semibold text-white sm:text-xl md:text-2xl">
         Trending Now
       </h2>
-      
+
       <!-- Navigation arrows for this section -->
       <div class="flex items-center gap-2">
         <button
           (click)="scrollCarousel('trending-carousel', 'left')"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:bg-bg-highlight hover:text-white hover:scale-110"
+          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-bg-highlight hover:text-white"
           aria-label="Previous movies"
         >
           <svg
@@ -250,13 +318,17 @@
             stroke="currentColor"
             class="h-5 w-5"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 19.5L8.25 12l7.5-7.5"
+            />
           </svg>
         </button>
-        
+
         <button
           (click)="scrollCarousel('trending-carousel', 'right')"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:bg-bg-highlight hover:text-white hover:scale-110"
+          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-bg-highlight hover:text-white"
           aria-label="Next movies"
         >
           <svg
@@ -267,7 +339,11 @@
             stroke="currentColor"
             class="h-5 w-5"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
           </svg>
         </button>
       </div>
@@ -275,10 +351,25 @@
 
     <!-- Category pills -->
     <div class="mb-6 flex flex-wrap gap-2 sm:gap-3">
-      @for (category of ['All', 'Action', 'Drama', 'Comedy', 'Horror', 'Sci-Fi', 'Romance']; track category) {
+      @for (
+        category of [
+          "All",
+          "Action",
+          "Drama",
+          "Comedy",
+          "Horror",
+          "Sci-Fi",
+          "Romance",
+        ];
+        track category
+      ) {
         <button
           class="rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 
-          {{ category === 'All' ? 'bg-white/10 text-white border border-white/20 shadow-lg' : 'bg-transparent text-white/60 border border-white/10 hover:bg-white/5 hover:text-white/90 hover:border-white/20' }}"
+          {{
+            category === 'All'
+              ? 'bg-white/10 text-white border border-white/20 shadow-lg'
+              : 'bg-transparent text-white/60 border border-white/10 hover:bg-white/5 hover:text-white/90 hover:border-white/20'
+          }}"
         >
           {{ category }}
         </button>
@@ -354,7 +445,7 @@
                   class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
                 >
                   <div
-                    class="rounded-full bg-white/20 p-2 backdrop-blur-sm sm:p-2.5 transition-transform duration-200 hover:scale-110"
+                    class="rounded-full bg-white/20 p-2 backdrop-blur-sm transition-transform duration-200 hover:scale-110 sm:p-2.5"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -371,19 +462,13 @@
                   </div>
                 </div>
 
-                <!-- Rating badge -->
-                <div
-                  class="absolute top-2 left-2 rounded-full bg-black/70 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm"
-                >
-                  {{ movie.rating }}
-                </div>
-
-
                 <!-- Quick preview tooltip -->
                 <div
                   class="absolute -top-32 left-1/2 z-20 w-64 -translate-x-1/2 opacity-0 transition-all duration-300 group-hover/card:opacity-100 group-hover/card:delay-700"
                 >
-                  <div class="rounded-lg bg-bg-card/95 p-3 shadow-2xl backdrop-blur-sm">
+                  <div
+                    class="rounded-lg bg-bg-card/95 p-3 shadow-2xl backdrop-blur-sm"
+                  >
                     <div class="flex items-start gap-3">
                       <div class="flex-shrink-0">
                         <img
@@ -392,31 +477,48 @@
                           class="h-16 w-12 rounded object-cover"
                         />
                       </div>
-                      <div class="flex-1 min-w-0">
+                      <div class="min-w-0 flex-1">
                         <h4 class="truncate text-sm font-medium text-white">
                           {{ movie.name }}
                         </h4>
-                        <div class="mt-1 flex items-center gap-2 text-xs text-white/70">
+                        <div
+                          class="mt-1 flex items-center gap-2 text-xs text-white/70"
+                        >
                           <span class="flex items-center gap-1">
-                            <svg class="h-3 w-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            <svg
+                              class="text-yellow-400 h-3 w-3"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                              />
                             </svg>
                             {{ movie.rating }}
                           </span>
                           <span>•</span>
                           <span>{{ movie.year }}</span>
                         </div>
-                        <p class="mt-1 text-xs text-white/60 line-clamp-2">
-                          Action-packed thriller with stunning visuals and compelling storyline.
+                        <p class="mt-1 line-clamp-2 text-xs text-white/60">
+                          Action-packed thriller with stunning visuals and
+                          compelling storyline.
                         </p>
                         <div class="mt-2 flex gap-1">
-                          <span class="rounded bg-primary-500/20 px-1.5 py-0.5 text-xs text-primary-400">Action</span>
-                          <span class="rounded bg-white/10 px-1.5 py-0.5 text-xs text-white/70">Drama</span>
+                          <span
+                            class="rounded bg-primary-500/20 px-1.5 py-0.5 text-xs text-primary-400"
+                            >Action</span
+                          >
+                          <span
+                            class="rounded bg-white/10 px-1.5 py-0.5 text-xs text-white/70"
+                            >Drama</span
+                          >
                         </div>
                       </div>
                     </div>
                     <!-- Tooltip arrow -->
-                    <div class="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 bg-bg-card/95"></div>
+                    <div
+                      class="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 bg-bg-card/95"
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -463,19 +565,18 @@
     </div>
   </section>
 
-
   <!-- Recently Added Section -->
   <section class="mb-10 sm:mb-12 md:mb-16">
     <div class="mb-5 flex items-center justify-between sm:mb-6">
       <h2 class="text-lg font-semibold text-white sm:text-xl md:text-2xl">
         Recently Added
       </h2>
-      
+
       <!-- Navigation arrows for this section -->
       <div class="flex items-center gap-2">
         <button
           (click)="scrollCarousel('recent-carousel', 'left')"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:bg-bg-highlight hover:text-white hover:scale-110"
+          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-bg-highlight hover:text-white"
           aria-label="Previous movies"
         >
           <svg
@@ -486,13 +587,17 @@
             stroke="currentColor"
             class="h-5 w-5"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 19.5L8.25 12l7.5-7.5"
+            />
           </svg>
         </button>
-        
+
         <button
           (click)="scrollCarousel('recent-carousel', 'right')"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:bg-bg-highlight hover:text-white hover:scale-110"
+          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-bg-highlight hover:text-white"
           aria-label="Next movies"
         >
           <svg
@@ -503,7 +608,11 @@
             stroke="currentColor"
             class="h-5 w-5"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
           </svg>
         </button>
       </div>
@@ -570,7 +679,7 @@
                   class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
                 >
                   <div
-                    class="rounded-full bg-white/20 p-2 backdrop-blur-sm sm:p-2.5 transition-transform duration-200 hover:scale-110"
+                    class="rounded-full bg-white/20 p-2 backdrop-blur-sm transition-transform duration-200 hover:scale-110 sm:p-2.5"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -585,13 +694,6 @@
                       />
                     </svg>
                   </div>
-                </div>
-
-                <!-- Rating badge -->
-                <div
-                  class="absolute top-2 left-2 rounded-full bg-black/60 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm"
-                >
-                  {{ movie.rating }}
                 </div>
               </div>
 
@@ -643,12 +745,12 @@
       <h2 class="text-lg font-semibold text-white sm:text-xl md:text-2xl">
         Popular Movies
       </h2>
-      
+
       <!-- Navigation arrows for this section -->
       <div class="flex items-center gap-2">
         <button
           (click)="scrollCarousel('popular-carousel', 'left')"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:bg-bg-highlight hover:text-white hover:scale-110"
+          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-bg-highlight hover:text-white"
           aria-label="Previous movies"
         >
           <svg
@@ -659,13 +761,17 @@
             stroke="currentColor"
             class="h-5 w-5"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 19.5L8.25 12l7.5-7.5"
+            />
           </svg>
         </button>
-        
+
         <button
           (click)="scrollCarousel('popular-carousel', 'right')"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:bg-bg-highlight hover:text-white hover:scale-110"
+          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-bg-highlight hover:text-white"
           aria-label="Next movies"
         >
           <svg
@@ -676,7 +782,11 @@
             stroke="currentColor"
             class="h-5 w-5"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
           </svg>
         </button>
       </div>
@@ -743,7 +853,7 @@
                   class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
                 >
                   <div
-                    class="rounded-full bg-white/20 p-2 backdrop-blur-sm sm:p-2.5 transition-transform duration-200 hover:scale-110"
+                    class="rounded-full bg-white/20 p-2 backdrop-blur-sm transition-transform duration-200 hover:scale-110 sm:p-2.5"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -758,13 +868,6 @@
                       />
                     </svg>
                   </div>
-                </div>
-
-                <!-- Rating badge -->
-                <div
-                  class="absolute top-2 left-2 rounded-full bg-black/60 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm"
-                >
-                  {{ movie.rating }}
                 </div>
               </div>
 
