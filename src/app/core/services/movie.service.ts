@@ -1,7 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { MoviesResponse } from "@core/interfaces/movies";
-import { Person } from "@core/interfaces/person";
 import { apiUrl } from "app/utils/buildUrl";
 import { Observable } from "rxjs";
 
@@ -25,5 +24,13 @@ export class MovieService {
 
   getPerson(id: string): Observable<any> {
     return this.http.get<any>(apiUrl(`people/${id}`));
+  }
+
+  getSeries(page: number = 1): Observable<any> {
+    return this.http.get<any>(
+      apiUrl(
+        `channel/series?channelType=channel&restriction=&loader=channelPage&page=${page}`,
+      ),
+    );
   }
 }
