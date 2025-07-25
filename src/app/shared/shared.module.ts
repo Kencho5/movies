@@ -21,4 +21,3 @@ import { LoadingDotsComponent } from "./components/ui/loading-dots/loading-dots.
   ],
 })
 export class SharedModule {}
-
