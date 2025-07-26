@@ -202,7 +202,9 @@
                       (click)="toggleBiography()"
                       class="flex items-center gap-1 rounded-full bg-primary-600/20 px-3 py-1.5 text-xs font-medium text-primary-300 transition-colors hover:bg-primary-600/30"
                     >
-                      <span>{{ biographyExpanded() ? 'Show Less' : 'Show More' }}</span>
+                      <span>{{
+                        biographyExpanded() ? "Show Less" : "Show More"
+                      }}</span>
                       <svg
                         class="h-3 w-3 transition-transform duration-200"
                         [class.rotate-180]="biographyExpanded()"
@@ -221,14 +223,22 @@
                   }
                 </div>
                 <div class="relative">
-                  <p 
+                  <p
                     class="leading-relaxed text-neutral-300 transition-all duration-300"
-                    [class]="person()!.description.length > 300 && !biographyExpanded() ? 'line-clamp-4' : ''"
+                    [class]="
+                      person()!.description.length > 300 && !biographyExpanded()
+                        ? 'line-clamp-4'
+                        : ''
+                    "
                   >
                     {{ person()!.description }}
                   </p>
-                  @if (person()!.description.length > 300 && !biographyExpanded()) {
-                    <div class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-bg-card/50 to-transparent"></div>
+                  @if (
+                    person()!.description.length > 300 && !biographyExpanded()
+                  ) {
+                    <div
+                      class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-bg-card/50 to-transparent"
+                    ></div>
                   }
                 </div>
               </div>
@@ -307,7 +317,7 @@
               </div>
             }
 
-            <!-- Filmography with Updated Tabs -->
+            <!-- Filmography -->
             @if (
               personData()!.credits &&
               (personData()!.credits.actors?.length ||
@@ -459,9 +469,7 @@
                 @if (
                   isTabActive("acting") && personData()!.credits.actors?.length
                 ) {
-                  <div
-                    class="hide-scrollbar max-h-96 space-y-2 overflow-y-auto pr-1"
-                  >
+                  <div class="space-y-2">
                     @for (
                       credit of personData()!.credits.actors!;
                       track credit.id
