@@ -24,11 +24,13 @@
           Home
         </a>
         <a
-          routerLink="tv"
+          routerLink="/movies"
           routerLinkActive="!text-white font-bold"
+          [routerLinkActiveOptions]="{ exact: true }"
           class="text-white/70 transition-colors hover:text-white"
-          >Live TV</a
+          >Movies</a
         >
+
         <a
           routerLink="/series"
           routerLinkActive="!text-white font-bold"
@@ -37,18 +39,21 @@
           >Series</a
         >
         <a
-          routerLink="/news"
+          routerLink="tv"
           routerLinkActive="!text-white font-bold"
-          [routerLinkActiveOptions]="{ exact: true }"
           class="text-white/70 transition-colors hover:text-white"
-          >New & Popular</a
+          >Live TV</a
         >
       </nav>
     </div>
 
     <!-- Right Side Icons -->
     <div class="flex items-center gap-5 md:gap-7">
-      <button class="group relative p-1" aria-label="Search" (click)="openSearch($event)">
+      <button
+        class="group relative p-1"
+        aria-label="Search"
+        (click)="openSearch($event)"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -110,9 +115,23 @@
           (ngModelChange)="onSearchTermChange($event)"
           autofocus
         />
-        <button (click)="closeSearch()" class="p-2 text-white/70 hover:text-white">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        <button
+          (click)="closeSearch()"
+          class="p-2 text-white/70 hover:text-white"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>
@@ -121,30 +140,56 @@
 
   <!-- Search Results Dropdown -->
   @if (searchOpen() && (searchResults() !== null || loading())) {
-    <div class="absolute left-0 top-full w-full border-b border-white/[0.08] bg-bg-dark shadow-2xl">
-      <div class="container mx-auto max-h-[70vh] overflow-y-auto px-4 py-4 md:px-8">
+    <div
+      class="absolute left-0 top-full w-full border-b border-white/[0.08] bg-bg-dark shadow-2xl"
+    >
+      <div
+        class="container mx-auto max-h-[70vh] overflow-y-auto px-4 py-4 md:px-8"
+      >
         @if (loading()) {
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div
+            class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          >
             @for (i of [].constructor(4); track $index) {
               <div class="flex items-start gap-4 rounded-lg p-2">
-                <div class="h-24 w-16 flex-shrink-0 animate-pulse rounded-md bg-white/10"></div>
+                <div
+                  class="h-24 w-16 flex-shrink-0 animate-pulse rounded-md bg-white/10"
+                ></div>
                 <div class="flex-1 space-y-2 py-1">
                   <div class="h-4 animate-pulse rounded bg-white/10"></div>
-                  <div class="h-3 w-2/3 animate-pulse rounded bg-white/10"></div>
+                  <div
+                    class="h-3 w-2/3 animate-pulse rounded bg-white/10"
+                  ></div>
                 </div>
               </div>
             }
           </div>
         } @else if (searchResults() && searchResults()!.length > 0) {
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div
+            class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          >
             @for (result of searchResults(); track result.id) {
-              <a [routerLink]="[result.is_series ? '/tv' : '/movie', result.id]" class="group flex items-start gap-4 rounded-lg p-2 transition-colors hover:bg-bg-highlight" (click)="closeSearch()">
+              <a
+                [routerLink]="[result.is_series ? '/tv' : '/movie', result.id]"
+                class="group flex items-start gap-4 rounded-lg p-2 transition-colors hover:bg-bg-highlight"
+                (click)="closeSearch()"
+              >
                 <div class="h-24 w-16 flex-shrink-0 overflow-hidden rounded-md">
-                  <img [src]="result.poster" [alt]="result.name" class="h-full w-full object-cover">
+                  <img
+                    [src]="result.poster"
+                    [alt]="result.name"
+                    class="h-full w-full object-cover"
+                  />
                 </div>
                 <div>
-                  <h3 class="font-semibold text-white group-hover:text-primary-400">{{ result.name }}</h3>
-                  <p class="text-sm text-white/60">{{ result.is_series ? 'Series' : 'Movie' }}</p>
+                  <h3
+                    class="font-semibold text-white group-hover:text-primary-400"
+                  >
+                    {{ result.name }}
+                  </h3>
+                  <p class="text-sm text-white/60">
+                    {{ result.is_series ? "Series" : "Movie" }}
+                  </p>
                 </div>
               </a>
             }
@@ -208,3 +253,4 @@
     </div>
   </div>
 </div>
+
