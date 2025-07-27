@@ -1,3 +1,4 @@
+import { FilterButtonComponent } from "@shared/components/ui/filter-button/filter-button.component";
 import { Component, signal } from "@angular/core";
 import { MovieService } from "@core/services/movie.service";
 import { SharedModule } from "@shared/shared.module";
@@ -5,7 +6,7 @@ import { InfiniteScrollDirective } from "ngx-infinite-scroll";
 
 @Component({
   selector: "app-series",
-  imports: [SharedModule, InfiniteScrollDirective],
+  imports: [SharedModule, InfiniteScrollDirective, FilterButtonComponent],
   templateUrl: "./series.component.html",
 })
 export class SeriesComponent {
