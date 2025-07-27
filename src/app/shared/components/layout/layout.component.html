@@ -1,6 +1,9 @@
-<app-titlebar />
-<div class="pt-14 md:pt-[69px]">
-  <router-outlet />
-</div>
+<div class="flex min-h-screen flex-col">
+  <app-titlebar />
 
-<app-footer />
+  <main class="flex-1 pt-14 md:pt-[69px]">
+    <router-outlet />
+  </main>
+
+  <app-footer class="mt-auto" />
+</div>

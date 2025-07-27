@@ -5,6 +5,7 @@ import { MovieComponent } from "./pages/movie/movie.component";
 import { TvComponent } from "./pages/tv/tv.component";
 import { PeopleComponent } from "./pages/people/people.component";
 import { SeriesComponent } from "./pages/series/series.component";
+import { MoviesComponent } from "./pages/movies/movies.component";
 
 export const routes: Routes = [
   {
@@ -14,6 +15,10 @@ export const routes: Routes = [
       {
         path: "",
         component: HomeComponent,
+      },
+      {
+        path: "movies",
+        component: MoviesComponent,
       },
       {
         path: "series",

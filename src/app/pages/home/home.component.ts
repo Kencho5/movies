@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.movieService
-      .getMovies()
+      .getHomeMovies()
       .pipe(
         catchError((error) => {
           console.error("Error fetching movies:", error);

@@ -10,7 +10,15 @@ import { Observable } from "rxjs";
 export class MovieService {
   constructor(private http: HttpClient) {}
 
-  getMovies(): Observable<MoviesResponse> {
+  getMovies(page: number = 1): Observable<any> {
+    return this.http.get<any>(
+      apiUrl(
+        `channel/movies?channelType=channel&restriction=&loader=channelPage&page=${page}`,
+      ),
+    );
+  }
+
+  getHomeMovies(): Observable<MoviesResponse> {
     return this.http.get<MoviesResponse>(
       apiUrl(
         "channel/11?restriction=&order=popularity:desc&page=1&paginate=simple&returnContentOnly=true",
