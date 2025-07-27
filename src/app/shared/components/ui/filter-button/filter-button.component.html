@@ -1,6 +1,73 @@
-<button class="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 backdrop-blur-lg transition-all hover:border-white/20 hover:bg-white/10 hover:text-white">
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
-  </svg>
-  <span>Filter</span>
-</button>
+<div class="relative">
+  <button (click)="toggleDropdown()" class="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 backdrop-blur-lg transition-all hover:border-white/20 hover:bg-white/10 hover:text-white">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+    </svg>
+    <span>Filter</span>
+  </button>
+
+  @if (dropdownOpen()) {
+    <div class="absolute right-0 mt-2 w-72 origin-top-right rounded-2xl border border-white/10 bg-bg-card shadow-2xl shadow-black/40 ring-1 ring-black/5 focus:outline-none z-10">
+      <div class="p-4">
+        <div class="grid grid-cols-1 gap-y-6">
+          <!-- Genres -->
+          <div>
+            <h3 class="mb-3 text-base font-semibold text-white">Genres</h3>
+            <app-combobox [items]="genres"></app-combobox>
+          </div>
+
+          <!-- Release Dates -->
+          <div>
+            <h3 class="mb-3 text-base font-semibold text-white">Release Dates</h3>
+            <div class="flex flex-wrap gap-2">
+              @for (date of ['2020s', '2010s', '2000s', '1990s']; track date) {
+                <button class="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white">
+                  {{ date }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <!-- Countries -->
+          <div>
+            <h3 class="mb-3 text-base font-semibold text-white">Countries</h3>
+            <div class="relative">
+              <select class="w-full appearance-none rounded-lg border border-white/10 bg-white/5 py-2 pl-3 pr-8 text-sm text-white/80 transition-colors focus:border-primary-500 focus:bg-bg-highlight focus:outline-none focus:ring-0">
+                <option>United States</option>
+                <option>United Kingdom</option>
+                <option>Canada</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white/50">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Languages -->
+          <div>
+            <h3 class="mb-3 text-base font-semibold text-white">Languages</h3>
+            <div class="relative">
+              <select class="w-full appearance-none rounded-lg border border-white/10 bg-white/5 py-2 pl-3 pr-8 text-sm text-white/80 transition-colors focus:border-primary-500 focus:bg-bg-highlight focus:outline-none focus:ring-0">
+                <option>English</option>
+                <option>Spanish</option>
+                <option>French</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white/50">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex justify-end gap-3 border-t border-white/10 pt-4">
+          <button class="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 transition-colors hover:bg-white/10 hover:text-white">Clear</button>
+          <button class="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-500">Apply</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

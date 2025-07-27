@@ -1,0 +1,39 @@
+<div class="relative w-full">
+  <div class="relative">
+    <input
+      type="text"
+      [(ngModel)]="searchText"
+      (focus)="dropdownOpen.set(true)"
+      placeholder="Search..."
+      class="w-full appearance-none rounded-lg border border-white/10 bg-white/5 py-2 pl-3 pr-8 text-sm text-white/80 transition-colors focus:border-primary-500 focus:bg-bg-highlight focus:outline-none focus:ring-0"
+    />
+    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white/50">
+      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </div>
+  </div>
+
+  @if (dropdownOpen()) {
+    <div class="absolute z-10 mt-1 w-full rounded-lg border border-white/10 bg-bg-card shadow-lg max-h-60 overflow-y-auto">
+      @for (item of filteredItems; track item) {
+        <div
+          (click)="selectItem(item)"
+          class="flex cursor-pointer items-center justify-between px-4 py-2 text-sm text-white/80 hover:bg-white/10"
+        >
+          <span>{{ item }}</span>
+          @if (selectedItems().includes(item)) {
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-500" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+          }
+        </div>
+      }
+      @if (filteredItems.length === 0) {
+        <div class="px-4 py-2 text-sm text-white/50">
+          No results found.
+        </div>
+      }
+    </div>
+  }
+</div>
