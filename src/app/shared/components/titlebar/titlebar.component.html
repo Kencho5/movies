@@ -97,7 +97,7 @@
 
     <!-- Search Input and Dropdown -->
     <div
-      class="absolute left-0 top-0 h-full w-full bg-bg-dark transition-opacity duration-300"
+      class="absolute left-0 top-0 h-full w-full bg-bg-dark opacity-0 pointer-events-none transition-opacity duration-300"
       [class.pointer-events-none]="!searchOpen()"
       [class.opacity-0]="!searchOpen()"
       (click)="closeSearch()"

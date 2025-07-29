@@ -1,22 +1,21 @@
-import { Component, signal } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Component, signal, inject, input } from "@angular/core";
 import { MovieService } from "@core/services/movie.service";
 import { PlayerComponent } from "@shared/components/player/player.component";
 import { SharedModule } from "@shared/shared.module";
 import { PlayerData } from "@core/interfaces/player";
+import { toObservable } from "@angular/core/rxjs-interop";
+import { switchMap } from "rxjs";
 
 @Component({
   selector: "app-movie",
+  standalone: true,
   imports: [SharedModule, PlayerComponent],
   templateUrl: "./movie.component.html",
 })
 export class MovieComponent {
-  constructor(
-    private route: ActivatedRoute,
-    private movieService: MovieService,
-  ) {}
-
-  movieID: string = "";
+  readonly movieService = inject(MovieService);
+  
+  movieID = input.required<string>();
   movie = signal<any | null>(null);
   playerData = signal<PlayerData>({
     file: "",
@@ -24,16 +23,20 @@ export class MovieComponent {
     autoplay: 0,
   });
 
-  ngOnInit() {
-    this.movieID = this.route.snapshot.paramMap.get("id")!;
-    this.movieService.getMovie(this.movieID).subscribe((res) => {
-      this.movie.set(res);
+  constructor() {
+    toObservable(this.movieID)
+      .pipe(
+        switchMap((id) => this.movieService.getMovie(id))
+      )
+      .subscribe((res) => {
+        this.movie.set(res);
 
-      this.playerData.set({
-        file: this.movie()!.title.videos[0].src || null,
-        poster: this.movie()?.title.backdrop || null,
-        autoplay: 0,
+        const movieTitle = this.movie()?.title;
+        this.playerData.set({
+          file: movieTitle?.videos?.[0]?.src || "",
+          poster: movieTitle?.backdrop || "",
+          autoplay: 0,
+        });
       });
-    });
   }
 }

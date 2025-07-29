@@ -13,6 +13,7 @@ export class MoviesComponent {
   movies = signal<any>(null);
   loading = signal<boolean>(true);
   page = 1;
+  currentFilters: any = {};
 
   constructor(private movieService: MovieService) {}
 
@@ -21,22 +22,60 @@ export class MoviesComponent {
   }
 
   loadMovies(): void {
-    this.movieService.getMovies(this.page).subscribe((res) => {
-      this.movies.set(res.channel.content);
-      this.loading.set(false);
-    });
+    this.loading.set(true);
+    this.movieService
+      .getMovies(
+        this.page,
+        this.currentFilters.genres,
+        this.currentFilters.fromYear,
+        this.currentFilters.toYear,
+        this.currentFilters.countries,
+        this.currentFilters.languages,
+      )
+      .subscribe((res) => {
+        console.log("API Response:", res);
+        this.movies.set(res.channel.content);
+        this.loading.set(false);
+      });
   }
 
   loadMore(): void {
     this.page++;
-    this.movieService.getMovies(this.page).subscribe((res) => {
-      this.movies.update((prev) => {
-        return {
-          ...prev,
-          data: [...prev.data, ...res.channel.content.data],
-        };
+    this.movieService
+      .getMovies(
+        this.page,
+        this.currentFilters.genres,
+        this.currentFilters.fromYear,
+        this.currentFilters.toYear,
+        this.currentFilters.countries,
+        this.currentFilters.languages,
+      )
+      .subscribe((res) => {
+        this.movies.update((prev) => {
+          return {
+            ...prev,
+            data: [...prev.data, ...res.channel.content.data],
+          };
+        });
       });
-    });
+  }
+
+  onApplyFilters(filters: any) {
+    this.currentFilters = {
+      genres: filters.genres
+        ? filters.genres.map((g: string) => g.toLowerCase())
+        : [],
+      countries: filters.countries
+        ? filters.countries.map((c: string) => c.toLowerCase())
+        : [],
+      languages: filters.languages
+        ? filters.languages.map((l: string) => l.toLowerCase())
+        : [],
+      fromYear: filters.fromYear,
+      toYear: filters.toYear,
+    };
+    this.page = 1;
+    this.movies.set([]);
+    this.loadMovies();
   }
 }
-

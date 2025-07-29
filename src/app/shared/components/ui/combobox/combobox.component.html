@@ -2,7 +2,8 @@
   <div class="relative">
     <input
       type="text"
-      [(ngModel)]="searchText"
+      [ngModel]="dropdownOpen() ? searchText() : displayValue()"
+      (ngModelChange)="searchText.set($event)"
       (focus)="dropdownOpen.set(true)"
       placeholder="Search..."
       class="w-full appearance-none rounded-lg border border-white/10 bg-white/5 py-2 pl-3 pr-8 text-sm text-white/80 transition-colors focus:border-primary-500 focus:bg-bg-highlight focus:outline-none focus:ring-0"
