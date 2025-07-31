@@ -2,14 +2,13 @@ import { Component, OnInit, signal } from "@angular/core";
 import { MovieService } from "@core/services/movie.service";
 import { SharedModule } from "@shared/shared.module";
 import { Movie } from "@core/interfaces/movies";
-import { LoadingDotsComponent } from "@shared/components/ui/loading-dots/loading-dots.component";
 import { catchError, finalize } from "rxjs/operators";
 import { of } from "rxjs";
 import { ImageComponent } from "@shared/components/ui/image/image.component";
 
 @Component({
   selector: "app-home",
-  imports: [SharedModule, LoadingDotsComponent, ImageComponent],
+  imports: [SharedModule, ImageComponent],
   templateUrl: "./home.component.html",
 })
 export class HomeComponent implements OnInit {
@@ -66,3 +65,4 @@ export class HomeComponent implements OnInit {
     }
   }
 }
+

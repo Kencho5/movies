@@ -1,11 +1,8 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-loading-dots',
+  selector: "app-loading-dots",
   imports: [],
-  templateUrl: './loading-dots.component.html',
-  styles: ``
+  templateUrl: "./loading-dots.component.html",
 })
-export class LoadingDotsComponent {
-
-}
+export class LoadingDotsComponent {}

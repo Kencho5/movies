@@ -119,6 +119,11 @@
         }
       }
     </div>
-    
+
+    @if (loadingMore()) {
+      <div class="flex justify-center py-8">
+        <app-loading-dots />
+      </div>
+    }
   </section>
 </div>
