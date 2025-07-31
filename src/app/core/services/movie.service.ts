@@ -40,12 +40,12 @@ export class MovieService {
     return this.http.get<any>(apiUrl(`people/${id}`));
   }
 
-  getSeries(page: number = 1): Observable<any> {
-    return this.http.get<any>(
-      apiUrl(
-        `channel/series?channelType=channel&restriction=&loader=channelPage&page=${page}`,
-      ),
-    );
+  getSeries(page: number = 1, filters?: string): Observable<any> {
+    let url = `channel/series?channelType=channel&restriction=&loader=channelPage&page=${page}`;
+    if (filters) {
+      url += `&filters=${encodeURIComponent(filters)}`;
+    }
+    return this.http.get<any>(apiUrl(url));
   }
 
   getFilters(): Observable<any> {
