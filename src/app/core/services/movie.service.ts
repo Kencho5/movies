@@ -12,29 +12,12 @@ export class MovieService {
 
   getMovies(
     page: number = 1,
-    genres?: string[],
-    fromYear?: number | null,
-    toYear?: number | null,
-    countries?: string[],
-    languages?: string[],
+    filters?: string,
   ): Observable<any> {
     let url = `channel/movies?channelType=channel&restriction=&loader=channelPage&page=${page}`;
 
-    if (genres && genres.length > 0) {
-      url += `&genre=${genres.join(",")}`;
-    }
-    if (fromYear && toYear) {
-      url += `&released=${fromYear},${toYear}`;
-    } else if (fromYear) {
-      url += `&released=${fromYear},`;
-    } else if (toYear) {
-      url += `&released=,${toYear}`;
-    }
-    if (countries && countries.length > 0) {
-      url += `&country=${countries.join(",")}`;
-    }
-    if (languages && languages.length > 0) {
-      url += `&language=${languages.join(",")}`;
+    if (filters) {
+      url += `&filters=${encodeURIComponent(filters)}`;
     }
 
     console.log("API URL:", apiUrl(url));
@@ -68,7 +51,7 @@ export class MovieService {
   getFilters(): Observable<any> {
     return this.http.get<any>(
       apiUrl(
-        "https://kino-go.uk/api/v1/value-lists/titleFilterLanguages,productionCountries,genres,titleFilterAgeRatings",
+        "value-lists/titleFilterLanguages,productionCountries,genres,titleFilterAgeRatings",
       ),
     );
   }

@@ -4,6 +4,13 @@ import { MovieService } from "@core/services/movie.service";
 import { SharedModule } from "@shared/shared.module";
 import { InfiniteScrollDirective } from "ngx-infinite-scroll";
 
+interface Filter {
+  key: string;
+  value: any;
+  operator: string;
+  valueKey?: string;
+}
+
 @Component({
   selector: "app-movies",
   imports: [SharedModule, InfiniteScrollDirective, FilterButtonComponent],
@@ -13,7 +20,7 @@ export class MoviesComponent {
   movies = signal<any>(null);
   loading = signal<boolean>(true);
   page = 1;
-  currentFilters: any = {};
+  currentFilters: Filter[] = [];
 
   constructor(private movieService: MovieService) {}
 
@@ -23,15 +30,13 @@ export class MoviesComponent {
 
   loadMovies(): void {
     this.loading.set(true);
+    const filters =
+      this.currentFilters.length > 0
+        ? btoa(JSON.stringify(this.currentFilters))
+        : undefined;
+
     this.movieService
-      .getMovies(
-        this.page,
-        this.currentFilters.genres,
-        this.currentFilters.fromYear,
-        this.currentFilters.toYear,
-        this.currentFilters.countries,
-        this.currentFilters.languages,
-      )
+      .getMovies(this.page, filters)
       .subscribe((res) => {
         console.log("API Response:", res);
         this.movies.set(res.channel.content);
@@ -41,17 +46,18 @@ export class MoviesComponent {
 
   loadMore(): void {
     this.page++;
+    const filters =
+      this.currentFilters.length > 0
+        ? btoa(JSON.stringify(this.currentFilters))
+        : undefined;
+
     this.movieService
-      .getMovies(
-        this.page,
-        this.currentFilters.genres,
-        this.currentFilters.fromYear,
-        this.currentFilters.toYear,
-        this.currentFilters.countries,
-        this.currentFilters.languages,
-      )
+      .getMovies(this.page, filters)
       .subscribe((res) => {
         this.movies.update((prev) => {
+          if (!prev || !prev.data) {
+            return res.channel.content;
+          }
           return {
             ...prev,
             data: [...prev.data, ...res.channel.content.data],
@@ -60,22 +66,10 @@ export class MoviesComponent {
       });
   }
 
-  onApplyFilters(filters: any) {
-    this.currentFilters = {
-      genres: filters.genres
-        ? filters.genres.map((g: string) => g.toLowerCase())
-        : [],
-      countries: filters.countries
-        ? filters.countries.map((c: string) => c.toLowerCase())
-        : [],
-      languages: filters.languages
-        ? filters.languages.map((l: string) => l.toLowerCase())
-        : [],
-      fromYear: filters.fromYear,
-      toYear: filters.toYear,
-    };
+  onApplyFilters(filters: Filter[]) {
+    this.currentFilters = filters;
     this.page = 1;
-    this.movies.set([]);
+    this.movies.set(null);
     this.loadMovies();
   }
 }

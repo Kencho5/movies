@@ -9,6 +9,11 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
+interface ComboboxItem {
+  name: string;
+  value: any;
+}
+
 @Component({
   selector: "app-combobox",
   templateUrl: "./combobox.component.html",
@@ -19,21 +24,27 @@ import { FormsModule } from "@angular/forms";
   },
 })
 export class ComboboxComponent {
-  items = input<string[]>([]);
-  selectedItemsInput = input<string[]>([]);
-  selectedItemsChange = output<string[]>();
+  items = input<ComboboxItem[]>([]);
+  selectedItemsInput = input<any[]>([]);
+  selectedItemsChange = output<any[]>();
 
   dropdownOpen = signal(false);
-  selectedItems = signal<string[]>([]);
+  selectedItems = signal<any[]>([]);
   searchText = signal("");
 
   displayValue = computed(() => {
     if (this.selectedItems().length === 0) {
       return "";
-    } else if (this.selectedItems().length === 1) {
-      return this.selectedItems()[0];
+    }
+    const firstItem = this.items().find(
+      (item) => item.value === this.selectedItems()[0],
+    );
+    if (!firstItem) return "";
+
+    if (this.selectedItems().length === 1) {
+      return firstItem.name;
     } else {
-      return `${this.selectedItems()[0]} (+${this.selectedItems().length - 1})`;
+      return `${firstItem.name} (+${this.selectedItems().length - 1})`;
     }
   });
 
@@ -67,11 +78,13 @@ export class ComboboxComponent {
     }
   }
 
-  selectItem(item: string) {
-    if (this.selectedItems().includes(item)) {
-      this.selectedItems.set(this.selectedItems().filter((i) => i !== item));
+  selectItem(item: ComboboxItem) {
+    if (this.selectedItems().includes(item.value)) {
+      this.selectedItems.set(
+        this.selectedItems().filter((i) => i !== item.value),
+      );
     } else {
-      this.selectedItems.set([...this.selectedItems(), item]);
+      this.selectedItems.set([...this.selectedItems(), item.value]);
     }
     this.searchText.set("");
     this.selectedItemsChange.emit(this.selectedItems());
@@ -83,9 +96,14 @@ export class ComboboxComponent {
     this.selectedItemsChange.emit(this.selectedItems());
   }
 
-  get filteredItems() {
+  get filteredItems(): ComboboxItem[] {
+    if (!this.items()) return [];
     return this.items().filter((item) =>
-      item.toLowerCase().includes(this.searchText().toLowerCase()),
+      item.name.toLowerCase().includes(this.searchText().toLowerCase()),
     );
+  }
+
+  isSelected(item: ComboboxItem): boolean {
+    return this.selectedItems().includes(item.value);
   }
 }

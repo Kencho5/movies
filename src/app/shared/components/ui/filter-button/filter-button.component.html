@@ -13,7 +13,7 @@
           <!-- Genres -->
           <div>
             <h3 class="mb-3 text-base font-semibold text-white">Genres</h3>
-            <app-combobox [items]="genres" (selectedItemsChange)="onGenreChange($event)" [selectedItemsInput]="selectedGenres()"></app-combobox>
+            <app-combobox [items]="genres()" (selectedItemsChange)="onGenreChange($event)" [selectedItemsInput]="selectedGenres()"></app-combobox>
           </div>
 
           <!-- Release Dates -->
@@ -22,14 +22,16 @@
             <div class="flex gap-2">
               <input
                 type="number"
-                [(ngModel)]="fromYear"
+                [ngModel]="fromYear()"
+                (ngModelChange)="fromYear.set($event)"
                 name="fromYear"
                 placeholder="From Year"
                 class="w-1/2 appearance-none rounded-lg border border-white/10 bg-white/5 py-2 pl-3 pr-3 text-sm text-white/80 transition-colors focus:border-primary-500 focus:bg-bg-highlight focus:outline-none focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
               <input
                 type="number"
-                [(ngModel)]="toYear"
+                [ngModel]="toYear()"
+                (ngModelChange)="toYear.set($event)"
                 name="toYear"
                 placeholder="To Year"
                 class="w-1/2 appearance-none rounded-lg border border-white/10 bg-white/5 py-2 pl-3 pr-3 text-sm text-white/80 transition-colors focus:border-primary-500 focus:bg-bg-highlight focus:outline-none focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
@@ -40,13 +42,13 @@
           <!-- Countries -->
           <div>
             <h3 class="mb-3 text-base font-semibold text-white">Countries</h3>
-            <app-combobox [items]="countries" (selectedItemsChange)="onCountryChange($event)" [selectedItemsInput]="selectedCountries()"></app-combobox>
+            <app-combobox [items]="countries()" (selectedItemsChange)="onCountryChange($event)" [selectedItemsInput]="selectedCountries()"></app-combobox>
           </div>
 
           <!-- Languages -->
           <div>
             <h3 class="mb-3 text-base font-semibold text-white">Languages</h3>
-            <app-combobox [items]="languages" (selectedItemsChange)="onLanguageChange($event)" [selectedItemsInput]="selectedLanguages()"></app-combobox>
+            <app-combobox [items]="languages()" (selectedItemsChange)="onLanguageChange($event)" [selectedItemsInput]="selectedLanguages()"></app-combobox>
           </div>
         </div>
 
