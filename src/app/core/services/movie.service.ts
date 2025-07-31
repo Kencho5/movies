@@ -10,11 +10,18 @@ import { Observable } from "rxjs";
 export class MovieService {
   constructor(private http: HttpClient) {}
 
-  getMovies(page: number = 1, genres?: string[], fromYear?: number | null, toYear?: number | null, countries?: string[], languages?: string[]): Observable<any> {
+  getMovies(
+    page: number = 1,
+    genres?: string[],
+    fromYear?: number | null,
+    toYear?: number | null,
+    countries?: string[],
+    languages?: string[],
+  ): Observable<any> {
     let url = `channel/movies?channelType=channel&restriction=&loader=channelPage&page=${page}`;
 
     if (genres && genres.length > 0) {
-      url += `&genre=${genres.join(',')}`;
+      url += `&genre=${genres.join(",")}`;
     }
     if (fromYear && toYear) {
       url += `&released=${fromYear},${toYear}`;
@@ -24,13 +31,13 @@ export class MovieService {
       url += `&released=,${toYear}`;
     }
     if (countries && countries.length > 0) {
-      url += `&country=${countries.join(',')}`;
+      url += `&country=${countries.join(",")}`;
     }
     if (languages && languages.length > 0) {
-      url += `&language=${languages.join(',')}`;
+      url += `&language=${languages.join(",")}`;
     }
 
-    console.log('API URL:', apiUrl(url));
+    console.log("API URL:", apiUrl(url));
     return this.http.get<any>(apiUrl(url));
   }
 
@@ -54,6 +61,14 @@ export class MovieService {
     return this.http.get<any>(
       apiUrl(
         `channel/series?channelType=channel&restriction=&loader=channelPage&page=${page}`,
+      ),
+    );
+  }
+
+  getFilters(): Observable<any> {
+    return this.http.get<any>(
+      apiUrl(
+        "https://kino-go.uk/api/v1/value-lists/titleFilterLanguages,productionCountries,genres,titleFilterAgeRatings",
       ),
     );
   }
