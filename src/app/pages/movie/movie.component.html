@@ -328,11 +328,11 @@
                       class="mb-2 aspect-[2/3] overflow-hidden rounded-md bg-gradient-to-br from-bg-highlight/50 to-bg-dark shadow-lg"
                     >
                       @if (actor.poster) {
-                        <img
+                        <app-image
                           [src]="actor.poster"
                           [alt]="actor.name"
-                          class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:opacity-80"
-                        />
+                          customClass="h-full w-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:opacity-80"
+                        ></app-image>
                       } @else {
                         <div class="flex h-full items-center justify-center">
                           <svg

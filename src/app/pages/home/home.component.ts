@@ -5,10 +5,11 @@ import { Movie } from "@core/interfaces/movies";
 import { LoadingDotsComponent } from "@shared/components/ui/loading-dots/loading-dots.component";
 import { catchError, finalize } from "rxjs/operators";
 import { of } from "rxjs";
+import { ImageComponent } from "@shared/components/ui/image/image.component";
 
 @Component({
   selector: "app-home",
-  imports: [SharedModule, LoadingDotsComponent],
+  imports: [SharedModule, LoadingDotsComponent, ImageComponent],
   templateUrl: "./home.component.html",
 })
 export class HomeComponent implements OnInit {

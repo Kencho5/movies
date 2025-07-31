@@ -5,10 +5,11 @@ import { MovieService } from "@core/services/movie.service";
 import { PlayerData } from "@core/interfaces/player";
 import { PlayerComponent } from "@shared/components/player/player.component";
 import { SharedModule } from "@shared/shared.module";
+import { ImageComponent } from "@shared/components/ui/image/image.component";
 
 @Component({
   selector: "app-movie",
-  imports: [SharedModule, PlayerComponent],
+  imports: [SharedModule, PlayerComponent, ImageComponent],
   templateUrl: "./movie.component.html",
 })
 export class MovieComponent {
