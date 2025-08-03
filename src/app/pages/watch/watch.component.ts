@@ -8,11 +8,11 @@ import { SharedModule } from "@shared/shared.module";
 import { ImageComponent } from "@shared/components/ui/image/image.component";
 
 @Component({
-  selector: "app-movie",
+  selector: "app-watch",
   imports: [SharedModule, PlayerComponent, ImageComponent],
-  templateUrl: "./movie.component.html",
+  templateUrl: "./watch.component.html",
 })
-export class MovieComponent {
+export class WatchComponent {
   private readonly movieService = inject(MovieService);
   private readonly route = inject(ActivatedRoute);
 

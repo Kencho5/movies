@@ -180,7 +180,7 @@
                 class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:justify-start"
               >
                 <a
-                  [routerLink]="['/movie', movies()[0].id]"
+                  [routerLink]="['/watch', movies()[0].id]"
                   class="group/btn flex items-center gap-2 rounded-lg bg-gradient-to-r from-red-600 to-red-500 px-5 py-2.5 text-base font-bold text-white shadow-xl shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-red-500/40 sm:gap-3 sm:px-6 sm:py-3 sm:text-lg"
                 >
                   <svg
@@ -245,7 +245,7 @@
         </svg>
         <p class="mb-6 text-xl font-medium">Featured content not available</p>
         <a
-          [routerLink]="['/movie', 1140]"
+          [routerLink]="['/watch', 1140]"
           class="rounded-lg bg-primary-500/20 px-6 py-3 font-semibold text-primary-400 transition-all hover:bg-primary-500/30 hover:text-primary-300"
           >Explore recommendations</a
         >
@@ -350,7 +350,7 @@
           @for (movie of movies(); track movie.id) {
             <div
               class="group/card flex w-[130px] flex-shrink-0 cursor-pointer flex-col transition-all duration-300 hover:scale-105 sm:w-[160px] md:w-[200px] lg:w-[240px]"
-              [routerLink]="['/movie', movie.id]"
+              [routerLink]="['/watch', movie.id]"
               tabindex="0"
               role="link"
               [attr.aria-label]="movie.name"
@@ -584,7 +584,7 @@
           @for (movie of movies().slice(0, 10); track movie.id) {
             <div
               class="group/card flex w-[130px] flex-shrink-0 cursor-pointer flex-col transition-all duration-300 hover:scale-105 sm:w-[160px] md:w-[200px] lg:w-[240px]"
-              [routerLink]="['/movie', movie.id]"
+              [routerLink]="['/watch', movie.id]"
               tabindex="0"
               role="link"
               [attr.aria-label]="movie.name"
@@ -758,7 +758,7 @@
           @for (movie of movies().slice(5, 15); track movie.id) {
             <div
               class="group/card flex w-[130px] flex-shrink-0 cursor-pointer flex-col transition-all duration-300 hover:scale-105 sm:w-[160px] md:w-[200px] lg:w-[240px]"
-              [routerLink]="['/movie', movie.id]"
+              [routerLink]="['/watch', movie.id]"
               tabindex="0"
               role="link"
               [attr.aria-label]="movie.name"

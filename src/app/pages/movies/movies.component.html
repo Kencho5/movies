@@ -41,7 +41,7 @@
         @for (item of movies().data; track item.id) {
           <a
             class="group/card cursor-pointer"
-            [routerLink]="['/movie', item.id]"
+            [routerLink]="['/watch', item.id]"
             tabindex="0"
             role="link"
             [attr.aria-label]="item.name"

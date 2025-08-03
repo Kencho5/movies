@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 import { LayoutComponent } from "@shared/components/layout/layout.component";
 import { HomeComponent } from "./pages/home/home.component";
-import { MovieComponent } from "./pages/movie/movie.component";
+import { WatchComponent } from "./pages/watch/watch.component";
 import { TvComponent } from "./pages/tv/tv.component";
 import { PeopleComponent } from "./pages/people/people.component";
 import { SeriesComponent } from "./pages/series/series.component";
@@ -25,8 +25,8 @@ export const routes: Routes = [
         component: SeriesComponent,
       },
       {
-        path: "movie/:id",
-        component: MovieComponent,
+        path: "watch/:id",
+        component: WatchComponent,
       },
       {
         path: "tv",
