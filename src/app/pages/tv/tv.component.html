@@ -1,124 +1,113 @@
 <div class="flex w-full flex-col">
   <div
-    class="flex h-[calc(100vh-104px)] flex-col bg-gradient-to-br from-bg-dark to-bg-card/80 text-white md:h-[calc(100vh-133px)] md:flex-row xl:h-[calc(100vh-223px)]"
+    class="flex h-[calc(100vh-104px)] flex-col bg-gradient-to-br from-bg-dark via-bg-card/60 to-bg-dark text-white md:h-[calc(100vh-133px)] md:flex-row xl:h-[calc(100vh-223px)]"
   >
-    <!-- Mobile header with menu button -->
+    <!-- Mobile headers -->
     <div
-      class="flex items-center justify-between border-b border-white/[0.08] bg-black/60 p-3 md:hidden"
+      class="flex items-center justify-between border-b border-white/10 bg-black/60 p-3 md:hidden"
     >
-      <h1 class="text-lg font-medium tracking-wide text-white">TV Channels</h1>
+      <h1 class="text-lg font-semibold tracking-wide">TV Channels</h1>
       <button
-        class="rounded-full bg-white/10 p-1.5 transition-all duration-300 hover:bg-white/15"
+        class="rounded-full bg-white/10 p-1.5 transition hover:bg-white/15"
         (click)="toggleSidebar('channels')"
-        aria-label="Toggle menu"
+        aria-label="Toggle channels"
       >
+        <!-- Bars-3 -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          fill="none"
+          class="h-5 w-5 text-white/90"
           viewBox="0 0 24 24"
-          stroke-width="2.5"
-          stroke="currentColor"
-          class="h-5 w-5"
+          fill="currentColor"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+            d="M3.75 6.75A.75.75 0 014.5 6h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75zM3.75 12.75A.75.75 0 014.5 12h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75zM4.5 18h15a.75.75 0 010 1.5h-15A.75.75 0 013.75 18.75.75.75 0 014.5 18z"
           />
         </svg>
       </button>
     </div>
     <div
-      class="flex items-center justify-between border-b border-white/[0.08] bg-black/60 p-3 md:hidden"
+      class="flex items-center justify-between border-b border-white/10 bg-black/60 p-3 md:hidden"
     >
-      <h1 class="text-lg font-medium tracking-wide text-white">Program List</h1>
+      <h1 class="text-lg font-semibold tracking-wide">Program List</h1>
       <button
-        class="rounded-full bg-white/10 p-1.5 transition-all duration-300 hover:bg-white/15"
+        class="rounded-full bg-white/10 p-1.5 transition hover:bg-white/15"
         (click)="toggleSidebar('programs')"
-        aria-label="Toggle menu"
+        aria-label="Toggle programs"
       >
+        <!-- List-bullet -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          fill="none"
+          class="h-5 w-5 text-white/90"
           viewBox="0 0 24 24"
-          stroke-width="2.5"
-          stroke="currentColor"
-          class="h-5 w-5"
+          fill="currentColor"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+            d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
           />
         </svg>
       </button>
     </div>
 
-    <!-- Left sidebar - Channels list -->
+    <!-- Left sidebar - Channels -->
     <div
-      class="md:w-76 fixed inset-0 z-50 flex-col border-r border-white/[0.08] bg-black/90 shadow-2xl backdrop-blur-xl transition-transform duration-300 md:static md:z-auto md:flex md:translate-x-0 md:bg-black/40"
+      class="md:w-76 fixed inset-0 z-50 flex-col border-r border-white/10 bg-black/90 shadow-2xl backdrop-blur-xl transition-transform duration-300 md:static md:z-auto md:flex md:translate-x-0 md:bg-black/40"
       [ngClass]="{
         'flex translate-x-0': sidebarOpen(),
         'translate-x-[-100%]': !sidebarOpen(),
       }"
     >
       <div
-        class="sticky top-0 z-10 flex items-center justify-between border-b border-white/[0.08] bg-black/60 p-4 backdrop-blur-xl"
+        class="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/60 p-4 backdrop-blur-xl"
       >
-        <h1 class="text-lg font-medium tracking-wide text-white">Channels</h1>
+        <h1 class="text-lg font-semibold tracking-wide">Channels</h1>
         <div class="flex items-center gap-2.5">
           <button
-            class="rounded-full p-1.5 transition-all duration-300 hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+            class="rounded-full p-1.5 transition hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
             aria-label="Filter channels"
           >
+            <!-- Funnel -->
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
+              class="h-5 w-5 text-white/80"
+              viewBox="0 0 24 24"
               fill="currentColor"
-              class="h-4.5 w-4.5 text-white/70"
             >
               <path
-                fill-rule="evenodd"
-                d="M2.628 1.601C5.028 1.206 7.49 1 10 1s4.973.206 7.372.601a.75.75 0 01.628.74v2.288a2.25 2.25 0 01-.659 1.59l-4.682 4.683a2.25 2.25 0 00-.659 1.59v3.037c0 .684-.31 1.33-.844 1.757l-1.937 1.55A.75.75 0 018 18.25v-5.757a2.25 2.25 0 00-.659-1.591L2.659 6.22A2.25 2.25 0 012 4.629V2.34a.75.75 0 01.628-.74z"
-                clip-rule="evenodd"
+                d="M3.75 6.75A.75.75 0 014.5 6h15a.75.75 0 01.6 1.2l-5.4 7.2v3.3a.75.75 0 01-.3.6l-3 2.25A.75.75 0 0110.5 20v-5.6L4.1 7.2a.75.75 0 01-.35-.45z"
               />
             </svg>
           </button>
           <button
-            class="rounded-full p-1.5 transition-all duration-300 hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+            class="rounded-full p-1.5 transition hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
             aria-label="Search channels"
           >
+            <!-- Magnifying glass -->
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
+              class="h-5 w-5 text-white/80"
+              viewBox="0 0 24 24"
               fill="currentColor"
-              class="h-4.5 w-4.5 text-white/70"
             >
               <path
-                fill-rule="evenodd"
-                d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-                clip-rule="evenodd"
+                d="M10.5 3.75a6.75 6.75 0 014.995 11.375l3.19 3.19a.75.75 0 11-1.06 1.06l-3.19-3.19A6.75 6.75 0 1110.5 3.75zm0 1.5a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5z"
               />
             </svg>
           </button>
-          <!-- Close button for mobile -->
+          <!-- Close (mobile) -->
           <button
-            class="rounded-full p-1.5 text-white/70 transition-all duration-300 hover:bg-white/10 hover:text-white md:hidden"
+            class="rounded-full p-1.5 text-white/70 transition hover:bg-white/10 hover:text-white md:hidden"
             (click)="toggleSidebar('channels')"
-            aria-label="Close program list"
+            aria-label="Close channels"
           >
+            <!-- X-mark -->
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
               class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="currentColor"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 18L18 6M6 6l12 12"
+                d="M6.225 4.811a.75.75 0 011.06 0L12 9.525l4.715-4.714a.75.75 0 111.06 1.06L13.06 10.586l4.715 4.714a.75.75 0 11-1.06 1.06L12 11.646l-4.715 4.714a.75.75 0 11-1.06-1.06L10.94 10.586 6.225 5.87a.75.75 0 010-1.06z"
               />
             </svg>
           </button>
@@ -127,29 +116,27 @@
 
       <div
         #scrollContainer
-        class="w-full flex-1 divide-y divide-white/[0.03] overflow-y-auto sm:w-[275px]"
+        class="w-full flex-1 divide-y divide-white/5 overflow-y-auto sm:w-[275px]"
         infiniteScroll
         [infiniteScrollDistance]="2"
         [infiniteScrollContainer]="scrollContainer"
         (scrolled)="updateChannels()"
       >
-        <!-- Skeleton Loading for Channels -->
         @if (loading()) {
           <app-channels-skeleton />
         } @else {
-          <!-- Channel Items -->
           @for (channel of channels(); track $index) {
             <button
-              class="group flex h-[84px] w-full cursor-pointer items-center justify-between px-4 py-5 transition-all duration-300 hover:bg-bg-highlight/40"
+              class="group flex h-[84px] w-full items-center justify-between px-4 py-5 transition-colors hover:bg-bg-highlight/40"
               [ngClass]="{
-                'border-l-3 border-primary-500 bg-primary-500/10 hover:bg-primary-500/15':
+                'border-l-4 border-primary-500 bg-primary-500/10 hover:bg-primary-500/15':
                   activeChannel()?.id === channel.id,
               }"
               (click)="changeChannel(channel.id)"
             >
               <div class="flex items-center">
                 <div
-                  class="mr-3.5 flex h-11 w-11 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/10 shadow-lg transition-transform duration-300 group-hover:scale-105"
+                  class="mr-3.5 flex h-11 w-11 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/10 shadow-lg transition-transform group-hover:scale-105"
                 >
                   <img
                     [src]="channel.cover"
@@ -159,7 +146,7 @@
                 </div>
                 <div class="flex-grow">
                   <div
-                    class="text-sm font-medium tracking-wide transition-colors duration-300 group-hover:text-primary-300"
+                    class="text-sm font-medium tracking-wide transition-colors group-hover:text-primary-300"
                   >
                     {{ channel.name.en }}
                   </div>
@@ -173,16 +160,17 @@
                 <span
                   class="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500"
                 ></span>
-                <span class="text-[11px] font-medium text-white">Live</span>
+                <span class="text-[11px] font-semibold text-white">Live</span>
               </div>
             </button>
           }
         }
       </div>
     </div>
+
     @if (hoveredChannel()) {
       <div
-        class="fixed z-50 h-52 w-[245px] overflow-hidden rounded-lg shadow-xl"
+        class="fixed z-50 h-52 w-[245px] overflow-hidden rounded-lg border border-white/10 bg-black/60 shadow-xl backdrop-blur"
         [style.top.px]="hoveredChannelPosition"
         style="left: calc(265px + 1rem)"
       >
@@ -199,7 +187,6 @@
       </div>
     }
 
-    <!-- Overlay for mobile sidebar -->
     @if (sidebarOpen()) {
       <div
         class="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
@@ -213,51 +200,42 @@
       ></div>
     }
 
+    <!-- Right sidebar - Programs -->
     <div
-      class="fixed inset-0 z-50 flex-col border-r border-white/[0.08] bg-black/90 shadow-2xl backdrop-blur-xl transition-transform duration-300 md:static md:z-auto md:flex md:w-64 md:translate-x-0 md:bg-black/30"
+      class="fixed inset-0 z-50 flex-col border-r border-white/10 bg-black/90 shadow-2xl backdrop-blur-xl transition-transform duration-300 md:static md:z-auto md:flex md:w-64 md:translate-x-0 md:bg-black/30"
       [ngClass]="{
         'flex translate-x-0': programSidebarOpen(),
         'translate-x-[-100%]': !programSidebarOpen(),
       }"
     >
-      <!-- Header -->
       <div
-        class="sticky top-0 z-10 flex items-center justify-between border-b border-white/[0.08] bg-black/60 p-4 backdrop-blur-xl"
+        class="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/60 p-4 backdrop-blur-xl"
       >
-        <h1 class="text-lg font-medium tracking-wide text-white">
-          Program List
-        </h1>
-        <!-- Close button for mobile -->
+        <h1 class="text-lg font-semibold tracking-wide">Program List</h1>
         <button
-          class="rounded-full p-1.5 text-white/70 transition-all duration-300 hover:bg-white/10 hover:text-white md:hidden"
+          class="rounded-full p-1.5 text-white/70 transition hover:bg-white/10 hover:text-white md:hidden"
           (click)="toggleSidebar('programs')"
-          aria-label="Close program list"
+          aria-label="Close programs"
         >
+          <!-- X-mark -->
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
             class="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
+              d="M6.225 4.811a.75.75 0 011.06 0L12 9.525l4.715-4.714a.75.75 0 111.06 1.06L13.06 10.586l4.715 4.714a.75.75 0 11-1.06 1.06L12 11.646l-4.715 4.714a.75.75 0 11-1.06-1.06L10.94 10.586 6.225 5.87a.75.75 0 010-1.06z"
             />
           </svg>
         </button>
       </div>
 
-      <!-- Content -->
       <div class="scrollbar-hide flex-1 overflow-y-auto">
         @if (loading() || programsLoading()) {
           <app-programs-skeleton />
         } @else {
-          <!-- Program Items -->
-          <div class="divide-y divide-white/[0.03]">
-            <!-- Featured Program -->
+          <div class="divide-y divide-white/5">
             @for (program of programs(); track $index) {
               <button
                 #programBtn
@@ -270,7 +248,7 @@
                 }"
                 (click)="setProgram(program)"
               >
-                <div class="flex items-center justify-between">
+                <div class="flex w-full items-center justify-between">
                   <span
                     class="rounded-full px-2 py-1 text-xs"
                     [ngClass]="{
@@ -283,7 +261,26 @@
                     {{ convertTimestampToHours(program.start) }} -
                     {{ convertTimestampToHours(program.stop) }}
                   </span>
+                  @if (activeProgram()?.start == program.start) {
+                    <!-- Now Playing icon -->
+                    <span
+                      class="text-red-300 inline-flex items-center gap-1 rounded-full bg-red-500/20 px-2 py-0.5 text-[11px] font-semibold"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3.5 w-3.5"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M12 3.75a8.25 8.25 0 10.002 16.5A8.25 8.25 0 0012 3.75zm-1.125 4.5a.75.75 0 011.125-.66l4.5 2.625a.75.75 0 010 1.32l-4.5 2.625A.75.75 0 0110.875 13V8.25z"
+                        />
+                      </svg>
+                      Live
+                    </span>
+                  }
                 </div>
+
                 <h3
                   class="mt-1 w-full truncate pl-1 text-start text-sm font-medium text-white"
                   [ngClass]="{
@@ -306,11 +303,10 @@
       </div>
     </div>
 
-    <!-- Right side - Player area -->
+    <!-- Player area -->
     <div class="flex flex-1 flex-col">
-      <!-- Player controls header -->
       <div
-        class="flex h-[61px] items-center justify-between border-b border-white/[0.08] bg-black/30 p-4 backdrop-blur-xl md:p-4"
+        class="flex h-[61px] items-center justify-between border-b border-white/10 bg-black/30 p-4 backdrop-blur-xl"
       >
         @if (!loading() && activeChannel()) {
           <div class="flex items-center gap-3 md:gap-4">
@@ -323,11 +319,11 @@
                 alt="{{ activeChannel()?.name?.en }}"
               />
             </div>
-            <h3 class="text-base font-medium tracking-wide md:text-lg">
+            <h3 class="text-base font-semibold tracking-wide md:text-lg">
               {{ activeChannel()?.name?.en }}
             </h3>
           </div>
-          <!-- Live button   -->
+
           <button
             type="button"
             [ngClass]="{
@@ -336,40 +332,33 @@
               'border-neutral-300 bg-neutral-200 text-neutral-500 opacity-60':
                 !isLive(),
             }"
-            class="flex h-8 items-center justify-center gap-1.5 rounded-full border px-3 text-sm shadow-sm transition-all duration-200 active:scale-95 md:h-9 md:px-4"
+            class="flex h-8 items-center justify-center gap-1.5 rounded-full border px-3 text-sm shadow-sm transition active:scale-95 md:h-9 md:px-4"
             (click)="resetPlayer()"
           >
-            <div class="relative">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-                fill="currentColor"
-                [ngClass]="{
-                  'animate-pulse': isLive(),
-                  'opacity-50': !isLive(),
-                }"
-                class="h-1.5 w-1.5 md:h-2 md:w-2"
-                style="filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.7))"
-              >
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-              </svg>
-            </div>
-            <span class="font-medium tracking-wide">Live</span>
+            <span class="relative inline-flex">
+              <span
+                class="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/60 opacity-60"
+                *ngIf="isLive()"
+              ></span>
+              <span
+                class="bg-current relative h-1.5 w-1.5 rounded-full md:h-2 md:w-2"
+              ></span>
+            </span>
+            <span class="font-semibold tracking-wide">Live</span>
           </button>
         } @else {
           <div
             class="relative h-8 w-32 overflow-hidden rounded-full bg-white/5"
           >
-            <!-- Shimmer effect -->
             <div
               class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
             ></div>
           </div>
         }
       </div>
+
       <div class="flex h-full flex-col">
         <div class="relative h-full w-full bg-black shadow-2xl">
-          <!-- Player loading skeleton -->
           @if (loading()) {
             <div
               class="absolute inset-0 flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-bg-dark to-bg-card/80"
@@ -382,19 +371,16 @@
               </p>
             </div>
           } @else {
-            <!-- Player container -->
             <app-player
               [playerData]="playerData()"
               [playerClass]="'h-full w-full'"
-            />
+            ></app-player>
           }
         </div>
-        <!--Player Controls-->
         <app-player-controls
           (togglePlayer)="togglePlayer()"
           (seek)="seek($event)"
-        >
-        </app-player-controls>
+        ></app-player-controls>
       </div>
     </div>
   </div>
@@ -404,9 +390,9 @@
       [selectedProgram]="activeProgram()"
       (timeSet)="timeSet($event)"
       (programProgress)="programProgress.set($event)"
-    />
+    ></app-timeline>
   } @else {
-    <app-timeline-skeleton />
+    <app-timeline-skeleton></app-timeline-skeleton>
   }
-  <app-days-selector (daySelected)="daySelected()" />
+  <app-days-selector (daySelected)="daySelected()"></app-days-selector>
 </div>

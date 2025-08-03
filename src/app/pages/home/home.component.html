@@ -1,141 +1,98 @@
-<div class="container mx-auto px-4 py-6 md:px-8 md:py-8">
-  <!-- Featured Hero Section -->
-  <section class="relative mb-12 sm:mb-16 md:mb-20">
-    @if (loading()) {
-      <div
-        class="relative h-[80vh] w-full overflow-hidden rounded-2xl bg-bg-card sm:h-[70vh] md:h-[65vh] lg:h-[70vh]"
-      >
-        <!-- Background shimmer -->
+<div class="relative">
+  <div class="container mx-auto px-4 md:px-8">
+    <!-- HERO / Billboard -->
+    <section class="relative mb-10 sm:mb-12 md:mb-14 lg:mb-16">
+      @if (loading()) {
         <div
-          class="absolute inset-0 animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
-        ></div>
-
-        <!-- Loading content -->
-        <div
-          class="absolute inset-0 flex flex-col items-center justify-center gap-6 p-4 text-center md:flex-row md:justify-center"
+          class="bg-bg.card relative h-[60vh] w-full overflow-hidden rounded-lg sm:h-[64vh] md:h-[68vh] lg:h-[72vh]"
         >
-          <!-- Poster placeholder -->
           <div
-            class="relative h-[280px] w-[190px] flex-shrink-0 overflow-hidden rounded-xl bg-bg-highlight shadow-2xl sm:h-[320px] sm:w-[220px] md:h-[380px] md:w-[260px]"
-          >
-            <div
-              class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
-            ></div>
-          </div>
-
-          <!-- Content placeholder -->
+            class="from-bg.dark via-bg.dark/60 to-bg.dark absolute inset-0 bg-gradient-to-b"
+          ></div>
           <div
-            class="w-full max-w-md space-y-4 md:w-auto md:max-w-none md:space-y-6"
-          >
-            <div
-              class="mx-auto h-6 w-32 rounded-full bg-bg-highlight md:mx-0"
-            ></div>
-            <div
-              class="mx-auto h-10 w-64 rounded bg-bg-highlight md:mx-0 md:h-12 md:w-80"
-            ></div>
-            <div
-              class="mx-auto h-4 w-full max-w-sm rounded bg-bg-highlight md:mx-0 md:w-96"
-            ></div>
-          </div>
+            class="absolute inset-0 animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
+          ></div>
         </div>
-      </div>
-    } @else if (movies()[0]) {
-      <div
-        class="group relative h-[90vh] w-full overflow-hidden rounded-2xl shadow-2xl sm:h-[80vh] md:h-[75vh] lg:h-[70vh]"
-      >
-        <!-- Backdrop Background -->
-        <div class="absolute inset-0">
+      } @else if (movies()[0]) {
+        <div
+          class="group relative h-[60vh] w-full overflow-hidden rounded-lg sm:h-[64vh] md:h-[68vh] lg:h-[72vh]"
+        >
           <img
             [src]="movies()[0].backdrop"
             [alt]="movies()[0].name"
-            class="h-full w-full object-cover object-center transition-transform duration-1000 group-hover:scale-105"
+            class="h-full w-full object-cover object-center transition-transform duration-[2000ms] group-hover:scale-[1.06]"
           />
 
-          <!-- Advanced gradient overlays for depth -->
+          <!-- Cinematic overlays -->
           <div
-            class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"
+            class="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/80"
           ></div>
           <div
-            class="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent md:from-black/60 md:via-black/20"
+            class="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"
           ></div>
           <div
-            class="absolute inset-0 bg-gradient-to-b from-black/90 via-transparent to-transparent"
+            class="from-bg.dark/60 pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l to-transparent"
           ></div>
-        </div>
 
-        <!-- Main Content Container -->
-        <div class="relative z-10 flex h-full items-end p-4 sm:p-6 md:p-8">
+          <!-- Accent diagonal ribbon -->
           <div
-            class="flex w-full flex-col items-center gap-6 text-center md:flex-row md:items-end md:gap-12 md:text-left"
-          >
-            <!-- Floating Movie Poster -->
+            class="pointer-events-none absolute -left-10 -top-10 h-40 w-80 -rotate-12 bg-gradient-to-r from-red-600/30 via-primary-600/20 to-transparent blur-2xl md:-left-16 md:-top-16 md:h-56 md:w-[30rem]"
+          ></div>
+
+          <!-- Billboard content -->
+          <div class="absolute inset-0 flex items-end">
             <div
-              class="relative w-[180px] flex-shrink-0 sm:w-[220px] md:w-[260px] lg:w-[290px]"
+              class="flex w-full flex-col gap-4 p-4 sm:gap-5 sm:p-6 md:max-w-[65%] md:gap-6 md:p-10 lg:max-w-[58%]"
             >
-              <div class="group/poster relative">
-                <!-- Poster shadow/glow effect -->
-                <div
-                  class="absolute -inset-2 rounded-2xl bg-gradient-to-br from-white/20 via-primary-500/20 to-red-500/20 opacity-30 blur-xl transition-all duration-500 group-hover/poster:opacity-50 md:-inset-4"
-                ></div>
-
-                <!-- Main poster -->
-                <div
-                  class="relative aspect-[2/3] w-full overflow-hidden rounded-xl shadow-2xl transition-all duration-500 group-hover/poster:scale-105"
-                >
-                  <img
-                    [src]="movies()[0].poster"
-                    [alt]="movies()[0].name"
-                    class="h-full w-full object-cover"
-                  />
-
-                  <!-- Poster overlay effects -->
-                  <div
-                    class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover/poster:opacity-100"
-                  ></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Movie Information -->
-            <div class="flex-1 space-y-4 md:space-y-6">
-              <!-- Featured Badge -->
-              <div class="flex justify-center md:justify-start">
-                <div
-                  class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-red-600 to-red-500 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg sm:px-4 sm:py-2 sm:text-sm"
-                >
-                  <div
-                    class="h-2 w-2 animate-pulse rounded-full bg-white"
-                  ></div>
-                  Featured Movie
-                </div>
+              <div
+                class="inline-flex w-fit items-center gap-2 rounded-full bg-gradient-to-r from-red-600 to-primary-600 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow shadow-red-600/20 sm:text-xs"
+              >
+                <span class="h-2 w-2 rounded-full bg-white"></span>
+                Featured
               </div>
 
-              <!-- Title with enhanced typography -->
-              <div class="space-y-2">
+              <div class="space-y-2 sm:space-y-3">
                 <h1
-                  class="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-3xl font-black tracking-tight text-transparent drop-shadow-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
+                  class="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-3xl font-black tracking-tight text-transparent drop-shadow md:text-5xl lg:text-6xl"
                 >
                   {{ movies()[0].name }}
                 </h1>
-
                 @if (movies()[0].tagline) {
-                  <p
-                    class="text-base italic text-white/80 sm:text-lg md:text-xl lg:text-2xl"
-                  >
+                  <p class="max-w-3xl text-sm text-neutral-200/90 md:text-base">
                     "{{ movies()[0].tagline }}"
                   </p>
                 }
               </div>
 
-              <!-- Enhanced metadata with glassmorphism -->
               <div
-                class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:justify-start"
+                class="hidden max-w-3xl text-sm leading-relaxed text-neutral-200/80 sm:line-clamp-3 md:block md:text-base"
               >
-                <div
-                  class="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-sm backdrop-blur-lg sm:px-4 sm:py-2"
+                Experience an epic adventure that pushes the boundaries of
+                action cinema with breathtaking visuals and heart-stopping
+                moments.
+              </div>
+
+              <!-- Meta chips -->
+              <div
+                class="mt-1 flex flex-wrap items-center gap-2 text-xs sm:text-sm"
+              >
+                <span
+                  class="rounded-full bg-white/10 px-2.5 py-1 text-white backdrop-blur"
+                  >{{ movies()[0].year || 2024 }}</span
+                >
+                <span
+                  class="rounded-full bg-white/10 px-2.5 py-1 text-white backdrop-blur"
+                  >2h 0m</span
+                >
+                <span
+                  class="rounded-full bg-gradient-to-r from-primary-600 to-red-600 px-2.5 py-1 text-white"
+                  >4K</span
+                >
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 text-white backdrop-blur"
                 >
                   <svg
-                    class="text-yellow-400 h-4 w-4 sm:h-5 sm:w-5"
+                    class="text-yellow-500 h-4 w-4"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -143,51 +100,21 @@
                       d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                     />
                   </svg>
-                  <span class="font-semibold text-white">9.2</span>
-                </div>
-
-                <div
-                  class="rounded-full bg-white/10 px-3 py-1.5 text-sm font-medium text-white backdrop-blur-lg sm:px-4 sm:py-2"
-                >
-                  2024
-                </div>
-
-                <div
-                  class="hidden rounded-full bg-white/10 px-3 py-1.5 font-medium text-white backdrop-blur-lg sm:block sm:px-4 sm:py-2"
-                >
-                  2h 0m
-                </div>
-
-                <div
-                  class="from-blue-500 to-purple-500 rounded-full bg-gradient-to-r px-3 py-1.5 text-sm font-bold text-white sm:px-4 sm:py-2"
-                >
-                  4K
-                </div>
+                  <span class="font-semibold">9.2</span>
+                </span>
               </div>
 
-              <!-- Enhanced description -->
-              <p
-                class="hidden text-sm leading-relaxed text-white/70 sm:line-clamp-3 md:text-base lg:max-w-2xl"
-              >
-                Experience an epic adventure that pushes the boundaries of
-                action cinema. With breathtaking visuals and heart-stopping
-                moments, this masterpiece delivers an unforgettable journey
-                through spectacular landscapes and intense thrills.
-              </p>
-
-              <!-- Modern action buttons -->
-              <div
-                class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:justify-start"
-              >
+              <!-- Actions -->
+              <div class="mt-2 flex flex-wrap items-center gap-3 sm:gap-4">
                 <a
                   [routerLink]="['/watch', movies()[0].id]"
-                  class="group/btn flex items-center gap-2 rounded-lg bg-gradient-to-r from-red-600 to-red-500 px-5 py-2.5 text-base font-bold text-white shadow-xl shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-red-500/40 sm:gap-3 sm:px-6 sm:py-3 sm:text-lg"
+                  class="inline-flex items-center gap-2 rounded-md bg-white px-5 py-2.5 text-sm font-extrabold text-black transition hover:bg-white/90 md:px-6 md:py-3 md:text-base"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 md:h-6 md:w-6"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    class="h-5 w-5 transition-transform group-hover/btn:scale-110 sm:h-6 sm:w-6"
                   >
                     <path
                       fill-rule="evenodd"
@@ -195,17 +122,16 @@
                       clip-rule="evenodd"
                     />
                   </svg>
-                  Watch Now
+                  Play
                 </a>
-
                 <button
-                  class="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-5 py-2.5 text-base font-semibold text-white backdrop-blur-lg transition-all duration-300 hover:scale-105 hover:bg-white/20 sm:gap-3 sm:px-6 sm:py-3 sm:text-lg"
+                  class="inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20 md:px-6 md:py-3 md:text-base"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 md:h-6 md:w-6"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    class="h-5 w-5 sm:h-6 sm:w-6"
                   >
                     <path
                       fill-rule="evenodd"
@@ -218,628 +144,489 @@
               </div>
             </div>
           </div>
+
+          <!-- Bottom accent line -->
+          <div
+            class="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-red-600/50 to-transparent"
+          ></div>
+        </div>
+      } @else {
+        <div
+          class="from-bg.card via-bg.highlight to-bg.card flex h-[48vh] w-full flex-col items-center justify-center rounded-lg bg-gradient-to-br text-white/60"
+        >
+          <p class="text-lg">Featured content not available</p>
+        </div>
+      }
+    </section>
+
+    <!-- ROWS -->
+    <section class="space-y-12 pb-14 md:space-y-14 md:pb-16">
+      <!-- Shared row component: Netflix-like -->
+      <!-- Trending Now -->
+      <div class="relative">
+        <!-- Section background gradient -->
+        <div
+          class="via-bg.card/15 pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent to-transparent"
+        ></div>
+
+        <div class="mb-3 flex items-end justify-between sm:mb-4">
+          <h2 class="text-xl font-bold text-white md:text-2xl">Trending Now</h2>
+          <div class="flex items-center gap-2">
+            <button
+              (click)="scrollCarousel('trending-carousel', 'left')"
+              class="bg-bg.card/80 hover:bg-bg.highlight flex h-9 w-9 items-center justify-center rounded-full text-white/70 shadow-sm backdrop-blur-sm transition hover:scale-110 hover:text-white sm:h-10 sm:w-10"
+              aria-label="Previous movies"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 19.5 8.25 12l7.5-7.5"
+                />
+              </svg>
+            </button>
+            <button
+              (click)="scrollCarousel('trending-carousel', 'right')"
+              class="bg-bg.card/80 hover:bg-bg.highlight flex h-9 w-9 items-center justify-center rounded-full text-white/70 shadow-sm backdrop-blur-sm transition hover:scale-110 hover:text-white sm:h-10 sm:w-10"
+              aria-label="Next movies"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
 
-        <!-- Subtle animated elements -->
-        <div
-          class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-red-500/50 to-transparent"
-        ></div>
-      </div>
-    } @else {
-      <div
-        class="flex h-[60vh] w-full flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-bg-card via-bg-highlight to-bg-card text-white/50"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="mb-6 h-16 w-16 opacity-40"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"
-          />
-        </svg>
-        <p class="mb-6 text-xl font-medium">Featured content not available</p>
-        <a
-          [routerLink]="['/watch', 1140]"
-          class="rounded-lg bg-primary-500/20 px-6 py-3 font-semibold text-primary-400 transition-all hover:bg-primary-500/30 hover:text-primary-300"
-          >Explore recommendations</a
-        >
-      </div>
-    }
-  </section>
+        <div class="relative overflow-hidden">
+          <!-- Edge fades (outside scroll area) -->
+          <div
+            class="from-bg.dark pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r to-transparent sm:w-14"
+          ></div>
+          <div
+            class="from-bg.dark pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l to-transparent sm:w-14"
+          ></div>
 
-  <!-- Trending Categories Section -->
-  <section class="mb-10 sm:mb-12 md:mb-16">
-    <div class="mb-5 flex items-center justify-between sm:mb-6">
-      <h2 class="text-lg font-semibold text-white sm:text-xl md:text-2xl">
-        Trending Now
-      </h2>
-
-      <!-- Navigation arrows for this section -->
-      <div class="flex items-center gap-2">
-        <button
-          (click)="scrollCarousel('trending-carousel', 'left')"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-bg-highlight hover:text-white"
-          aria-label="Previous movies"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="h-5 w-5"
+          <!-- Scroll area: no negative margins; internal padding provides left start -->
+          <div
+            id="trending-carousel"
+            class="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-4 pl-1 pr-1 sm:gap-4 sm:pl-2 sm:pr-2"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15.75 19.5L8.25 12l7.5-7.5"
-            />
-          </svg>
-        </button>
-
-        <button
-          (click)="scrollCarousel('trending-carousel', 'right')"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-bg-highlight hover:text-white"
-          aria-label="Next movies"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="h-5 w-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M8.25 4.5l7.5 7.5-7.5 7.5"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- Movies grid -->
-    <div class="group/carousel relative overflow-hidden">
-      <!-- Left Shadow/Overlay -->
-      <div
-        class="pointer-events-none absolute bottom-4 left-0 top-0 z-10 w-12 bg-gradient-to-r from-bg-dark to-transparent sm:w-16"
-      ></div>
-
-      <!-- Carousel Content -->
-      <div
-        id="trending-carousel"
-        class="-mx-2 flex space-x-3 overflow-x-auto scroll-smooth pb-4 pl-4 pr-12 sm:space-x-4 sm:pl-6 sm:pr-16"
-      >
-        @if (loading() || !movies()) {
-          @for (i of [].constructor(8); track $index) {
-            <div
-              class="flex w-[130px] flex-shrink-0 flex-col sm:w-[160px] md:w-[200px] lg:w-[240px]"
-            >
-              <div
-                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-bg-card"
-              >
+            @if (loading() || !movies()) {
+              @for (i of [].constructor(8); track $index) {
                 <div
-                  class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
-                ></div>
-              </div>
-              <div
-                class="relative mt-3 h-3 w-3/4 overflow-hidden rounded bg-bg-card sm:h-4"
-              >
-                <div
-                  class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
-                ></div>
-              </div>
-              <div
-                class="relative mt-2 h-2 w-1/2 overflow-hidden rounded bg-bg-card sm:h-3"
-              >
-                <div
-                  class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
-                ></div>
-              </div>
-            </div>
-          }
-        } @else {
-          @for (movie of movies(); track movie.id) {
-            <div
-              class="group/card flex w-[130px] flex-shrink-0 cursor-pointer flex-col transition-all duration-300 hover:scale-105 sm:w-[160px] md:w-[200px] lg:w-[240px]"
-              [routerLink]="['/watch', movie.id]"
-              tabindex="0"
-              role="link"
-              [attr.aria-label]="movie.name"
-            >
-              <div
-                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg shadow-lg"
-              >
-                <!-- Poster image with better transitions -->
-                <app-image
-                  [src]="movie.poster"
-                  [alt]="movie.name"
-                  customClass="h-full w-full object-cover group-hover/card:scale-110"
-                ></app-image>
-
-                <!-- Gradient overlay with opacity transition -->
-                <div
-                  class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
-                ></div>
-
-                <!-- Play button overlay -->
-                <div
-                  class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+                  class="w-[56vw] max-w-[220px] flex-shrink-0 snap-start sm:w-[40vw] md:w-[26vw] lg:w-[18vw]"
                 >
                   <div
-                    class="rounded-full bg-white/20 p-2 backdrop-blur-sm transition-transform duration-200 hover:scale-110 sm:p-2.5"
+                    class="bg-bg.card relative aspect-[2/3] w-full overflow-hidden rounded-md"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="h-6 w-6 text-white sm:h-7 sm:w-7 md:h-8 md:w-8"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                </div>
-
-                <!-- Quick preview tooltip -->
-                <div
-                  class="absolute -top-32 left-1/2 z-20 w-64 -translate-x-1/2 opacity-0 transition-all duration-300 group-hover/card:opacity-100 group-hover/card:delay-700"
-                >
-                  <div
-                    class="rounded-lg bg-bg-card/95 p-3 shadow-2xl backdrop-blur-sm"
-                  >
-                    <div class="flex items-start gap-3">
-                      <div class="flex-shrink-0">
-                        <app-image
-                          [src]="movie.poster"
-                          [alt]="movie.name"
-                          customClass="h-16 w-12 rounded object-cover"
-                        ></app-image>
-                      </div>
-                      <div class="min-w-0 flex-1">
-                        <h4 class="truncate text-sm font-medium text-white">
-                          {{ movie.name }}
-                        </h4>
-                        <div
-                          class="mt-1 flex items-center gap-2 text-xs text-white/70"
-                        >
-                          <span class="flex items-center gap-1">
-                            <svg
-                              class="text-yellow-400 h-3 w-3"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                              />
-                            </svg>
-                            {{ movie.rating }}
-                          </span>
-                          <span>•</span>
-                          <span>{{ movie.year }}</span>
-                        </div>
-                        <p class="mt-1 line-clamp-2 text-xs text-white/60">
-                          Action-packed thriller with stunning visuals and
-                          compelling storyline.
-                        </p>
-                        <div class="mt-2 flex gap-1">
-                          <span
-                            class="rounded bg-primary-500/20 px-1.5 py-0.5 text-xs text-primary-400"
-                            >Action</span
-                          >
-                          <span
-                            class="rounded bg-white/10 px-1.5 py-0.5 text-xs text-white/70"
-                            >Drama</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Tooltip arrow -->
                     <div
-                      class="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 bg-bg-card/95"
+                      class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
                     ></div>
                   </div>
                 </div>
-              </div>
-
-              <!-- Movie info with improved typography -->
-              <div class="mt-2 px-0.5 sm:mt-3">
-                <h3
-                  class="truncate text-xs font-medium text-white sm:text-sm md:text-base"
-                  [title]="movie.name"
-                >
-                  {{ movie.name }}
-                </h3>
+              }
+            } @else {
+              @for (movie of movies(); track movie.id) {
                 <div
-                  class="mt-1 flex items-center gap-1 text-[10px] text-white/60 sm:mt-1.5 sm:gap-2 sm:text-xs"
+                  class="group/card w-[56vw] max-w-[220px] flex-shrink-0 cursor-pointer snap-start transition-transform duration-300 hover:scale-[1.03] sm:w-[40vw] md:w-[26vw] lg:w-[18vw]"
+                  [routerLink]="['/watch', movie.id]"
+                  tabindex="0"
+                  role="link"
+                  [attr.aria-label]="movie.name"
                 >
                   <div
-                    class="text-yellow-400 flex items-center gap-0.5 sm:gap-1"
+                    class="relative aspect-[2/3] w-full overflow-hidden rounded-md shadow-lg"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="#ffe234"
-                      class="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5"
+                    <app-image
+                      [src]="movie.poster"
+                      [alt]="movie.name"
+                      customClass="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-110"
+                    ></app-image>
+
+                    <!-- Clean hover overlay -->
+                    <div
+                      class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+                    ></div>
+
+                    <!-- Play icon -->
+                    <div
+                      class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
                     >
-                      <path
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                      />
-                    </svg>
-                    <span>{{ movie.rating }}</span>
+                      <div
+                        class="rounded-full bg-white/20 p-2 backdrop-blur-sm sm:p-2.5"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-6 w-6 text-white sm:h-7 sm:w-7"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
-                  <span class="text-white/40">•</span>
-                  <span>{{ movie.year }}</span>
+
+                  <div class="mt-2 px-0.5">
+                    <h3
+                      class="truncate text-xs font-medium text-white sm:text-sm md:text-base"
+                      [title]="movie.name"
+                    >
+                      {{ movie.name }}
+                    </h3>
+                    <div
+                      class="mt-1 flex items-center gap-2 text-[10px] text-white/60 sm:text-xs"
+                    >
+                      <span
+                        class="text-yellow-500 inline-flex items-center gap-1"
+                      >
+                        <svg viewBox="0 0 20 20" fill="#f5c518" class="h-3 w-3">
+                          <path
+                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                          />
+                        </svg>
+                        {{ movie.rating }}
+                      </span>
+                      <span class="text-white/40">•</span>
+                      <span>{{ movie.year }}</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          }
-        }
+              }
+            }
+          </div>
+        </div>
       </div>
+      <!-- Recently Added -->
+      <div class="relative">
+        <div
+          class="via-bg.highlight/20 pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent to-transparent"
+        ></div>
 
-      <!-- Right Shadow/Overlay -->
-      <div
-        class="pointer-events-none absolute bottom-4 right-0 top-0 z-10 w-12 bg-gradient-to-l from-bg-dark to-transparent sm:w-16"
-      ></div>
-    </div>
-  </section>
-
-  <!-- Recently Added Section -->
-  <section class="mb-10 sm:mb-12 md:mb-16">
-    <div class="mb-5 flex items-center justify-between sm:mb-6">
-      <h2 class="text-lg font-semibold text-white sm:text-xl md:text-2xl">
-        Recently Added
-      </h2>
-
-      <!-- Navigation arrows for this section -->
-      <div class="flex items-center gap-2">
-        <button
-          (click)="scrollCarousel('recent-carousel', 'left')"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-bg-highlight hover:text-white"
-          aria-label="Previous movies"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="h-5 w-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15.75 19.5L8.25 12l7.5-7.5"
-            />
-          </svg>
-        </button>
-
-        <button
-          (click)="scrollCarousel('recent-carousel', 'right')"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-bg-highlight hover:text-white"
-          aria-label="Next movies"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="h-5 w-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M8.25 4.5l7.5 7.5-7.5 7.5"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="group/carousel relative overflow-hidden">
-      <!-- Left Shadow/Overlay -->
-      <div
-        class="pointer-events-none absolute bottom-4 left-0 top-0 z-10 w-12 bg-gradient-to-r from-bg-dark to-transparent sm:w-16"
-      ></div>
-
-      <!-- Carousel Content -->
-      <div
-        id="recent-carousel"
-        class="-mx-2 flex space-x-3 overflow-x-auto scroll-smooth pb-4 pl-4 pr-12 sm:space-x-4 sm:pl-6 sm:pr-16"
-      >
-        @if (loading() || !movies()) {
-          @for (i of [].constructor(8); track $index) {
-            <div
-              class="flex w-[130px] flex-shrink-0 flex-col sm:w-[160px] md:w-[200px] lg:w-[240px]"
+        <div class="mb-3 flex items-end justify-between sm:mb-4">
+          <h2 class="text-xl font-bold text-white md:text-2xl">
+            Recently Added
+          </h2>
+          <div class="flex items-center gap-2">
+            <button
+              (click)="scrollCarousel('recent-carousel', 'left')"
+              class="bg-bg.card/80 hover:bg-bg.highlight flex h-9 w-9 items-center justify-center rounded-full text-white/70 shadow-sm backdrop-blur-sm transition hover:scale-110 hover:text-white sm:h-10 sm:w-10"
+              aria-label="Previous movies"
             >
-              <div
-                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-bg-card"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
               >
-                <div
-                  class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
-                ></div>
-              </div>
-              <div
-                class="relative mt-3 h-3 w-3/4 overflow-hidden rounded bg-bg-card sm:h-4"
-              >
-                <div
-                  class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
-                ></div>
-              </div>
-            </div>
-          }
-        } @else {
-          @for (movie of movies().slice(0, 10); track movie.id) {
-            <div
-              class="group/card flex w-[130px] flex-shrink-0 cursor-pointer flex-col transition-all duration-300 hover:scale-105 sm:w-[160px] md:w-[200px] lg:w-[240px]"
-              [routerLink]="['/watch', movie.id]"
-              tabindex="0"
-              role="link"
-              [attr.aria-label]="movie.name"
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 19.5 8.25 12l7.5-7.5"
+                />
+              </svg>
+            </button>
+            <button
+              (click)="scrollCarousel('recent-carousel', 'right')"
+              class="bg-bg.card/80 hover:bg-bg.highlight flex h-9 w-9 items-center justify-center rounded-full text-white/70 shadow-sm backdrop-blur-sm transition hover:scale-110 hover:text-white sm:h-10 sm:w-10"
+              aria-label="Next movies"
             >
-              <div
-                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg shadow-lg"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
               >
-                <!-- Poster image -->
-                <app-image
-                  [src]="movie.poster"
-                  [alt]="movie.name"
-                  customClass="h-full w-full object-cover group-hover/card:scale-110"
-                ></app-image>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
 
-                <!-- Gradient overlay -->
-                <div
-                  class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
-                ></div>
+        <div class="relative overflow-hidden">
+          <div
+            class="from-bg.dark pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r to-transparent sm:w-14"
+          ></div>
+          <div
+            class="from-bg.dark pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l to-transparent sm:w-14"
+          ></div>
 
-                <!-- Play button overlay -->
-                <div
-                  class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
-                >
-                  <div
-                    class="rounded-full bg-white/20 p-2 backdrop-blur-sm transition-transform duration-200 hover:scale-110 sm:p-2.5"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="h-6 w-6 text-white sm:h-7 sm:w-7 md:h-8 md:w-8"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Movie info -->
-              <div class="mt-2 px-0.5 sm:mt-3">
-                <h3
-                  class="truncate text-xs font-medium text-white sm:text-sm md:text-base"
-                  [title]="movie.name"
-                >
-                  {{ movie.name }}
-                </h3>
-                <div
-                  class="mt-1 flex items-center gap-1 text-[10px] text-white/60 sm:mt-1.5 sm:gap-2 sm:text-xs"
-                >
-                  <div
-                    class="text-yellow-400 flex items-center gap-0.5 sm:gap-1"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="#ffe234"
-                      class="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5"
-                    >
-                      <path
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                      />
-                    </svg>
-                    <span>{{ movie.rating }}</span>
-                  </div>
-                  <span class="text-white/40">•</span>
-                  <span>{{ movie.year }}</span>
-                </div>
-              </div>
-            </div>
-          }
-        }
-      </div>
-
-      <!-- Right Shadow/Overlay -->
-      <div
-        class="pointer-events-none absolute bottom-4 right-0 top-0 z-10 w-12 bg-gradient-to-l from-bg-dark to-transparent sm:w-16"
-      ></div>
-    </div>
-  </section>
-
-  <!-- Popular Movies Section -->
-  <section class="mb-10 sm:mb-12 md:mb-16">
-    <div class="mb-5 flex items-center justify-between sm:mb-6">
-      <h2 class="text-lg font-semibold text-white sm:text-xl md:text-2xl">
-        Popular Movies
-      </h2>
-
-      <!-- Navigation arrows for this section -->
-      <div class="flex items-center gap-2">
-        <button
-          (click)="scrollCarousel('popular-carousel', 'left')"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-bg-highlight hover:text-white"
-          aria-label="Previous movies"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="h-5 w-5"
+          <div
+            id="recent-carousel"
+            class="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-4 pl-1 pr-1 sm:gap-4 sm:pl-2 sm:pr-2"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15.75 19.5L8.25 12l7.5-7.5"
-            />
-          </svg>
-        </button>
+            @if (loading() || !movies()) {
+              @for (i of [].constructor(8); track $index) {
+                <div
+                  class="w-[56vw] max-w-[220px] flex-shrink-0 snap-start sm:w-[40vw] md:w-[26vw] lg:w-[18vw]"
+                >
+                  <div
+                    class="bg-bg.card relative aspect-[2/3] w-full overflow-hidden rounded-md"
+                  >
+                    <div
+                      class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
+                    ></div>
+                  </div>
+                </div>
+              }
+            } @else {
+              @for (movie of movies().slice(0, 12); track movie.id) {
+                <div
+                  class="group/card w-[56vw] max-w-[220px] flex-shrink-0 cursor-pointer snap-start transition-transform duration-300 hover:scale-[1.03] sm:w-[40vw] md:w-[26vw] lg:w-[18vw]"
+                  [routerLink]="['/watch', movie.id]"
+                  tabindex="0"
+                  role="link"
+                  [attr.aria-label]="movie.name"
+                >
+                  <div
+                    class="relative aspect-[2/3] w-full overflow-hidden rounded-md shadow-lg"
+                  >
+                    <app-image
+                      [src]="movie.poster"
+                      [alt]="movie.name"
+                      customClass="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-110"
+                    ></app-image>
 
-        <button
-          (click)="scrollCarousel('popular-carousel', 'right')"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-bg-card/80 text-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-bg-highlight hover:text-white"
-          aria-label="Next movies"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="h-5 w-5"
+                    <div
+                      class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+                    ></div>
+
+                    <div
+                      class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+                    >
+                      <div
+                        class="rounded-full bg-white/20 p-2 backdrop-blur-sm sm:p-2.5"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-6 w-6 text-white sm:h-7 sm:w-7"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mt-2 px-0.5">
+                    <h3
+                      class="truncate text-xs font-medium text-white sm:text-sm md:text-base"
+                      [title]="movie.name"
+                    >
+                      {{ movie.name }}
+                    </h3>
+                    <div
+                      class="mt-1 flex items-center gap-2 text-[10px] text-white/60 sm:text-xs"
+                    >
+                      <span
+                        class="text-yellow-500 inline-flex items-center gap-1"
+                      >
+                        <svg viewBox="0 0 20 20" fill="#f5c518" class="h-3 w-3">
+                          <path
+                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                          />
+                        </svg>
+                        {{ movie.rating }}
+                      </span>
+                      <span class="text-white/40">•</span>
+                      <span>{{ movie.year }}</span>
+                    </div>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      </div>
+      <!-- Popular Movies -->
+      <div class="relative">
+        <div
+          class="via-bg.card/15 pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent to-transparent"
+        ></div>
+
+        <div class="mb-3 flex items-end justify-between sm:mb-4">
+          <h2 class="text-xl font-bold text-white md:text-2xl">
+            Popular Movies
+          </h2>
+          <div class="flex items-center gap-2">
+            <button
+              (click)="scrollCarousel('popular-carousel', 'left')"
+              class="bg-bg.card/80 hover:bg-bg.highlight flex h-9 w-9 items-center justify-center rounded-full text-white/70 shadow-sm backdrop-blur-sm transition hover:scale-110 hover:text-white sm:h-10 sm:w-10"
+              aria-label="Previous movies"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 19.5 8.25 12l7.5-7.5"
+                />
+              </svg>
+            </button>
+            <button
+              (click)="scrollCarousel('popular-carousel', 'right')"
+              class="bg-bg.card/80 hover:bg-bg.highlight flex h-9 w-9 items-center justify-center rounded-full text-white/70 shadow-sm backdrop-blur-sm transition hover:scale-110 hover:text-white sm:h-10 sm:w-10"
+              aria-label="Next movies"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="relative overflow-hidden">
+          <div
+            class="from-bg.dark pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r to-transparent sm:w-14"
+          ></div>
+          <div
+            class="from-bg.dark pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l to-transparent sm:w-14"
+          ></div>
+
+          <div
+            id="popular-carousel"
+            class="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-4 pl-1 pr-1 sm:gap-4 sm:pl-2 sm:pr-2"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M8.25 4.5l7.5 7.5-7.5 7.5"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="group/carousel relative overflow-hidden">
-      <!-- Left Shadow/Overlay -->
-      <div
-        class="pointer-events-none absolute bottom-4 left-0 top-0 z-10 w-12 bg-gradient-to-r from-bg-dark to-transparent sm:w-16"
-      ></div>
-
-      <!-- Carousel Content -->
-      <div
-        id="popular-carousel"
-        class="-mx-2 flex space-x-3 overflow-x-auto scroll-smooth pb-4 pl-4 pr-12 sm:space-x-4 sm:pl-6 sm:pr-16"
-      >
-        @if (loading() || !movies()) {
-          @for (i of [].constructor(8); track $index) {
-            <div
-              class="flex w-[130px] flex-shrink-0 flex-col sm:w-[160px] md:w-[200px] lg:w-[240px]"
-            >
-              <div
-                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-bg-card"
-              >
+            @if (loading() || !movies()) {
+              @for (i of [].constructor(8); track $index) {
                 <div
-                  class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
-                ></div>
-              </div>
-              <div
-                class="relative mt-3 h-3 w-3/4 overflow-hidden rounded bg-bg-card sm:h-4"
-              >
-                <div
-                  class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
-                ></div>
-              </div>
-            </div>
-          }
-        } @else {
-          @for (movie of movies().slice(5, 15); track movie.id) {
-            <div
-              class="group/card flex w-[130px] flex-shrink-0 cursor-pointer flex-col transition-all duration-300 hover:scale-105 sm:w-[160px] md:w-[200px] lg:w-[240px]"
-              [routerLink]="['/watch', movie.id]"
-              tabindex="0"
-              role="link"
-              [attr.aria-label]="movie.name"
-            >
-              <div
-                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg shadow-lg"
-              >
-                <!-- Poster image -->
-                <app-image
-                  [src]="movie.poster"
-                  [alt]="movie.name"
-                  customClass="h-full w-full object-cover group-hover/card:scale-110"
-                ></app-image>
-
-                <!-- Gradient overlay -->
-                <div
-                  class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
-                ></div>
-
-                <!-- Play button overlay -->
-                <div
-                  class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+                  class="w-[56vw] max-w-[220px] flex-shrink-0 snap-start sm:w-[40vw] md:w-[26vw] lg:w-[18vw]"
                 >
                   <div
-                    class="rounded-full bg-white/20 p-2 backdrop-blur-sm transition-transform duration-200 hover:scale-110 sm:p-2.5"
+                    class="bg-bg.card relative aspect-[2/3] w-full overflow-hidden rounded-md"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="h-6 w-6 text-white sm:h-7 sm:w-7 md:h-8 md:w-8"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
+                    <div
+                      class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
+                    ></div>
                   </div>
                 </div>
-              </div>
-
-              <!-- Movie info -->
-              <div class="mt-2 px-0.5 sm:mt-3">
-                <h3
-                  class="truncate text-xs font-medium text-white sm:text-sm md:text-base"
-                  [title]="movie.name"
-                >
-                  {{ movie.name }}
-                </h3>
+              }
+            } @else {
+              @for (movie of movies().slice(5, 17); track movie.id) {
                 <div
-                  class="mt-1 flex items-center gap-1 text-[10px] text-white/60 sm:mt-1.5 sm:gap-2 sm:text-xs"
+                  class="group/card w-[56vw] max-w-[220px] flex-shrink-0 cursor-pointer snap-start transition-transform duration-300 hover:scale-[1.03] sm:w-[40vw] md:w-[26vw] lg:w-[18vw]"
+                  [routerLink]="['/watch', movie.id]"
+                  tabindex="0"
+                  role="link"
+                  [attr.aria-label]="movie.name"
                 >
                   <div
-                    class="text-yellow-400 flex items-center gap-0.5 sm:gap-1"
+                    class="relative aspect-[2/3] w-full overflow-hidden rounded-md shadow-lg"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="#ffe234"
-                      class="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5"
-                    >
-                      <path
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                      />
-                    </svg>
-                    <span>{{ movie.rating }}</span>
-                  </div>
-                  <span class="text-white/40">•</span>
-                  <span>{{ movie.year }}</span>
-                </div>
-              </div>
-            </div>
-          }
-        }
-      </div>
+                    <app-image
+                      [src]="movie.poster"
+                      [alt]="movie.name"
+                      customClass="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-110"
+                    ></app-image>
 
-      <!-- Right Shadow/Overlay -->
-      <div
-        class="pointer-events-none absolute bottom-4 right-0 top-0 z-10 w-12 bg-gradient-to-l from-bg-dark to-transparent sm:w-16"
-      ></div>
-    </div>
-  </section>
+                    <div
+                      class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+                    ></div>
+
+                    <div
+                      class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+                    >
+                      <div
+                        class="rounded-full bg-white/20 p-2 backdrop-blur-sm sm:p-2.5"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-6 w-6 text-white sm:h-7 sm:w-7"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mt-2 px-0.5">
+                    <h3
+                      class="truncate text-xs font-medium text-white sm:text-sm md:text-base"
+                      [title]="movie.name"
+                    >
+                      {{ movie.name }}
+                    </h3>
+                    <div
+                      class="mt-1 flex items-center gap-2 text-[10px] text-white/60 sm:text-xs"
+                    >
+                      <span
+                        class="text-yellow-500 inline-flex items-center gap-1"
+                      >
+                        <svg viewBox="0 0 20 20" fill="#f5c518" class="h-3 w-3">
+                          <path
+                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                          />
+                        </svg>
+                        {{ movie.rating }}
+                      </span>
+                      <span class="text-white/40">•</span>
+                      <span>{{ movie.year }}</span>
+                    </div>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </div>

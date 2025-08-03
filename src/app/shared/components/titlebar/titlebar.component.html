@@ -1,54 +1,80 @@
 <div
-  class="fixed top-0 z-50 w-full select-none border-b border-white/[0.08] bg-bg-dark"
+  class="fixed top-0 z-50 w-full select-none border-b border-b-white/10 bg-gradient-to-b from-bg-dark/95 to-bg-dark/60 backdrop-blur supports-[backdrop-filter]:bg-bg-dark/70"
   data-tauri-drag-region
 >
   <div
-    class="container relative mx-auto flex h-16 items-center justify-between px-4 py-3 md:h-20 md:px-8"
+    class="container relative mx-auto flex h-14 items-center justify-between px-4 md:h-[68px] md:px-8"
     data-tauri-drag-region
   >
-    <!-- Logo and Navigation -->
-    <div class="flex h-full items-center gap-6 md:gap-12">
+    <!-- Logo + Nav -->
+    <div class="flex h-full items-center gap-6 md:gap-10">
       <a routerLink="" class="flex-shrink-0" aria-label="Home">
-        <img src="/assets/logo.svg" class="h-8 md:h-9" alt="Logo" />
+        <img src="/assets/logo.svg" class="h-6 md:h-7" alt="Logo" />
       </a>
+
       <nav
-        class="hidden items-center gap-8 md:flex"
+        class="hidden items-center gap-6 md:flex"
         [class.opacity-0]="searchOpen()"
       >
         <a
           routerLink=""
-          routerLinkActive="!text-white font-bold"
+          routerLinkActive="!text-white font-semibold"
           [routerLinkActiveOptions]="{ exact: true }"
-          class="text-white/70"
+          class="group text-white/80 transition-colors hover:text-white"
         >
-          Home
+          <span class="relative">
+            Home
+            <span
+              class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
+            ></span>
+          </span>
         </a>
+
         <a
           routerLink="/movies"
-          routerLinkActive="!text-white font-bold"
+          routerLinkActive="!text-white font-semibold"
           [routerLinkActiveOptions]="{ exact: true }"
-          class="text-white/70 transition-colors hover:text-white"
-          >Movies</a
+          class="group text-white/80 transition-colors hover:text-white"
         >
+          <span class="relative">
+            Movies
+            <span
+              class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
+            ></span>
+          </span>
+        </a>
 
         <a
           routerLink="/series"
-          routerLinkActive="!text-white font-bold"
+          routerLinkActive="!text-white font-semibold"
           [routerLinkActiveOptions]="{ exact: true }"
-          class="text-white/70 transition-colors hover:text-white"
-          >Series</a
+          class="group text-white/80 transition-colors hover:text-white"
         >
+          <span class="relative">
+            Series
+            <span
+              class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
+            ></span>
+          </span>
+        </a>
+
         <a
           routerLink="tv"
-          routerLinkActive="!text-white font-bold"
-          class="text-white/70 transition-colors hover:text-white"
-          >Live TV</a
+          routerLinkActive="!text-white font-semibold"
+          class="group text-white/80 transition-colors hover:text-white"
         >
+          <span class="relative">
+            Live TV
+            <span
+              class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
+            ></span>
+          </span>
+        </a>
       </nav>
     </div>
 
-    <!-- Right Side Icons -->
-    <div class="flex items-center gap-5 md:gap-7">
+    <!-- Right Side -->
+    <div class="flex items-center gap-4 md:gap-6">
       <button
         class="group relative p-1"
         aria-label="Search"
@@ -88,29 +114,44 @@
       </button>
 
       <button
-        class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-600 text-sm font-medium text-white"
+        class="flex h-8 w-8 items-center justify-center rounded-sm bg-red-600 text-sm font-semibold text-white shadow-sm shadow-red-600/20"
         aria-label="Profile"
       >
         <span>J</span>
       </button>
     </div>
 
-    <!-- Search Input and Dropdown -->
+    <!-- Search Overlay -->
     <div
-      class="absolute left-0 top-0 h-full w-full bg-bg-dark opacity-0 pointer-events-none transition-opacity duration-300"
+      class="pointer-events-none absolute left-0 top-0 h-full w-full bg-bg-dark/95 opacity-0 transition-opacity duration-300"
       [class.pointer-events-none]="!searchOpen()"
       [class.opacity-0]="!searchOpen()"
       (click)="closeSearch()"
     >
       <div
-        class="container mx-auto flex h-full items-center gap-4 px-4 md:px-8"
+        class="container mx-auto flex h-full items-center gap-3 px-4 md:px-8"
         (click)="$event.stopPropagation()"
       >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="hidden h-5 w-5 text-white/60 md:block"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+
         <input
           #searchInput
           type="text"
-          placeholder="Search for movies, series, and more..."
-          class="h-full w-full flex-1 bg-transparent text-lg text-white placeholder-white/40 focus:outline-none"
+          placeholder="Search titles, people, genres"
+          class="h-full w-full flex-1 bg-transparent text-base text-white placeholder-white/40 focus:outline-none md:text-lg"
           [(ngModel)]="searchQuery"
           (ngModelChange)="onSearchTermChange($event)"
           autofocus
@@ -118,6 +159,7 @@
         <button
           (click)="closeSearch()"
           class="p-2 text-white/70 hover:text-white"
+          aria-label="Close search"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -137,11 +179,10 @@
       </div>
     </div>
   </div>
-
-  <!-- Search Results Dropdown -->
+  <!-- Search Results -->
   @if (searchOpen() && (searchResults() !== null || loading())) {
     <div
-      class="absolute left-0 top-full w-full border-b border-white/[0.08] bg-bg-dark shadow-2xl"
+      class="absolute left-0 top-full w-full bg-gradient-to-b from-bg-dark to-bg-dark/95 shadow-2xl"
     >
       <div
         class="container mx-auto max-h-[70vh] overflow-y-auto px-4 py-4 md:px-8"
@@ -171,20 +212,18 @@
             @for (result of searchResults(); track result.id) {
               <a
                 [routerLink]="[result.is_series ? '/tv' : '/movie', result.id]"
-                class="group flex items-start gap-4 rounded-lg p-2 transition-colors hover:bg-bg-highlight"
+                class="group flex items-start gap-4 rounded-lg p-2 transition-colors hover:bg-bg-highlight/70"
                 (click)="closeSearch()"
               >
                 <div class="h-24 w-16 flex-shrink-0 overflow-hidden rounded-md">
                   <img
                     [src]="result.poster"
                     [alt]="result.name"
-                    class="h-full w-full object-cover"
+                    class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
                   />
                 </div>
                 <div>
-                  <h3
-                    class="font-semibold text-white group-hover:text-primary-400"
-                  >
+                  <h3 class="font-semibold text-white group-hover:text-white">
                     {{ result.name }}
                   </h3>
                   <p class="text-sm text-white/60">
@@ -205,14 +244,14 @@
 
   <!-- Mobile Menu -->
   <div
-    class="absolute left-0 right-0 top-full mt-0.5 border-b border-white/[0.08] bg-bg-dark px-6 py-4 transition-all duration-300 ease-in-out md:hidden"
+    class="absolute left-0 right-0 top-full mt-0.5 bg-bg-dark/95 px-6 py-4 transition-all duration-300 ease-in-out md:hidden"
     [ngClass]="{
       'pointer-events-none invisible -translate-y-3 opacity-0': !menuOpen(),
       'pointer-events-auto visible translate-y-0 opacity-100': menuOpen(),
     }"
   >
     <div
-      class="flex flex-col space-y-5 text-base transition-all duration-300"
+      class="flex flex-col space-y-5 text-base"
       [ngClass]="{
         '-translate-y-2 opacity-0': !menuOpen(),
         'translate-y-0 opacity-100': menuOpen(),
@@ -220,37 +259,36 @@
     >
       <a
         routerLink=""
-        routerLinkActive="!text-white font-bold"
+        routerLinkActive="!text-white font-semibold"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="text-white/70 transition-all duration-200 hover:translate-x-1 hover:text-white"
+        class="text-white/80 transition-colors hover:text-white"
         (click)="toggleMenu()"
         >Home</a
       >
       <a
         routerLink="tv"
-        routerLinkActive="!text-white font-bold"
+        routerLinkActive="!text-white font-semibold"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="text-white/70 transition-all duration-200 hover:translate-x-1 hover:text-white"
+        class="text-white/80 transition-colors hover:text-white"
         (click)="toggleMenu()"
         >TV Shows</a
       >
       <a
         routerLink="/movies"
-        routerLinkActive="!text-white font-bold"
+        routerLinkActive="!text-white font-semibold"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="text-white/70 transition-all duration-200 hover:translate-x-1 hover:text-white"
+        class="text-white/80 transition-colors hover:text-white"
         (click)="toggleMenu()"
         >Movies</a
       >
       <a
         routerLink="/news"
-        routerLinkActive="!text-white font-bold"
+        routerLinkActive="!text-white font-semibold"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="text-white/70 transition-all duration-200 hover:translate-x-1 hover:text-white"
+        class="text-white/80 transition-colors hover:text-white"
         (click)="toggleMenu()"
         >New & Popular</a
       >
     </div>
   </div>
 </div>
-

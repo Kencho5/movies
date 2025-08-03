@@ -1,60 +1,151 @@
 <div class="relative">
-  <button (click)="toggleDropdown()" class="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 backdrop-blur-lg transition-all hover:border-white/20 hover:bg-white/10 hover:text-white">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+  <!-- Trigger -->
+  <button
+    (click)="toggleDropdown()"
+    class="group inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 backdrop-blur-md transition-colors hover:border-white/20 hover:bg-white/10 hover:text-white"
+    aria-haspopup="menu"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-5 w-5 transition-transform group-hover:scale-105"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="2"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+      />
     </svg>
     <span>Filter</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="ml-0.5 h-4 w-4 opacity-70 transition-transform group-hover:opacity-100"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+        clip-rule="evenodd"
+      />
+    </svg>
   </button>
-
   @if (dropdownOpen()) {
-    <div class="absolute right-0 mt-2 w-72 origin-top-right rounded-2xl border border-white/10 bg-bg-card shadow-2xl shadow-black/40 ring-1 ring-black/5 focus:outline-none z-10">
-      <form (ngSubmit)="onSubmit()" class="p-4">
+    <!-- Backdrop click catcher for mobile/desktop comfort -->
+    <div class="fixed inset-0 z-40" (click)="toggleDropdown()"></div>
+
+    <!-- Dropdown -->
+    <div
+      class="absolute right-0 z-50 mt-2 w-[20rem] origin-top-right rounded-xl border border-white/10 bg-bg-card/95 shadow-2xl shadow-black/40 ring-1 ring-black/5 backdrop-blur-md focus:outline-none"
+      role="menu"
+      aria-label="Filters"
+    >
+      <!-- Ambient accents -->
+      <div
+        class="pointer-events-none absolute -top-8 right-8 h-24 w-24 rounded-full bg-primary-600/10 blur-2xl"
+      ></div>
+      <div
+        class="pointer-events-none absolute -bottom-10 left-6 h-24 w-24 rounded-full bg-red-600/10 blur-2xl"
+      ></div>
+
+      <form (ngSubmit)="onSubmit()" class="relative p-4">
+        <!-- Header -->
+        <div class="mb-3 flex items-center justify-between">
+          <h3 class="text-sm font-semibold text-white">Refine results</h3>
+          <span
+            class="rounded-full bg-white/5 px-2 py-0.5 text-[10px] font-medium text-white/60"
+            >Advanced</span
+          >
+        </div>
+
         <div class="grid grid-cols-1 gap-y-6">
           <!-- Genres -->
           <div>
-            <h3 class="mb-3 text-base font-semibold text-white">Genres</h3>
-            <app-combobox [items]="genres()" (selectedItemsChange)="onGenreChange($event)" [selectedItemsInput]="selectedGenres()"></app-combobox>
+            <label
+              class="mb-2 block text-xs font-semibold uppercase tracking-wide text-white/70"
+              >Genres</label
+            >
+            <app-combobox
+              [items]="genres()"
+              (selectedItemsChange)="onGenreChange($event)"
+              [selectedItemsInput]="selectedGenres()"
+            ></app-combobox>
           </div>
 
           <!-- Release Dates -->
           <div>
-            <h3 class="mb-3 text-base font-semibold text-white">Release Dates</h3>
+            <label
+              class="mb-2 block text-xs font-semibold uppercase tracking-wide text-white/70"
+              >Release Years</label
+            >
             <div class="flex gap-2">
               <input
                 type="number"
                 [ngModel]="fromYear()"
                 (ngModelChange)="fromYear.set($event)"
                 name="fromYear"
-                placeholder="From Year"
-                class="w-1/2 appearance-none rounded-lg border border-white/10 bg-white/5 py-2 pl-3 pr-3 text-sm text-white/80 transition-colors focus:border-primary-500 focus:bg-bg-highlight focus:outline-none focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                placeholder="From"
+                class="w-1/2 appearance-none rounded-md border border-white/10 bg-white/[0.06] py-2 pl-3 pr-3 text-sm text-white placeholder-white/40 transition-colors focus:border-primary-600 focus:bg-bg-highlight focus:outline-none focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
               <input
                 type="number"
                 [ngModel]="toYear()"
                 (ngModelChange)="toYear.set($event)"
                 name="toYear"
-                placeholder="To Year"
-                class="w-1/2 appearance-none rounded-lg border border-white/10 bg-white/5 py-2 pl-3 pr-3 text-sm text-white/80 transition-colors focus:border-primary-500 focus:bg-bg-highlight focus:outline-none focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                placeholder="To"
+                class="w-1/2 appearance-none rounded-md border border-white/10 bg-white/[0.06] py-2 pl-3 pr-3 text-sm text-white placeholder-white/40 transition-colors focus:border-primary-600 focus:bg-bg-highlight focus:outline-none focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
             </div>
           </div>
 
           <!-- Countries -->
           <div>
-            <h3 class="mb-3 text-base font-semibold text-white">Countries</h3>
-            <app-combobox [items]="countries()" (selectedItemsChange)="onCountryChange($event)" [selectedItemsInput]="selectedCountries()"></app-combobox>
+            <label
+              class="mb-2 block text-xs font-semibold uppercase tracking-wide text-white/70"
+              >Countries</label
+            >
+            <app-combobox
+              [items]="countries()"
+              (selectedItemsChange)="onCountryChange($event)"
+              [selectedItemsInput]="selectedCountries()"
+            ></app-combobox>
           </div>
 
           <!-- Languages -->
           <div>
-            <h3 class="mb-3 text-base font-semibold text-white">Languages</h3>
-            <app-combobox [items]="languages()" (selectedItemsChange)="onLanguageChange($event)" [selectedItemsInput]="selectedLanguages()"></app-combobox>
+            <label
+              class="mb-2 block text-xs font-semibold uppercase tracking-wide text-white/70"
+              >Languages</label
+            >
+            <app-combobox
+              [items]="languages()"
+              (selectedItemsChange)="onLanguageChange($event)"
+              [selectedItemsInput]="selectedLanguages()"
+            ></app-combobox>
           </div>
         </div>
 
-        <div class="mt-6 flex justify-end gap-3 border-t border-white/10 pt-4">
-          <button type="button" (click)="clearFilters()" class="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 transition-colors hover:bg-white/10 hover:text-white">Clear</button>
-          <button type="submit" class="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-500">Apply</button>
+        <!-- Footer actions -->
+        <div
+          class="mt-6 flex items-center justify-between border-t border-white/10 pt-4"
+        >
+          <button
+            type="button"
+            (click)="clearFilters()"
+            class="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-3.5 py-2 text-sm font-semibold text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            Clear
+          </button>
+
+          <button
+            type="submit"
+            class="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-primary-600 to-red-600 px-4 py-2 text-sm font-bold text-white shadow-sm shadow-black/20 transition-colors hover:from-primary-500 hover:to-red-500"
+          >
+            Apply
+          </button>
         </div>
       </form>
     </div>

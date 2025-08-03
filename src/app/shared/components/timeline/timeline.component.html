@@ -1,12 +1,12 @@
 <div
-  class="hidden h-[90px] border-t border-white/[0.08] bg-bg-dark p-2 text-xs text-white/90 xl:block"
+  class="hidden h-[90px] border-t border-white/10 bg-black p-2 text-xs text-white/90 xl:block"
 >
   <div class="flex w-full flex-col">
     <!-- Hour labels -->
     <div class="relative h-4 w-full">
       @for (hour of [].constructor(24); track $index) {
         <span
-          class="absolute text-[10px] font-normal text-neutral-400"
+          class="absolute text-[10px] font-normal text-white/50"
           [ngStyle]="getHourLabelStyle($index)"
         >
           {{ $index.toString().padStart(2, "0") }}:00
@@ -24,7 +24,7 @@
           y1="100%"
           y2="0%"
           stroke="currentColor"
-          class="text-primary-600/70"
+          class="text-red-500/70"
           stroke-width="1"
         />
 
@@ -35,7 +35,7 @@
           y1="100%"
           y2="75%"
           stroke="currentColor"
-          class="text-neutral-500/60"
+          class="text-white/20"
           stroke-width="0.8"
         />
 
@@ -46,7 +46,7 @@
           y1="100%"
           y2="50%"
           stroke="currentColor"
-          class="text-neutral-500/60"
+          class="text-white/20"
           stroke-width="0.8"
         />
 
@@ -57,27 +57,26 @@
           y1="100%"
           y2="75%"
           stroke="currentColor"
-          class="text-neutral-500/60"
+          class="text-white/20"
           stroke-width="0.8"
         />
       }
     </svg>
   </div>
-
   <!-- Timeline with progress bar -->
   <div
     class="relative cursor-pointer pb-4"
     [ngClass]="{ 'cursor-not-allowed': isFutureTime }"
   >
     <div
-      class="relative h-1.5 w-full bg-neutral-800"
+      class="relative h-1.5 w-full bg-white/10"
       (click)="setTime($event)"
       (mousemove)="hover($event)"
       (mouseleave)="tooltipShown.set(false)"
     >
       <!-- Progress bar -->
       <div
-        class="h-full rounded-r-full bg-gradient-to-r from-primary-700 to-primary-500"
+        class="h-full rounded-r-full bg-gradient-to-r from-red-600 to-red-500"
         [style.width.%]="progress()"
       ></div>
 
@@ -94,13 +93,13 @@
           <div class="flex flex-col items-center">
             <div class="flex h-1 justify-center overflow-visible">
               <div
-                class="h-2 w-2 translate-y-[1px] rotate-45 transform bg-primary-600 shadow-sm"
+                class="h-2 w-2 translate-y-[1px] rotate-45 transform bg-red-600 shadow-sm"
               ></div>
             </div>
             <div
-              class="w-[72px] origin-top transform rounded-md border border-neutral-700/30 bg-bg-card/80 px-2 py-1 text-center text-xs font-medium text-white shadow-lg backdrop-blur-md"
+              class="w-[72px] origin-top transform rounded-md border border-white/10 bg-black/70 px-2 py-1 text-center text-xs font-medium text-white shadow-lg backdrop-blur-md"
             >
-              <span class="text-primary-400">{{ currentTimeText() }}</span>
+              <span class="text-red-400">{{ currentTimeText() }}</span>
             </div>
           </div>
         </div>
@@ -109,7 +108,7 @@
       <!-- Program markers -->
       @for (program of programs; track program.start) {
         <div
-          class="absolute top-1/2 z-20 -ml-2.5 -translate-y-1/2 rounded-full bg-bg-dark p-1"
+          class="absolute top-1/2 z-20 -ml-2.5 -translate-y-1/2 rounded-full bg-black/70 p-1"
           [ngClass]="{
             'cursor-not-allowed': isFutureTime,
             'cursor-pointer': !isFutureTime,
@@ -120,9 +119,9 @@
           (mouseleave)="onProgramLeave()"
         >
           <div
-            class="h-3 w-3 rounded-full bg-neutral-800"
+            class="h-3 w-3 rounded-full bg-white/20"
             [ngClass]="{
-              'bg-primary-600': activeProgram()?.start == program.start,
+              'bg-red-500': activeProgram()?.start == program.start,
             }"
           ></div>
         </div>
@@ -133,11 +132,11 @@
     @if (tooltipShown()) {
       <div
         [style.left.px]="tooltipX()"
-        class="pointer-events-none absolute -top-10 max-w-[240px] -translate-x-1/2 transform truncate rounded-md border border-primary-800/50 bg-bg-card px-2 py-1 text-xs font-medium text-white/90 shadow-lg"
+        class="pointer-events-none absolute -top-10 max-w-[240px] -translate-x-1/2 transform truncate rounded-md border border-white/10 bg-black/80 px-2 py-1 text-xs font-medium text-white/90 shadow-lg"
       >
         {{ tooltipText() }}
         <div
-          class="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 transform border-b border-r border-primary-800/50 bg-bg-card"
+          class="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 transform border-b border-r border-white/10 bg-black/80"
         ></div>
       </div>
     }
