@@ -1,39 +1,28 @@
-<div
-  class="min-h-screen bg-gradient-to-b from-bg-dark to-bg-dark/95 text-white"
->
+<div class="min-h-screen bg-black text-white">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     @if (person()) {
-      <!-- Person Page Content -->
       <div class="py-8">
-        <!-- Main Grid Layout -->
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-7">
           <!-- Profile Column -->
           <div class="lg:col-span-2">
             <div class="space-y-5 lg:sticky lg:top-6">
-              <!-- Profile Picture with Glow Effect -->
+              <!-- Profile Picture -->
               <div
-                class="group relative overflow-hidden rounded-xl shadow-[0_5px_30px_rgba(0,0,0,0.7)]"
+                class="bg-zinc-900 group relative overflow-hidden rounded-xl border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.6)]"
               >
-                <!-- Subtle glow effect on hover -->
-                <div
-                  class="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary-600/20 to-primary-400/0 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100"
-                ></div>
-
-                <div
-                  class="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-bg-card to-bg-dark"
-                >
+                <div class="relative aspect-[3/4] overflow-hidden">
                   @if (person()!.poster) {
                     <img
                       [src]="person()!.poster"
                       [alt]="person()!.name"
-                      class="h-full w-full object-cover transition-all duration-700 group-hover:scale-105"
+                      class="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                     />
                   } @else {
                     <div
-                      class="flex h-full items-center justify-center bg-gradient-to-br from-bg-highlight/30 to-bg-dark"
+                      class="flex h-full items-center justify-center bg-[linear-gradient(160deg,rgba(255,255,255,0.06),rgba(0,0,0,0.1))]"
                     >
                       <svg
-                        class="h-16 w-16 text-neutral-600"
+                        class="h-16 w-16 text-white/40"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -45,20 +34,21 @@
                       </svg>
                     </div>
                   }
+                  <div
+                    class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black via-black/40 to-transparent"
+                  ></div>
                 </div>
               </div>
 
               <!-- External Links -->
-              <div
-                class="rounded-lg bg-gradient-to-br from-bg-card/70 to-bg-card/40 p-4 shadow-lg backdrop-blur-sm"
-              >
-                <h3 class="mb-3 text-sm font-medium text-neutral-200">Links</h3>
+              <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-4">
+                <h3 class="mb-3 text-sm font-semibold text-white/80">Links</h3>
                 <div class="flex gap-3">
                   @if (person()!.imdb_id) {
                     <a
                       [href]="'https://www.imdb.com/name/' + person()!.imdb_id"
                       target="_blank"
-                      class="from-yellow-500/20 to-yellow-500/10 hover:from-yellow-500/30 hover:to-yellow-500/20 text-yellow-300 border-yellow-500/20 flex-1 rounded border bg-gradient-to-br px-3 py-2 text-center text-xs font-medium transition-all duration-300"
+                      class="border-yellow-500/30 bg-yellow-500/10 text-yellow-300 hover:bg-yellow-500/20 flex-1 rounded border px-3 py-2 text-center text-xs font-semibold transition"
                     >
                       IMDb
                     </a>
@@ -69,7 +59,7 @@
                         'https://www.themoviedb.org/person/' + person()!.tmdb_id
                       "
                       target="_blank"
-                      class="flex-1 rounded border border-primary-600/20 bg-gradient-to-br from-primary-600/20 to-primary-600/10 px-3 py-2 text-center text-xs font-medium text-primary-300 transition-all duration-300 hover:from-primary-600/30 hover:to-primary-600/20"
+                      class="text-red-300 flex-1 rounded border border-red-600/30 bg-red-600/10 px-3 py-2 text-center text-xs font-semibold transition hover:bg-red-600/20"
                     >
                       TMDB
                     </a>
@@ -77,20 +67,20 @@
                 </div>
               </div>
 
-              <!-- Personal Stats Card (new addition) -->
+              <!-- Personal Stats -->
               @if (person()!.known_for || person()!.birth_date) {
                 <div
-                  class="rounded-lg bg-gradient-to-br from-bg-card/70 to-bg-card/40 p-4 shadow-lg backdrop-blur-sm"
+                  class="bg-zinc-900/60 rounded-lg border border-white/10 p-4"
                 >
-                  <h3 class="mb-3 text-sm font-medium text-neutral-200">
+                  <h3 class="mb-3 text-sm font-semibold text-white/80">
                     Stats
                   </h3>
                   <div class="space-y-3 text-sm">
                     @if (person()!.known_for) {
                       <div class="flex items-center gap-2">
-                        <div class="rounded-full bg-primary-500/20 p-1.5">
+                        <div class="rounded-full bg-white/10 p-1.5">
                           <svg
-                            class="h-3.5 w-3.5 text-primary-400"
+                            class="h-3.5 w-3.5 text-white/70"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -102,8 +92,8 @@
                           </svg>
                         </div>
                         <div>
-                          <div class="text-xs text-neutral-400">Known For</div>
-                          <div class="text-sm text-white/90">
+                          <div class="text-xs text-white/60">Known For</div>
+                          <div class="text-sm text-white">
                             {{ person()!.known_for | titlecase }}
                           </div>
                         </div>
@@ -112,9 +102,9 @@
 
                     @if (person()!.birth_date) {
                       <div class="flex items-center gap-2">
-                        <div class="rounded-full bg-primary-500/20 p-1.5">
+                        <div class="rounded-full bg-white/10 p-1.5">
                           <svg
-                            class="h-3.5 w-3.5 text-primary-400"
+                            class="h-3.5 w-3.5 text-white/70"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -126,12 +116,12 @@
                           </svg>
                         </div>
                         <div>
-                          <div class="text-xs text-neutral-400">Born</div>
-                          <div class="text-sm text-white/90">
+                          <div class="text-xs text-white/60">Born</div>
+                          <div class="text-sm text-white">
                             {{ person()!.birth_date | date: "mediumDate" }}
                             @if (person()!.birth_place) {
                               <span
-                                class="mt-0.5 block text-xs text-neutral-400"
+                                class="mt-0.5 block text-xs text-white/60"
                                 >{{ person()!.birth_place }}</span
                               >
                             }
@@ -142,9 +132,9 @@
 
                     @if (person()!.death_date) {
                       <div class="flex items-center gap-2">
-                        <div class="rounded-full bg-neutral-700/40 p-1.5">
+                        <div class="rounded-full bg-white/10 p-1.5">
                           <svg
-                            class="h-3.5 w-3.5 text-neutral-400"
+                            class="h-3.5 w-3.5 text-white/70"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -156,8 +146,8 @@
                           </svg>
                         </div>
                         <div>
-                          <div class="text-xs text-neutral-400">Died</div>
-                          <div class="text-sm text-white/90">
+                          <div class="text-xs text-white/60">Died</div>
+                          <div class="text-sm text-white">
                             {{ person()!.death_date | date: "mediumDate" }}
                           </div>
                         </div>
@@ -173,16 +163,13 @@
           <div class="space-y-8 lg:col-span-5">
             <!-- Name & Header -->
             <div>
-              <h1
-                class="text-3xl font-bold tracking-tight text-white/95 md:text-4xl"
-              >
+              <h1 class="text-3xl font-extrabold tracking-tight md:text-4xl">
                 {{ person()!.name }}
               </h1>
-
               @if (person()!.known_for) {
                 <div class="mt-2">
                   <span
-                    class="rounded-full border border-primary-600/30 bg-gradient-to-r from-primary-600/20 to-primary-500/10 px-2.5 py-1 text-xs text-primary-300"
+                    class="rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-xs text-white"
                   >
                     {{ person()!.known_for | titlecase }}
                   </span>
@@ -192,15 +179,13 @@
 
             <!-- Biography -->
             @if (person()!.description) {
-              <div
-                class="rounded-lg bg-gradient-to-br from-bg-card/50 to-bg-card/20 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)] backdrop-blur-sm"
-              >
+              <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-6">
                 <div class="mb-4 flex items-center justify-between">
-                  <h2 class="text-lg font-medium text-white/90">Biography</h2>
+                  <h2 class="text-lg font-semibold">Biography</h2>
                   @if (person()!.description.length > 300) {
                     <button
                       (click)="toggleBiography()"
-                      class="flex items-center gap-1 rounded-full bg-primary-600/20 px-3 py-1.5 text-xs font-medium text-primary-300 transition-colors hover:bg-primary-600/30"
+                      class="flex items-center gap-1 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/90 transition hover:bg-white/20"
                     >
                       <span>{{
                         biographyExpanded() ? "Show Less" : "Show More"
@@ -224,7 +209,7 @@
                 </div>
                 <div class="relative">
                   <p
-                    class="leading-relaxed text-neutral-300 transition-all duration-300"
+                    class="leading-relaxed text-white/80 transition-all duration-300"
                     [class]="
                       person()!.description.length > 300 && !biographyExpanded()
                         ? 'line-clamp-4'
@@ -237,7 +222,7 @@
                     person()!.description.length > 300 && !biographyExpanded()
                   ) {
                     <div
-                      class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-bg-card/50 to-transparent"
+                      class="from-zinc-900/60 absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t to-transparent"
                     ></div>
                   }
                 </div>
@@ -246,13 +231,8 @@
 
             <!-- Known For Movies Section -->
             @if (personData()!.knownFor && personData()!.knownFor.length > 0) {
-              <div
-                class="rounded-lg bg-gradient-to-br from-bg-card/50 to-bg-card/20 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)] backdrop-blur-sm"
-              >
-                <h2 class="mb-5 text-lg font-medium text-white/90">
-                  Known For
-                </h2>
-
+              <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-6">
+                <h2 class="mb-5 text-lg font-semibold">Known For</h2>
                 <div
                   class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4"
                 >
@@ -262,18 +242,18 @@
                   ) {
                     <a [routerLink]="['/movie', movie.id]" class="group">
                       <div
-                        class="mb-2 aspect-[2/3] overflow-hidden rounded-lg bg-gradient-to-br from-bg-highlight/50 to-bg-dark shadow-lg"
+                        class="mb-2 aspect-[2/3] overflow-hidden rounded-lg bg-white/5 shadow"
                       >
                         @if (movie.poster) {
                           <img
                             [src]="movie.poster"
                             [alt]="movie.name"
-                            class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:opacity-80"
+                            class="h-full w-full object-cover transition duration-500 group-hover:scale-110 group-hover:opacity-80"
                           />
                         } @else {
                           <div class="flex h-full items-center justify-center">
                             <svg
-                              class="h-8 w-8 text-neutral-600"
+                              class="h-8 w-8 text-white/50"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -287,13 +267,12 @@
                             </svg>
                           </div>
                         }
-
                         @if (movie.rating && movie.rating !== "0") {
                           <div
-                            class="absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-black/60 px-1.5 py-0.5 text-xs backdrop-blur-sm"
+                            class="absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-black/60 px-1.5 py-0.5 text-xs backdrop-blur"
                           >
                             <svg
-                              class="h-3 w-3 text-primary-400"
+                              class="h-3 w-3 text-white/80"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -306,11 +285,11 @@
                         }
                       </div>
                       <h3
-                        class="truncate text-xs font-medium leading-tight text-white/90 group-hover:text-primary-300"
+                        class="truncate text-xs font-semibold leading-tight text-white group-hover:text-white/80"
                       >
                         {{ movie.name }}
                       </h3>
-                      <p class="text-xs text-neutral-400">{{ movie.year }}</p>
+                      <p class="text-xs text-white/60">{{ movie.year }}</p>
                     </a>
                   }
                 </div>
@@ -325,29 +304,23 @@
                 personData()!.credits.directing?.length ||
                 personData()!.credits.writing?.length)
             ) {
-              <div
-                class="rounded-lg bg-gradient-to-br from-bg-card/50 to-bg-card/20 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)] backdrop-blur-sm"
-              >
-                <h2 class="mb-5 text-lg font-medium text-white/90">
-                  Filmography
-                </h2>
+              <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-6">
+                <h2 class="mb-5 text-lg font-semibold">Filmography</h2>
 
-                <!-- Updated Tab Headers -->
+                <!-- Tabs -->
                 <div
                   class="scrollbar-hide mb-5 flex items-center overflow-x-auto pb-1"
                 >
-                  <div
-                    class="flex rounded-full bg-bg-dark/40 p-0.5 backdrop-blur-sm"
-                  >
+                  <div class="flex rounded-full bg-black/50 p-0.5">
                     @if (personData()!.credits.actors?.length) {
                       <button
                         (click)="setActiveTab('acting')"
                         [class]="
                           isTabActive('acting')
-                            ? 'bg-gradient-to-r from-primary-600/70 to-primary-500/50 text-white shadow-md'
-                            : 'bg-transparent text-neutral-400 hover:text-neutral-300'
+                            ? 'bg-red-600 text-white shadow'
+                            : 'bg-transparent text-white/70 hover:bg-white/10'
                         "
-                        class="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-300"
+                        class="mx-0.5 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition"
                       >
                         <svg
                           class="h-3.5 w-3.5"
@@ -369,16 +342,15 @@
                         >
                       </button>
                     }
-
                     @if (personData()!.credits.directing?.length) {
                       <button
                         (click)="setActiveTab('directing')"
                         [class]="
                           isTabActive('directing')
-                            ? 'bg-gradient-to-r from-primary-600/70 to-primary-500/50 text-white shadow-md'
-                            : 'bg-transparent text-neutral-400 hover:text-neutral-300'
+                            ? 'bg-red-600 text-white shadow'
+                            : 'bg-transparent text-white/70 hover:bg-white/10'
                         "
-                        class="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-300"
+                        class="mx-0.5 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition"
                       >
                         <svg
                           class="h-3.5 w-3.5"
@@ -400,16 +372,15 @@
                         >
                       </button>
                     }
-
                     @if (personData()!.credits.writing?.length) {
                       <button
                         (click)="setActiveTab('writing')"
                         [class]="
                           isTabActive('writing')
-                            ? 'bg-gradient-to-r from-primary-600/70 to-primary-500/50 text-white shadow-md'
-                            : 'bg-transparent text-neutral-400 hover:text-neutral-300'
+                            ? 'bg-red-600 text-white shadow'
+                            : 'bg-transparent text-white/70 hover:bg-white/10'
                         "
-                        class="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-300"
+                        class="mx-0.5 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition"
                       >
                         <svg
                           class="h-3.5 w-3.5"
@@ -431,16 +402,15 @@
                         >
                       </button>
                     }
-
                     @if (personData()!.credits.production?.length) {
                       <button
                         (click)="setActiveTab('production')"
                         [class]="
                           isTabActive('production')
-                            ? 'bg-gradient-to-r from-primary-600/70 to-primary-500/50 text-white shadow-md'
-                            : 'bg-transparent text-neutral-400 hover:text-neutral-300'
+                            ? 'bg-red-600 text-white shadow'
+                            : 'bg-transparent text-white/70 hover:bg-white/10'
                         "
-                        class="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-300"
+                        class="mx-0.5 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition"
                       >
                         <svg
                           class="h-3.5 w-3.5"
@@ -465,7 +435,7 @@
                   </div>
                 </div>
 
-                <!-- Redesigned Tab Content -->
+                <!-- Tab Content: Acting -->
                 @if (
                   isTabActive("acting") && personData()!.credits.actors?.length
                 ) {
@@ -476,23 +446,23 @@
                     ) {
                       <a
                         [routerLink]="['/movie', credit.id]"
-                        class="group flex items-center gap-3 rounded-lg bg-gradient-to-r from-bg-dark/50 to-bg-dark/30 p-3 backdrop-blur-sm transition-all duration-300 hover:bg-bg-dark/70 hover:shadow-md"
+                        class="group flex items-center gap-3 rounded-lg border border-white/5 bg-black/40 p-3 transition hover:bg-white/5"
                       >
                         <div
-                          class="h-14 w-10 flex-shrink-0 overflow-hidden rounded-md bg-bg-dark shadow-md"
+                          class="h-14 w-10 flex-shrink-0 overflow-hidden rounded-md bg-white/10"
                         >
                           @if (credit.poster) {
                             <img
                               [src]="credit.poster"
                               [alt]="credit.name"
-                              class="h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
+                              class="h-full w-full object-cover transition group-hover:scale-105"
                             />
                           } @else {
                             <div
-                              class="flex h-full items-center justify-center bg-gradient-to-br from-bg-highlight/20 to-bg-dark"
+                              class="flex h-full items-center justify-center"
                             >
                               <svg
-                                class="h-5 w-5 text-neutral-600"
+                                class="h-5 w-5 text-white/50"
                                 fill="currentColor"
                                 viewBox="0 0 20 20"
                               >
@@ -504,21 +474,17 @@
                           }
                         </div>
                         <div class="min-w-0 flex-1">
-                          <h3
-                            class="truncate font-medium text-white/90 transition-colors group-hover:text-primary-300"
-                          >
+                          <h3 class="truncate font-semibold text-white">
                             {{ credit.name }}
                           </h3>
-                          <p class="text-xs text-neutral-400">
-                            {{ credit.year }}
-                          </p>
+                          <p class="text-xs text-white/60">{{ credit.year }}</p>
                         </div>
                         @if (credit.rating && credit.rating !== "0") {
                           <div
-                            class="flex items-center gap-1 rounded-full bg-primary-500/10 px-2 py-1 backdrop-blur-sm"
+                            class="flex items-center gap-1 rounded-full bg-white/10 px-2 py-1"
                           >
                             <svg
-                              class="h-3 w-3 text-primary-400"
+                              class="h-3 w-3 text-white/70"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -526,7 +492,7 @@
                                 d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                               />
                             </svg>
-                            <span class="text-xs text-white/90">{{
+                            <span class="text-xs text-white">{{
                               credit.rating
                             }}</span>
                           </div>
@@ -536,7 +502,7 @@
                   </div>
                 }
 
-                <!-- Other tab contents with similar styling -->
+                <!-- Tab Content: Directing -->
                 @if (
                   isTabActive("directing") &&
                   personData()!.credits.directing?.length
@@ -550,23 +516,23 @@
                     ) {
                       <a
                         [routerLink]="['/movie', credit.id]"
-                        class="group flex items-center gap-3 rounded-lg bg-gradient-to-r from-bg-dark/50 to-bg-dark/30 p-3 backdrop-blur-sm transition-all duration-300 hover:bg-bg-dark/70 hover:shadow-md"
+                        class="group flex items-center gap-3 rounded-lg border border-white/5 bg-black/40 p-3 transition hover:bg-white/5"
                       >
                         <div
-                          class="h-14 w-10 flex-shrink-0 overflow-hidden rounded-md bg-bg-dark shadow-md"
+                          class="h-14 w-10 flex-shrink-0 overflow-hidden rounded-md bg-white/10"
                         >
                           @if (credit.poster) {
                             <img
                               [src]="credit.poster"
                               [alt]="credit.name"
-                              class="h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
+                              class="h-full w-full object-cover transition group-hover:scale-105"
                             />
                           } @else {
                             <div
-                              class="flex h-full items-center justify-center bg-gradient-to-br from-bg-highlight/20 to-bg-dark"
+                              class="flex h-full items-center justify-center"
                             >
                               <svg
-                                class="h-5 w-5 text-neutral-600"
+                                class="h-5 w-5 text-white/50"
                                 fill="currentColor"
                                 viewBox="0 0 20 20"
                               >
@@ -578,21 +544,17 @@
                           }
                         </div>
                         <div class="min-w-0 flex-1">
-                          <h3
-                            class="truncate font-medium text-white/90 transition-colors group-hover:text-primary-300"
-                          >
+                          <h3 class="truncate font-semibold text-white">
                             {{ credit.name }}
                           </h3>
-                          <p class="text-xs text-neutral-400">
-                            {{ credit.year }}
-                          </p>
+                          <p class="text-xs text-white/60">{{ credit.year }}</p>
                         </div>
                         @if (credit.rating && credit.rating !== "0") {
                           <div
-                            class="flex items-center gap-1 rounded-full bg-primary-500/10 px-2 py-1 backdrop-blur-sm"
+                            class="flex items-center gap-1 rounded-full bg-white/10 px-2 py-1"
                           >
                             <svg
-                              class="h-3 w-3 text-primary-400"
+                              class="h-3 w-3 text-white/70"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -600,7 +562,7 @@
                                 d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                               />
                             </svg>
-                            <span class="text-xs text-white/90">{{
+                            <span class="text-xs text-white">{{
                               credit.rating
                             }}</span>
                           </div>
@@ -610,7 +572,7 @@
                   </div>
                 }
 
-                <!-- Repeat similar styling for writing and production tabs -->
+                <!-- Tab Content: Writing -->
                 @if (
                   isTabActive("writing") &&
                   personData()!.credits.writing?.length
@@ -618,31 +580,29 @@
                   <div
                     class="hide-scrollbar max-h-96 space-y-2 overflow-y-auto pr-1"
                   >
-                    <!-- Same structure as above, just with writing credits -->
                     @for (
                       credit of personData()!.credits.writing!;
                       track credit.id
                     ) {
                       <a
                         [routerLink]="['/movie', credit.id]"
-                        class="group flex items-center gap-3 rounded-lg bg-gradient-to-r from-bg-dark/50 to-bg-dark/30 p-3 backdrop-blur-sm transition-all duration-300 hover:bg-bg-dark/70 hover:shadow-md"
+                        class="group flex items-center gap-3 rounded-lg border border-white/5 bg-black/40 p-3 transition hover:bg-white/5"
                       >
-                        <!-- Same content as acting tab items -->
                         <div
-                          class="h-14 w-10 flex-shrink-0 overflow-hidden rounded-md bg-bg-dark shadow-md"
+                          class="h-14 w-10 flex-shrink-0 overflow-hidden rounded-md bg-white/10"
                         >
                           @if (credit.poster) {
                             <img
                               [src]="credit.poster"
                               [alt]="credit.name"
-                              class="h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
+                              class="h-full w-full object-cover transition group-hover:scale-105"
                             />
                           } @else {
                             <div
-                              class="flex h-full items-center justify-center bg-gradient-to-br from-bg-highlight/20 to-bg-dark"
+                              class="flex h-full items-center justify-center"
                             >
                               <svg
-                                class="h-5 w-5 text-neutral-600"
+                                class="h-5 w-5 text-white/50"
                                 fill="currentColor"
                                 viewBox="0 0 20 20"
                               >
@@ -654,21 +614,17 @@
                           }
                         </div>
                         <div class="min-w-0 flex-1">
-                          <h3
-                            class="truncate font-medium text-white/90 transition-colors group-hover:text-primary-300"
-                          >
+                          <h3 class="truncate font-semibold text-white">
                             {{ credit.name }}
                           </h3>
-                          <p class="text-xs text-neutral-400">
-                            {{ credit.year }}
-                          </p>
+                          <p class="text-xs text-white/60">{{ credit.year }}</p>
                         </div>
                         @if (credit.rating && credit.rating !== "0") {
                           <div
-                            class="flex items-center gap-1 rounded-full bg-primary-500/10 px-2 py-1 backdrop-blur-sm"
+                            class="flex items-center gap-1 rounded-full bg-white/10 px-2 py-1"
                           >
                             <svg
-                              class="h-3 w-3 text-primary-400"
+                              class="h-3 w-3 text-white/70"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -676,7 +632,7 @@
                                 d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                               />
                             </svg>
-                            <span class="text-xs text-white/90">{{
+                            <span class="text-xs text-white">{{
                               credit.rating
                             }}</span>
                           </div>
@@ -686,6 +642,7 @@
                   </div>
                 }
 
+                <!-- Tab Content: Production -->
                 @if (
                   isTabActive("production") &&
                   personData()!.credits.production?.length
@@ -699,23 +656,23 @@
                     ) {
                       <a
                         [routerLink]="['/movie', credit.id]"
-                        class="group flex items-center gap-3 rounded-lg bg-gradient-to-r from-bg-dark/50 to-bg-dark/30 p-3 backdrop-blur-sm transition-all duration-300 hover:bg-bg-dark/70 hover:shadow-md"
+                        class="group flex items-center gap-3 rounded-lg border border-white/5 bg-black/40 p-3 transition hover:bg-white/5"
                       >
                         <div
-                          class="h-14 w-10 flex-shrink-0 overflow-hidden rounded-md bg-bg-dark shadow-md"
+                          class="h-14 w-10 flex-shrink-0 overflow-hidden rounded-md bg-white/10"
                         >
                           @if (credit.poster) {
                             <img
                               [src]="credit.poster"
                               [alt]="credit.name"
-                              class="h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
+                              class="h-full w-full object-cover transition group-hover:scale-105"
                             />
                           } @else {
                             <div
-                              class="flex h-full items-center justify-center bg-gradient-to-br from-bg-highlight/20 to-bg-dark"
+                              class="flex h-full items-center justify-center"
                             >
                               <svg
-                                class="h-5 w-5 text-neutral-600"
+                                class="h-5 w-5 text-white/50"
                                 fill="currentColor"
                                 viewBox="0 0 20 20"
                               >
@@ -727,21 +684,17 @@
                           }
                         </div>
                         <div class="min-w-0 flex-1">
-                          <h3
-                            class="truncate font-medium text-white/90 transition-colors group-hover:text-primary-300"
-                          >
+                          <h3 class="truncate font-semibold text-white">
                             {{ credit.name }}
                           </h3>
-                          <p class="text-xs text-neutral-400">
-                            {{ credit.year }}
-                          </p>
+                          <p class="text-xs text-white/60">{{ credit.year }}</p>
                         </div>
                         @if (credit.rating && credit.rating !== "0") {
                           <div
-                            class="flex items-center gap-1 rounded-full bg-primary-500/10 px-2 py-1 backdrop-blur-sm"
+                            class="flex items-center gap-1 rounded-full bg-white/10 px-2 py-1"
                           >
                             <svg
-                              class="h-3 w-3 text-primary-400"
+                              class="h-3 w-3 text-white/70"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -749,7 +702,7 @@
                                 d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                               />
                             </svg>
-                            <span class="text-xs text-white/90">{{
+                            <span class="text-xs text-white">{{
                               credit.rating
                             }}</span>
                           </div>
@@ -764,60 +717,55 @@
         </div>
       </div>
     } @else if (loading()) {
-      <!-- Refined Loading State with gradient skeletons -->
+      <!-- Loading -->
       <div class="py-8">
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-7">
-          <!-- Profile Picture Skeleton -->
           <div class="lg:col-span-2">
             <div class="space-y-5">
               <div
-                class="aspect-[3/4] animate-pulse-subtle rounded-xl bg-gradient-to-br from-bg-highlight/30 to-bg-dark shadow-lg"
+                class="aspect-[3/4] animate-pulse rounded-xl border border-white/10 bg-white/10"
               ></div>
-              <div
-                class="rounded-lg bg-gradient-to-br from-bg-card/40 to-bg-card/20 p-4 shadow-lg backdrop-blur-sm"
-              >
+              <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-4">
                 <div
-                  class="mb-3 h-4 w-20 animate-pulse-subtle rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                  class="mb-3 h-4 w-20 animate-pulse rounded bg-white/10"
                 ></div>
                 <div class="flex gap-3">
                   <div
-                    class="h-8 flex-1 animate-pulse-subtle rounded bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                    class="h-8 flex-1 animate-pulse rounded bg-white/10"
                   ></div>
                   <div
-                    class="h-8 flex-1 animate-pulse-subtle rounded bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                    class="h-8 flex-1 animate-pulse rounded bg-white/10"
                   ></div>
                 </div>
               </div>
-              <div
-                class="rounded-lg bg-gradient-to-br from-bg-card/40 to-bg-card/20 p-4 shadow-lg backdrop-blur-sm"
-              >
+              <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-4">
                 <div
-                  class="mb-3 h-4 w-16 animate-pulse-subtle rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                  class="mb-3 h-4 w-16 animate-pulse rounded bg-white/10"
                 ></div>
                 <div class="space-y-3">
                   <div class="flex items-center gap-2">
                     <div
-                      class="h-7 w-7 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                      class="h-7 w-7 animate-pulse rounded-full bg-white/10"
                     ></div>
                     <div class="flex-1">
                       <div
-                        class="mb-1 h-2.5 w-12 animate-pulse-subtle rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                        class="mb-1 h-2.5 w-12 animate-pulse rounded bg-white/10"
                       ></div>
                       <div
-                        class="h-3 w-20 animate-pulse-subtle rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                        class="h-3 w-20 animate-pulse rounded bg-white/10"
                       ></div>
                     </div>
                   </div>
                   <div class="flex items-center gap-2">
                     <div
-                      class="h-7 w-7 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                      class="h-7 w-7 animate-pulse rounded-full bg-white/10"
                     ></div>
                     <div class="flex-1">
                       <div
-                        class="mb-1 h-2.5 w-10 animate-pulse-subtle rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                        class="mb-1 h-2.5 w-10 animate-pulse rounded bg-white/10"
                       ></div>
                       <div
-                        class="h-3 w-24 animate-pulse-subtle rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                        class="h-3 w-24 animate-pulse rounded bg-white/10"
                       ></div>
                     </div>
                   </div>
@@ -826,103 +774,78 @@
             </div>
           </div>
 
-          <!-- Details Skeleton -->
           <div class="space-y-8 lg:col-span-5">
             <div>
+              <div class="h-8 w-1/3 animate-pulse rounded bg-white/10"></div>
               <div
-                class="h-8 w-1/3 animate-pulse-subtle rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-700/70"
-              ></div>
-              <div
-                class="mt-2 h-5 w-24 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                class="mt-2 h-5 w-24 animate-pulse rounded bg-white/10"
               ></div>
             </div>
 
-            <!-- Biography Skeleton -->
-            <div
-              class="rounded-lg bg-gradient-to-br from-bg-card/30 to-bg-card/10 p-6 shadow-lg backdrop-blur-sm"
-            >
+            <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-6">
               <div
-                class="mb-4 h-5 w-24 animate-pulse-subtle rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                class="mb-4 h-5 w-24 animate-pulse rounded bg-white/10"
               ></div>
               <div class="space-y-2">
-                <div
-                  class="h-3 w-full animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
-                ></div>
-                <div
-                  class="h-3 w-full animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
-                ></div>
-                <div
-                  class="h-3 w-full animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
-                ></div>
-                <div
-                  class="h-3 w-2/3 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
-                ></div>
+                <div class="h-3 w-full animate-pulse rounded bg-white/10"></div>
+                <div class="h-3 w-full animate-pulse rounded bg-white/10"></div>
+                <div class="h-3 w-full animate-pulse rounded bg-white/10"></div>
+                <div class="h-3 w-2/3 animate-pulse rounded bg-white/10"></div>
               </div>
             </div>
 
-            <!-- Known For Skeleton -->
-            <div
-              class="rounded-lg bg-gradient-to-br from-bg-card/30 to-bg-card/10 p-6 shadow-lg backdrop-blur-sm"
-            >
+            <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-6">
               <div
-                class="mb-5 h-5 w-28 animate-pulse-subtle rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                class="mb-5 h-5 w-28 animate-pulse rounded bg-white/10"
               ></div>
-
               <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                 @for (i of [1, 2, 3, 4]; track i) {
                   <div>
                     <div
-                      class="mb-2 aspect-[2/3] animate-pulse-subtle rounded-lg bg-gradient-to-br from-bg-highlight/20 to-bg-dark/60"
+                      class="mb-2 aspect-[2/3] animate-pulse rounded-lg bg-white/10"
                     ></div>
                     <div
-                      class="mb-1 h-3 w-3/4 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                      class="mb-1 h-3 w-3/4 animate-pulse rounded bg-white/10"
                     ></div>
                     <div
-                      class="h-2.5 w-1/3 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                      class="h-2.5 w-1/3 animate-pulse rounded bg-white/10"
                     ></div>
                   </div>
                 }
               </div>
             </div>
 
-            <!-- Filmography Skeleton -->
-            <div
-              class="rounded-lg bg-gradient-to-br from-bg-card/30 to-bg-card/10 p-6 shadow-lg backdrop-blur-sm"
-            >
+            <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-6">
               <div
-                class="mb-5 h-5 w-28 animate-pulse-subtle rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                class="mb-5 h-5 w-28 animate-pulse rounded bg-white/10"
               ></div>
-
               <div class="mb-5 flex items-center overflow-x-auto pb-1">
-                <div
-                  class="flex rounded-full bg-bg-dark/40 p-0.5 backdrop-blur-sm"
-                >
+                <div class="flex rounded-full bg-black/50 p-0.5">
                   @for (i of [1, 2, 3]; track i) {
                     <div
-                      class="mx-0.5 h-7 w-24 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                      class="mx-0.5 h-7 w-24 animate-pulse rounded-full bg-white/10"
                     ></div>
                   }
                 </div>
               </div>
-
               <div class="space-y-2">
                 @for (i of [1, 2, 3, 4]; track i) {
                   <div
-                    class="flex items-center gap-3 rounded-lg bg-gradient-to-r from-bg-dark/50 to-bg-dark/30 p-3 backdrop-blur-sm"
+                    class="flex items-center gap-3 rounded-lg border border-white/5 bg-black/40 p-3"
                   >
                     <div
-                      class="h-14 w-10 animate-pulse-subtle rounded-md bg-gradient-to-br from-bg-highlight/20 to-bg-dark/60"
+                      class="h-14 w-10 animate-pulse rounded-md bg-white/10"
                     ></div>
                     <div class="flex-1">
                       <div
-                        class="mb-1.5 h-3.5 w-3/4 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                        class="mb-1.5 h-3.5 w-3/4 animate-pulse rounded bg-white/10"
                       ></div>
                       <div
-                        class="h-2.5 w-1/4 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                        class="h-2.5 w-1/4 animate-pulse rounded bg-white/10"
                       ></div>
                     </div>
                     <div
-                      class="h-6 w-12 animate-pulse-subtle rounded-full bg-gradient-to-r from-neutral-800 to-neutral-700/70"
+                      class="h-6 w-12 animate-pulse rounded-full bg-white/10"
                     ></div>
                   </div>
                 }
@@ -932,12 +855,10 @@
         </div>
       </div>
     } @else if (error()) {
-      <!-- Enhanced Error State -->
+      <!-- Error -->
       <div class="flex min-h-[70vh] items-center justify-center px-4">
         <div class="max-w-md text-center">
-          <div
-            class="rounded-lg bg-gradient-to-br from-bg-card/50 to-bg-card/20 p-8 shadow-[0_4px_20px_rgba(0,0,0,0.2)] backdrop-blur-sm"
-          >
+          <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-8">
             <div
               class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-600/10 p-3"
             >
@@ -958,10 +879,10 @@
             <h2 class="mb-3 text-xl font-semibold text-white">
               Person Not Found
             </h2>
-            <p class="mb-5 text-neutral-400">{{ error() }}</p>
+            <p class="mb-5 text-white/70">{{ error() }}</p>
             <a
               routerLink="/"
-              class="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-primary-600 to-primary-500 px-5 py-2.5 text-sm font-medium shadow-[0_2px_10px_rgba(10,132,255,0.25)] transition-all duration-300 hover:from-primary-500 hover:to-primary-400"
+              class="inline-flex items-center gap-2 rounded-lg bg-red-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-red-500"
             >
               <svg
                 class="h-4 w-4"

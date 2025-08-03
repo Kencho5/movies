@@ -53,6 +53,7 @@ export class WatchComponent {
   readonly episodesForSeason = toSignal(this.seasonData$);
 
   readonly movie = computed(() => this.movieData()?.title);
+  readonly credits = computed(() => this.movieData()?.credits);
 
   readonly seasons = computed(() => {
     const seasonsData = this.movieData()?.seasons?.data;
@@ -107,4 +108,3 @@ export class WatchComponent {
     this.selectedEpisode.set(episode);
   }
 }
-

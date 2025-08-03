@@ -40,6 +40,7 @@ export interface Title {
 }
 
 export interface TitleResponse {
+  credits: any;
   title: Title;
   episodes: {
     data: Episode[];
@@ -121,3 +122,4 @@ export interface Country {
   name: string;
   display_name: string;
 }
+
