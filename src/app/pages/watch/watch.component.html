@@ -1,27 +1,23 @@
 <div
   class="min-h-screen bg-gradient-to-b from-bg-dark to-bg-dark/95 text-white"
 >
-  <!-- Video Player Section (Refined size) -->
+  <!-- Video Player Section -->
   <div class="container mx-auto px-4 pt-6 md:px-6">
     @if (playerData().file) {
       <div
         class="relative overflow-hidden rounded-xl shadow-[0_0_25px_rgba(10,132,255,0.15)]"
       >
-        <!-- Player (reduced size) -->
         <app-player
           [playerData]="playerData()"
           [playerClass]="
             'w-full aspect-[16/9] md:aspect-[2/1] lg:aspect-[21/9] bg-black'
           "
         ></app-player>
-
-        <!-- Subtle control overlay -->
         <div
           class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-bg-dark/90 to-transparent"
         ></div>
       </div>
     } @else {
-      <!-- Placeholder when no video -->
       <div
         class="relative flex aspect-[16/9] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-bg-highlight/30 to-bg-dark shadow-[0_0_25px_rgba(10,132,255,0.15)] md:aspect-[2/1] lg:aspect-[21/9]"
       >
@@ -47,12 +43,10 @@
           </svg>
           <p class="text-sm text-neutral-300">Video preview unavailable</p>
         </div>
-
-        <!-- Backdrop Image as fallback with blur -->
-        @if (movie() && movie()!.title.backdrop) {
+        @if (movie() && movie()!.backdrop) {
           <img
-            [src]="movie()!.title.backdrop"
-            [alt]="movie()!.title.name"
+            [src]="movie()!.backdrop"
+            [alt]="movie()!.name"
             class="absolute inset-0 z-[-1] h-full w-full object-cover object-center opacity-20"
           />
         }
@@ -63,28 +57,23 @@
   <!-- Main Content -->
   <div class="container mx-auto px-4 md:px-6">
     @if (movie()) {
-      <!-- Title and Quick Actions Section -->
       <div class="py-6">
         <div class="flex flex-wrap items-start justify-between gap-4">
-          <!-- Title -->
           <div class="min-w-0 flex-1">
             <h1
               class="text-2xl font-bold tracking-tight text-white/95 md:text-3xl"
             >
-              {{ movie()!.title.name }}
+              {{ movie()!.name }}
             </h1>
-
-            @if (movie()!.title.tagline) {
+            @if (movie()!.tagline) {
               <p class="mt-1 text-sm italic text-neutral-300">
-                "{{ movie()!.title.tagline }}"
+                "{{ movie()!.tagline }}"
               </p>
             }
-
-            <!-- Quick Stats -->
             <div
               class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm"
             >
-              @if (movie()!.title.rating) {
+              @if (movie()!.rating) {
                 <div
                   class="flex items-center gap-1.5 rounded-full bg-primary-500/10 px-2 py-0.5 backdrop-blur-sm"
                 >
@@ -97,29 +86,22 @@
                       d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                     />
                   </svg>
-                  <span class="font-medium">{{ movie()!.title.rating }}</span>
+                  <span class="font-medium">{{ movie()!.rating }}</span>
                 </div>
               }
-
-              <span class="text-neutral-400">{{ movie()!.title.year }}</span>
-
-              @if (movie()!.title.runtime) {
-                <span class="text-neutral-400"
-                  >{{ movie()!.title.runtime }}m</span
-                >
+              <span class="text-neutral-400">{{ movie()!.year }}</span>
+              @if (movie()!.runtime) {
+                <span class="text-neutral-400">{{ movie()!.runtime }}m</span>
               }
-
-              @if (movie()!.title.certification) {
+              @if (movie()!.certification) {
                 <span
                   class="inline-block rounded bg-neutral-800/70 px-1.5 py-0.5 text-xs font-medium backdrop-blur-sm"
                 >
-                  {{ movie()!.title.certification | uppercase }}
+                  {{ movie()!.certification | uppercase }}
                 </span>
               }
             </div>
           </div>
-
-          <!-- Watch Button -->
           <div>
             <button
               class="flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-primary-600 to-primary-500 px-5 py-2.5 text-sm font-medium shadow-[0_2px_10px_rgba(10,132,255,0.25)] transition-all duration-300 hover:from-primary-500 hover:to-primary-400 hover:shadow-[0_2px_15px_rgba(10,132,255,0.4)]"
@@ -139,30 +121,25 @@
 
       <!-- Main Content Grid -->
       <div class="grid grid-cols-1 gap-8 pb-12 lg:grid-cols-7">
-        <!-- Poster Column (Smaller) -->
+        <!-- Left Column -->
         <div class="lg:col-span-2">
           <div class="sticky top-6 space-y-5">
-            <!-- Poster Card with glow -->
             <div
               class="group relative overflow-hidden rounded-lg shadow-[0_5px_30px_rgba(0,0,0,0.7)]"
             >
-              <!-- Subtle glow effect -->
               <div
                 class="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary-600/20 to-primary-400/0 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100"
               ></div>
-
               <div
                 class="relative aspect-[2/3] overflow-hidden bg-gradient-to-br from-bg-card to-bg-dark"
               >
                 <img
-                  [src]="movie()!.title.poster"
-                  [alt]="movie()!.title.name"
+                  [src]="movie()!.poster"
+                  [alt]="movie()!.name"
                   class="h-full w-full object-cover transition-all duration-700 group-hover:scale-105"
                 />
               </div>
-
-              <!-- Rating Details -->
-              @if (movie()!.title.rating) {
+              @if (movie()!.rating) {
                 <div
                   class="bg-gradient-to-b from-bg-card/90 to-bg-card/70 p-4 backdrop-blur-sm"
                 >
@@ -177,41 +154,34 @@
                       />
                     </svg>
                     <div>
-                      <span class="font-semibold">{{
-                        movie()!.title.rating
-                      }}</span>
+                      <span class="font-semibold">{{ movie()!.rating }}</span>
                       <span class="text-sm text-neutral-400">/10</span>
                     </div>
                   </div>
                   <p class="mt-1 text-xs text-neutral-400">
-                    {{ movie()!.title.vote_count | number }} votes
+                    {{ movie()!.vote_count | number }} votes
                   </p>
                 </div>
               }
             </div>
-
-            <!-- External Links -->
             <div
               class="rounded-lg bg-gradient-to-br from-bg-card/70 to-bg-card/40 p-4 backdrop-blur-sm"
             >
               <h3 class="mb-3 text-sm font-medium text-neutral-200">Links</h3>
               <div class="flex gap-3">
-                @if (movie()!.title.imdb_id) {
+                @if (movie()!.imdb_id) {
                   <a
-                    [href]="
-                      'https://www.imdb.com/title/' + movie()!.title.imdb_id
-                    "
+                    [href]="'https://www.imdb.com/title/' + movie()!.imdb_id"
                     target="_blank"
                     class="from-yellow-500/20 to-yellow-500/10 hover:from-yellow-500/30 hover:to-yellow-500/20 text-yellow-300 border-yellow-500/20 flex-1 rounded border bg-gradient-to-br px-3 py-1.5 text-center text-xs font-medium transition-all duration-300"
                   >
                     IMDb
                   </a>
                 }
-                @if (movie()!.title.tmdb_id) {
+                @if (movie()!.tmdb_id) {
                   <a
                     [href]="
-                      'https://www.themoviedb.org/movie/' +
-                      movie()!.title.tmdb_id
+                      'https://www.themoviedb.org/movie/' + movie()!.tmdb_id
                     "
                     target="_blank"
                     class="flex-1 rounded border border-primary-600/20 bg-gradient-to-br from-primary-600/20 to-primary-600/10 px-3 py-1.5 text-center text-xs font-medium text-primary-300 transition-all duration-300 hover:from-primary-600/30 hover:to-primary-600/20"
@@ -221,9 +191,7 @@
                 }
               </div>
             </div>
-
-            <!-- Status if available -->
-            @if (movie()!.title.status) {
+            @if (movie()!.status) {
               <div
                 class="rounded-lg bg-gradient-to-br from-bg-card/70 to-bg-card/40 p-4 backdrop-blur-sm"
               >
@@ -233,30 +201,134 @@
                 <span
                   class="from-green-600/20 to-green-600/10 text-green-300 border-green-600/20 inline-block rounded-full border bg-gradient-to-r px-3 py-1 text-xs font-medium"
                 >
-                  {{ movie()!.title.status | titlecase }}
+                  {{ movie()!.status | titlecase }}
                 </span>
               </div>
             }
           </div>
         </div>
 
-        <!-- Main Details Column -->
+        <!-- Right Column -->
         <div class="space-y-8 lg:col-span-5">
-          <!-- About & Description -->
+          @if (movie()!.is_series) {
+            <div
+              class="rounded-lg bg-gradient-to-br from-bg-card/50 to-bg-card/20 p-4 shadow-[0_4px_20px_rgba(0,0,0,0.2)] backdrop-blur-sm sm:p-6"
+            >
+              <div
+                class="mb-4 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center"
+              >
+                <h2 class="text-lg font-medium text-white/90">Seasons</h2>
+                <div
+                  class="flex flex-wrap items-center gap-2 rounded-full bg-bg-dark/50 p-1"
+                >
+                  @for (season of seasons(); track season.id) {
+                    <button
+                      (click)="onSeasonChange(season)"
+                      [ngClass]="{
+                        'bg-primary-600 text-white shadow-md':
+                          selectedSeason()?.id === season.id,
+                        'text-neutral-300 hover:bg-neutral-700/50':
+                          selectedSeason()?.id !== season.id,
+                      }"
+                      class="rounded-full px-3 py-1.5 text-xs font-semibold transition-all duration-200 sm:text-sm"
+                    >
+                      Season {{ season.number }}
+                    </button>
+                  }
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 gap-3">
+                @if (episodesLoading()) {
+                  @for (i of [].constructor(5); track $index) {
+                    <div
+                      class="flex items-start gap-4 rounded-lg bg-bg-card/50 p-3"
+                    >
+                      <div
+                        class="aspect-video w-28 flex-shrink-0 animate-pulse-subtle rounded-md bg-gradient-to-r from-bg-highlight to-bg-card/80 sm:w-32"
+                      ></div>
+                      <div class="min-w-0 flex-1 space-y-3 pt-1">
+                        <div
+                          class="h-4 w-3/4 animate-pulse-subtle rounded bg-gradient-to-r from-bg-highlight to-bg-card/80"
+                        ></div>
+                        <div
+                          class="h-3 w-full animate-pulse-subtle rounded bg-gradient-to-r from-bg-highlight to-bg-card/80"
+                        ></div>
+                      </div>
+                    </div>
+                  }
+                } @else {
+                  @for (episode of episodesForSeason(); track episode.id) {
+                    <div
+                      (click)="onEpisodeClick(episode)"
+                      [ngClass]="{
+                        'border-primary-500/50 bg-primary-600/20':
+                          selectedEpisode()?.id === episode.id,
+                        'border-transparent bg-neutral-800/30 hover:bg-neutral-700/40':
+                          selectedEpisode()?.id !== episode.id,
+                      }"
+                      class="flex cursor-pointer items-start gap-4 rounded-lg border p-3 transition-all duration-200"
+                    >
+                      <div
+                        class="aspect-video w-28 flex-shrink-0 overflow-hidden rounded-md bg-bg-highlight sm:w-32"
+                      >
+                        @if (episode.poster) {
+                          <app-image
+                            [src]="episode.poster"
+                            [alt]="episode.name"
+                            customClass="h-full w-full object-cover"
+                          ></app-image>
+                        } @else {
+                          <div
+                            class="flex h-full w-full items-center justify-center"
+                          >
+                            <svg
+                              class="h-6 w-6 text-neutral-600"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                d="M10 3a1 1 0 011 1v5.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 9.586V4a1 1 0 011-1z"
+                              />
+                              <path
+                                d="M3.5 12a1 1 0 011-1h11a1 1 0 110 2h-11a1 1 0 01-1-1z"
+                              />
+                            </svg>
+                          </div>
+                        }
+                      </div>
+                      <div class="min-w-0 flex-1">
+                        <h3
+                          class="truncate text-sm font-medium text-white/90 sm:text-base"
+                        >
+                          {{ episode.episode_number }}. {{ episode.name }}
+                        </h3>
+                        <p
+                          class="mt-1 line-clamp-2 text-xs text-neutral-400 sm:text-sm"
+                        >
+                          {{
+                            episode.description || "No description available."
+                          }}
+                        </p>
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+          }
+
           <div
             class="rounded-lg bg-gradient-to-br from-bg-card/50 to-bg-card/20 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)] backdrop-blur-sm"
           >
             <h2 class="mb-4 text-lg font-medium text-white/90">Synopsis</h2>
             <p class="leading-relaxed text-neutral-300">
-              {{ movie()!.title.description }}
+              {{ movie()!.description }}
             </p>
-
-            <!-- Genres & Keywords -->
             <div
               class="mt-5 flex flex-wrap gap-x-8 gap-y-5 border-t border-neutral-800/50 pt-5 text-sm"
             >
-              <!-- Genres -->
-              @if (movie()!.title.genres && movie()!.title.genres.length > 0) {
+              @if (movie()!.genres && movie()!.genres.length > 0) {
                 <div>
                   <h3
                     class="mb-2.5 text-xs font-medium uppercase text-primary-300"
@@ -264,7 +336,7 @@
                     Genres
                   </h3>
                   <div class="flex flex-wrap gap-1.5">
-                    @for (genre of movie()!.title.genres; track genre.id) {
+                    @for (genre of movie()!.genres; track genre.id) {
                       <span
                         class="rounded-full border border-primary-600/30 bg-gradient-to-r from-primary-600/20 to-primary-500/10 px-2.5 py-1 text-xs text-primary-300"
                       >
@@ -274,11 +346,7 @@
                   </div>
                 </div>
               }
-
-              <!-- Keywords -->
-              @if (
-                movie()!.title.keywords && movie()!.title.keywords.length > 0
-              ) {
+              @if (movie()!.keywords && movie()!.keywords.length > 0) {
                 <div>
                   <h3
                     class="mb-2.5 text-xs font-medium uppercase text-primary-300"
@@ -287,7 +355,7 @@
                   </h3>
                   <div class="flex flex-wrap gap-1.5">
                     @for (
-                      keyword of movie()!.title.keywords.slice(0, 6);
+                      keyword of movie()!.keywords.slice(0, 6);
                       track keyword.id
                     ) {
                       <span
@@ -302,8 +370,9 @@
             </div>
           </div>
 
-          <!-- Cast Section with subtle gradient -->
-          @if (movie()!.credits?.actors && movie()!.credits.actors.length > 0) {
+          @if (
+            movie()!.credits?.actors && movie()!.credits!.actors.length > 0
+          ) {
             <div
               class="rounded-lg bg-gradient-to-br from-bg-card/50 to-bg-card/20 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)] backdrop-blur-sm"
             >
@@ -315,12 +384,11 @@
                   View All
                 </button>
               </div>
-
               <div
                 class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
               >
                 @for (
-                  actor of movie()!.credits.actors.slice(0, 6);
+                  actor of movie()!.credits!.actors.slice(0, 6);
                   track actor.id
                 ) {
                   <a [routerLink]="['/people', actor.id]" class="group">
@@ -356,7 +424,7 @@
                     </h3>
                     @if (actor.pivot?.character) {
                       <p class="truncate text-xs text-neutral-400">
-                        {{ actor.pivot.character }}
+                        {{ actor.pivot?.character }}
                       </p>
                     }
                   </a>
@@ -365,19 +433,16 @@
             </div>
           }
 
-          <!-- Additional details section -->
           <div
             class="rounded-lg bg-gradient-to-br from-bg-card/50 to-bg-card/20 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)] backdrop-blur-sm"
           >
             <h2 class="mb-5 text-lg font-medium text-white/90">Details</h2>
-
             <div
               class="grid grid-cols-2 gap-x-8 gap-y-5 text-sm md:grid-cols-3"
             >
-              <!-- Director -->
               @if (
                 movie()!.credits?.directing &&
-                movie()!.credits.directing.length > 0
+                movie()!.credits!.directing.length > 0
               ) {
                 <div>
                   <dt
@@ -387,7 +452,7 @@
                   </dt>
                   <dd class="text-white/90">
                     @for (
-                      director of movie()!.credits.directing;
+                      director of movie()!.credits!.directing;
                       track director.id;
                       let isLast = $last
                     ) {
@@ -399,10 +464,9 @@
                   </dd>
                 </div>
               }
-
-              <!-- Writers -->
               @if (
-                movie()!.credits?.writing && movie()!.credits.writing.length > 0
+                movie()!.credits?.writing &&
+                movie()!.credits!.writing.length > 0
               ) {
                 <div>
                   <dt
@@ -412,7 +476,7 @@
                   </dt>
                   <dd class="text-white/90">
                     @for (
-                      writer of movie()!.credits.writing.slice(0, 3);
+                      writer of movie()!.credits!.writing.slice(0, 3);
                       track writer.id;
                       let isLast = $last
                     ) {
@@ -424,8 +488,6 @@
                   </dd>
                 </div>
               }
-
-              <!-- Release Date -->
               <div>
                 <dt
                   class="mb-1.5 text-xs font-medium uppercase text-primary-300"
@@ -433,40 +495,32 @@
                   Release Date
                 </dt>
                 <dd class="text-white/90">
-                  {{ movie()!.title.release_date | date: "mediumDate" }}
+                  {{ movie()!.release_date | date: "mediumDate" }}
                 </dd>
               </div>
-
-              <!-- Runtime -->
-              @if (movie()!.title.runtime) {
+              @if (movie()!.runtime) {
                 <div>
                   <dt
                     class="mb-1.5 text-xs font-medium uppercase text-primary-300"
                   >
                     Runtime
                   </dt>
-                  <dd class="text-white/90">
-                    {{ movie()!.title.runtime }} minutes
-                  </dd>
+                  <dd class="text-white/90">{{ movie()!.runtime }} minutes</dd>
                 </div>
               }
-
-              <!-- Language -->
-              @if (movie()!.title.language) {
+              @if (movie()!.language) {
                 <div>
                   <dt
                     class="mb-1.5 text-xs font-medium uppercase text-primary-300"
                   >
                     Language
                   </dt>
-                  <dd class="text-white/90">{{ movie()!.title.language }}</dd>
+                  <dd class="text-white/90">{{ movie()!.language }}</dd>
                 </div>
               }
-
-              <!-- Country -->
               @if (
-                movie()!.title.production_countries &&
-                movie()!.title.production_countries.length > 0
+                movie()!.production_countries &&
+                movie()!.production_countries.length > 0
               ) {
                 <div>
                   <dt
@@ -476,7 +530,7 @@
                   </dt>
                   <dd class="text-white/90">
                     @for (
-                      country of movie()!.title.production_countries;
+                      country of movie()!.production_countries;
                       track country.id;
                       let isLast = $last
                     ) {
@@ -488,9 +542,7 @@
                   </dd>
                 </div>
               }
-
-              <!-- Budget -->
-              @if (movie()!.title.budget && movie()!.title.budget > 0) {
+              @if (movie()!.budget && movie()!.budget > 0) {
                 <div>
                   <dt
                     class="mb-1.5 text-xs font-medium uppercase text-primary-300"
@@ -498,13 +550,11 @@
                     Budget
                   </dt>
                   <dd class="text-white/90">
-                    ${{ movie()!.title.budget | number: "1.0-0" }}
+                    ${{ movie()!.budget | number: "1.0-0" }}
                   </dd>
                 </div>
               }
-
-              <!-- Revenue -->
-              @if (movie()!.title.revenue && movie()!.title.revenue > 0) {
+              @if (movie()!.revenue && movie()!.revenue > 0) {
                 <div>
                   <dt
                     class="mb-1.5 text-xs font-medium uppercase text-primary-300"
@@ -512,13 +562,11 @@
                     Box Office
                   </dt>
                   <dd class="text-white/90">
-                    ${{ movie()!.title.revenue | number: "1.0-0" }}
+                    ${{ movie()!.revenue | number: "1.0-0" }}
                   </dd>
                 </div>
               }
-
-              <!-- Popularity -->
-              @if (movie()!.title.popularity) {
+              @if (movie()!.popularity) {
                 <div>
                   <dt
                     class="mb-1.5 text-xs font-medium uppercase text-primary-300"
@@ -526,22 +574,18 @@
                     Popularity
                   </dt>
                   <dd class="text-white/90">
-                    {{ movie()!.title.popularity | number: "1.1-1" }}
+                    {{ movie()!.popularity | number: "1.1-1" }}
                   </dd>
                 </div>
               }
-
-              <!-- Views -->
-              @if (movie()!.title.views) {
+              @if (movie()!.views) {
                 <div>
                   <dt
                     class="mb-1.5 text-xs font-medium uppercase text-primary-300"
                   >
                     Views
                   </dt>
-                  <dd class="text-white/90">
-                    {{ movie()!.title.views | number }}
-                  </dd>
+                  <dd class="text-white/90">{{ movie()!.views | number }}</dd>
                 </div>
               }
             </div>
@@ -549,9 +593,7 @@
         </div>
       </div>
     } @else {
-      <!-- Refined Loading State with subtle gradients -->
       <div class="space-y-8 py-8">
-        <!-- Title Skeleton -->
         <div class="space-y-4">
           <div
             class="h-6 w-1/3 animate-pulse-subtle rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-700/70"
@@ -565,8 +607,6 @@
             ></div>
           </div>
         </div>
-
-        <!-- Content Skeleton -->
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-7">
           <div class="lg:col-span-2">
             <div
@@ -595,3 +635,4 @@
     }
   </div>
 </div>
+

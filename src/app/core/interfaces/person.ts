@@ -7,6 +7,7 @@ export interface PersonResponse {
 }
 
 export interface Person {
+  id: number;
   name: string;
   description: string;
   poster: string;
@@ -18,6 +19,9 @@ export interface Person {
   tmdb_id: number;
   known_for: string;
   adult: boolean;
+  pivot?: {
+    character: string;
+  };
 }
 
 export interface PersonCredits {
