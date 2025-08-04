@@ -1,5 +1,11 @@
 <div class="flex min-h-screen flex-col bg-bg-dark">
   <app-titlebar />
-  <main class="flex-1 pt-14 md:pt-[68px]"><router-outlet /></main>
+  @if (!this.loadingService.loading()) {
+    <main class="flex-1 pt-14 md:pt-[68px]"><router-outlet /></main>
+  } @else {
+    <div class="absolute inset-0 z-0 flex items-center justify-center">
+      <app-loading-dots />
+    </div>
+  }
   <app-footer class="mt-auto" />
 </div>

@@ -1,11 +1,5 @@
 import { Routes } from "@angular/router";
 import { LayoutComponent } from "@shared/components/layout/layout.component";
-import { HomeComponent } from "./pages/home/home.component";
-import { WatchComponent } from "./pages/watch/watch.component";
-import { TvComponent } from "./pages/tv/tv.component";
-import { PeopleComponent } from "./pages/people/people.component";
-import { SeriesComponent } from "./pages/series/series.component";
-import { MoviesComponent } from "./pages/movies/movies.component";
 
 export const routes: Routes = [
   {
@@ -14,27 +8,41 @@ export const routes: Routes = [
     children: [
       {
         path: "",
-        component: HomeComponent,
+        loadComponent: () =>
+          import("./pages/home/home.component").then((m) => m.HomeComponent),
       },
       {
         path: "movies",
-        component: MoviesComponent,
+        loadComponent: () =>
+          import("./pages/movies/movies.component").then(
+            (m) => m.MoviesComponent,
+          ),
       },
       {
         path: "series",
-        component: SeriesComponent,
+        loadComponent: () =>
+          import("./pages/series/series.component").then(
+            (m) => m.SeriesComponent,
+          ),
       },
       {
         path: "watch/:id",
-        component: WatchComponent,
+        loadComponent: () =>
+          import("./pages/watch/watch.component").then(
+            (m) => m.WatchComponent,
+          ),
       },
       {
         path: "tv",
-        component: TvComponent,
+        loadComponent: () =>
+          import("./pages/tv/tv.component").then((m) => m.TvComponent),
       },
       {
         path: "people/:id",
-        component: PeopleComponent,
+        loadComponent: () =>
+          import("./pages/people/people.component").then(
+            (m) => m.PeopleComponent,
+          ),
       },
     ],
   },

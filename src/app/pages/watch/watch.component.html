@@ -2,61 +2,84 @@
   <!-- Hero / Player -->
   <div class="relative">
     <div class="container mx-auto px-4 pt-6 md:px-6">
-      @if (playerData().file) {
+      @if(movieLoading()) {
         <div
-          class="relative overflow-hidden rounded-xl border border-white/10 bg-black shadow-[0_10px_40px_rgba(0,0,0,0.7)]"
+          class="relative flex aspect-[16/9] items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-black shadow-[0_10px_40px_rgba(0,0,0,0.7)] md:aspect-[2/1] lg:aspect-[21/9]"
         >
-          <app-player
-            [playerData]="playerData()"
-            [playerClass]="
-              'w-full aspect-[16/9] md:aspect-[2/1] lg:aspect-[21/9] bg-black'
-            "
-          ></app-player>
-          <div
-            class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black via-black/60 to-transparent"
-          ></div>
+          <app-loading-dots></app-loading-dots>
         </div>
       } @else {
-        <div
-          class="relative aspect-[16/9] overflow-hidden rounded-xl border border-white/10 bg-[linear-gradient(120deg,rgba(255,255,255,0.06),rgba(0,0,0,0.1))] shadow-[0_10px_40px_rgba(0,0,0,0.7)] md:aspect-[2/1] lg:aspect-[21/9]"
-        >
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div
-              class="rounded-2xl bg-black/60 p-6 text-center backdrop-blur-sm"
-            >
-              <svg
-                class="mx-auto mb-2 h-10 w-10 text-red-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <p class="text-sm text-white/80">Video preview unavailable</p>
-            </div>
-          </div>
-          @if (movie() && movie()!.backdrop) {
-            <img
-              [src]="movie()!.backdrop"
-              [alt]="movie()!.name"
-              class="absolute inset-0 z-[-1] h-full w-full object-cover opacity-25"
-            />
-          }
+        @if (embedUrl()) {
           <div
-            class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black via-black/60 to-transparent"
-          ></div>
-        </div>
+            class="relative overflow-hidden rounded-xl border border-white/10 bg-black shadow-[0_10px_40px_rgba(0,0,0,0.7)]"
+          >
+            <iframe
+              [src]="embedUrl()"
+              class="w-full aspect-[16/9] md:aspect-[2/1] lg:aspect-[21/9] bg-black"
+              frameborder="0"
+              allowfullscreen
+              referrerpolicy="no-referrer"
+            ></iframe>
+            <div
+              class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black via-black/60 to-transparent"
+            ></div>
+          </div>
+        } @else if (playerData().file) {
+          <div
+            class="relative overflow-hidden rounded-xl border border-white/10 bg-black shadow-[0_10px_40px_rgba(0,0,0,0.7)]"
+          >
+            <app-player
+              [playerData]="playerData()"
+              [playerClass]="
+                'w-full aspect-[16/9] md:aspect-[2/1] lg:aspect-[21/9] bg-black'
+              "
+            ></app-player>
+            <div
+              class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black via-black/60 to-transparent"
+            ></div>
+          </div>
+        } @else {
+          <div
+            class="relative aspect-[16/9] overflow-hidden rounded-xl border border-white/10 bg-[linear-gradient(120deg,rgba(255,255,255,0.06),rgba(0,0,0,0.1))] shadow-[0_10px_40px_rgba(0,0,0,0.7)] md:aspect-[2/1] lg:aspect-[21/9]"
+          >
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div
+                class="rounded-2xl bg-black/60 p-6 text-center backdrop-blur-sm"
+              >
+                <svg
+                  class="mx-auto mb-2 h-10 w-10 text-red-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p class="text-sm text-white/80">Video preview unavailable</p>
+              </div>
+            </div>
+            @if (movie() && movie()!.backdrop) {
+              <img
+                [src]="movie()!.backdrop"
+                [alt]="movie()!.name"
+                class="absolute inset-0 z-[-1] h-full w-full object-cover opacity-25"
+              />
+            }
+            <div
+              class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black via-black/60 to-transparent"
+            ></div>
+          </div>
+        }
       }
     </div>
   </div>
