@@ -55,9 +55,9 @@ module.exports = {
         900: "#14532d",
       },
       bg: {
-        dark: "#0b0b0f", // deeper cinematic black
-        card: "#141418", // darker cards
-        highlight: "#1b1b20", // hover/row highlight
+        dark: "#0b0b0f",
+        card: "#141418",
+        highlight: "#1b1b20",
       },
       black: "#000000",
       white: "#ffffff",
