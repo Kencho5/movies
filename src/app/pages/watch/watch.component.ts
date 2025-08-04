@@ -5,6 +5,8 @@ import {
   inject,
   signal,
   OnDestroy,
+  ViewChild,
+  ElementRef,
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
@@ -44,6 +46,8 @@ export class WatchComponent implements OnDestroy {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly destroy$ = new Subject<void>();
 
+  @ViewChild("playerContainer") playerContainer!: ElementRef;
+
   readonly movieLoading = signal(false);
   readonly episodesLoading = signal(false);
 
@@ -52,14 +56,14 @@ export class WatchComponent implements OnDestroy {
 
   private readonly titleId$ = this.route.paramMap.pipe(
     map((params) => params.get("id")!),
-    takeUntil(this.destroy$),
+    takeUntil(this.destroy$)
   );
 
   private readonly movieData$ = this.titleId$.pipe(
     tap(() => this.movieLoading.set(true)),
     switchMap((id) => this.movieService.getMovie(id)),
     tap(() => this.movieLoading.set(false)),
-    shareReplay(1),
+    shareReplay(1)
   );
 
   private readonly seasonData$ = combineLatest([
@@ -69,7 +73,7 @@ export class WatchComponent implements OnDestroy {
     tap(() => this.episodesLoading.set(true)),
     switchMap(([id, seasonNum]) => this.getSeasonEpisodes(id, seasonNum)),
     tap(() => this.episodesLoading.set(false)),
-    startWith([]),
+    startWith([])
   );
 
   readonly movieData = toSignal(this.movieData$);
@@ -84,7 +88,7 @@ export class WatchComponent implements OnDestroy {
   });
 
   readonly selectedSeason = computed(() =>
-    this.seasons().find((s) => s.number === this.selectedSeasonNumber()),
+    this.seasons().find((s) => s.number === this.selectedSeasonNumber())
   );
 
   readonly embedUrl = computed<SafeResourceUrl | null>(() => {
@@ -104,9 +108,10 @@ export class WatchComponent implements OnDestroy {
     }
 
     const video = this.getActiveVideo(movie, false);
-    const poster = movie.is_series
-      ? (this.selectedEpisode()?.poster ?? movie.backdrop)
-      : movie.backdrop;
+    const poster =
+      movie.is_series && this.selectedEpisode()?.poster
+        ? this.selectedEpisode()?.poster
+        : movie.backdrop;
 
     return {
       file: video?.src ?? "",
@@ -137,6 +142,10 @@ export class WatchComponent implements OnDestroy {
     this.selectedEpisode.set(episode);
   }
 
+  watchNow(): void {
+    this.playerContainer.nativeElement.scrollIntoView({ behavior: "smooth" });
+  }
+
   private getSeasonEpisodes(id: string, seasonNum: number) {
     if (seasonNum === 1) {
       return this.movieData$.pipe(map((data) => data.episodes?.data ?? []));
@@ -148,7 +157,7 @@ export class WatchComponent implements OnDestroy {
 
   private getActiveVideo(
     movie: Title,
-    isEmbed: boolean = true,
+    isEmbed: boolean = true
   ): Video | undefined {
     if (movie.is_series) {
       const episode = this.selectedEpisode();
@@ -157,13 +166,12 @@ export class WatchComponent implements OnDestroy {
       return movie.videos?.find(
         (v) =>
           v.episode_id === episode.id &&
-          (isEmbed ? v.type === "embed" : v.type !== "embed"),
+          (isEmbed ? v.type === "embed" : v.type !== "embed")
       );
     }
 
     return movie.videos?.find((v) =>
-      isEmbed ? v.type === "embed" : v.type !== "embed",
+      isEmbed ? v.type === "embed" : v.type !== "embed"
     );
   }
 }
-
