@@ -34,5 +34,37 @@
     "box_office": "Сборы",
     "popularity": "Популярность",
     "views": "Просмотры"
+  },
+  "MOVIES": {
+    "all_movies": "Все фильмы",
+    "browse_filter_keep_watching": "Просматривайте, фильтруйте и продолжайте смотреть"
+  },
+  "PEOPLE": {
+    "links": "Ссылки",
+    "stats": "Статистика",
+    "known_for": "Известен за",
+    "born": "Родился",
+    "died": "Умер",
+    "biography": "Биография",
+    "show_less": "Показать меньше",
+    "show_more": "Показать больше",
+    "filmography": "Фильмография",
+    "actor": "Актер",
+    "director": "Режиссер",
+    "writer": "Сценарист",
+    "producer": "Продюсер",
+    "person_not_found": "Человек не найден",
+    "back_to_home": "Вернуться на главную"
+  },
+  "SERIES": {
+    "all_series": "Все сериалы",
+    "binge_worthy_shows": "Сериалы, которые стоит посмотреть, и последние сезоны"
+  },
+  "TV": {
+    "tv_channels": "Телеканалы",
+    "program_list": "Список программ",
+    "channels": "Каналы",
+    "live": "В прямом эфире",
+    "loading_stream": "Загрузка трансляции..."
   }
 }

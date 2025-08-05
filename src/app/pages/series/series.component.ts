@@ -6,6 +6,7 @@ import { FilterButtonComponent } from "@shared/components/ui/filter-button/filte
 import { ImageComponent } from "@shared/components/ui/image/image.component";
 import { LoadingDotsComponent } from "@shared/components/ui/loading-dots/loading-dots.component";
 import { finalize } from "rxjs";
+import { TranslocoModule } from "@jsverse/transloco";
 
 interface Filter {
   key: string;
@@ -22,6 +23,7 @@ interface Filter {
     FilterButtonComponent,
     ImageComponent,
     LoadingDotsComponent,
+    TranslocoModule,
   ],
   templateUrl: "./series.component.html",
 })

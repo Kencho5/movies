@@ -34,5 +34,37 @@
     "box_office": "Box Office",
     "popularity": "Popularity",
     "views": "Views"
+  },
+  "MOVIES": {
+    "all_movies": "All Movies",
+    "browse_filter_keep_watching": "Browse, filter, and keep watching"
+  },
+  "PEOPLE": {
+    "links": "Links",
+    "stats": "Stats",
+    "known_for": "Known For",
+    "born": "Born",
+    "died": "Died",
+    "biography": "Biography",
+    "show_less": "Show Less",
+    "show_more": "Show More",
+    "filmography": "Filmography",
+    "actor": "Actor",
+    "director": "Director",
+    "writer": "Writer",
+    "producer": "Producer",
+    "person_not_found": "Person Not Found",
+    "back_to_home": "Back to Home"
+  },
+  "SERIES": {
+    "all_series": "All Series",
+    "binge_worthy_shows": "Binge-worthy shows and latest seasons"
+  },
+  "TV": {
+    "tv_channels": "TV Channels",
+    "program_list": "Program List",
+    "channels": "Channels",
+    "live": "Live",
+    "loading_stream": "Loading your stream..."
   }
 }

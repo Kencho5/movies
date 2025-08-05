@@ -9,10 +9,11 @@ import { ActivatedRoute } from "@angular/router";
 import { MovieService } from "@core/services/movie.service";
 import { SharedModule } from "@shared/shared.module";
 import { PersonResponse } from "@core/interfaces/person";
+import { TranslocoModule } from "@jsverse/transloco";
 
 @Component({
   selector: "app-people",
-  imports: [SharedModule],
+  imports: [SharedModule, TranslocoModule],
   templateUrl: "./people.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -22,14 +23,14 @@ export class PeopleComponent implements OnInit {
   loading = signal(false);
   error = signal<string | null>(null);
   activeTab = signal<"acting" | "directing" | "writing" | "production" | null>(
-    "acting",
+    "acting"
   );
   biographyExpanded = signal(false);
 
   person = computed(() => this.personData()?.person || null);
 
   setActiveTab(
-    tab: "acting" | "directing" | "writing" | "production" | null,
+    tab: "acting" | "directing" | "writing" | "production" | null
   ): void {
     this.activeTab.set(this.activeTab() === tab ? null : tab);
   }
@@ -44,7 +45,7 @@ export class PeopleComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private movieService: MovieService,
+    private movieService: MovieService
   ) {}
 
   ngOnInit(): void {

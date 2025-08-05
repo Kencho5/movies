@@ -9,9 +9,9 @@
       <!-- Header row -->
       <div class="mb-5 flex items-center justify-between sm:mb-6">
         <div>
-          <h2 class="text-xl font-bold text-white md:text-2xl">All Series</h2>
+          <h2 class="text-xl font-bold text-white md:text-2xl">{{ 'SERIES.all_series' | transloco }}</h2>
           <p class="mt-1 text-xs text-white/60 md:text-sm">
-            Binge-worthy shows and latest seasons
+            {{ 'SERIES.binge_worthy_shows' | transloco }}
           </p>
         </div>
         <app-filter-button (applyFilters)="onApplyFilters($event)" />

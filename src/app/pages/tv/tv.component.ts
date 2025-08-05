@@ -24,6 +24,7 @@ import { PlayerControlsComponent } from "@shared/components/player-controls/play
 import { TimelineSkeletonComponent } from "@shared/components/ui/timeline-skeleton/timeline-skeleton.component";
 import { DaysSelectorComponent } from "@shared/components/days-selector/days-selector.component";
 import { PreviewSkeletonComponent } from "@shared/components/ui/preview-skeleton/preview-skeleton.component";
+import { TranslocoModule } from "@jsverse/transloco";
 
 declare var Hls: any;
 
@@ -40,6 +41,7 @@ declare var Hls: any;
     PlayerControlsComponent,
     DaysSelectorComponent,
     PreviewSkeletonComponent,
+    TranslocoModule,
   ],
   templateUrl: "./tv.component.html",
 })
@@ -74,7 +76,7 @@ export class TvComponent implements OnInit {
     private tvService: TvService,
     public playerService: PlayerService,
     private route: ActivatedRoute,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -331,7 +333,7 @@ export class TvComponent implements OnInit {
       const activeButton = this.programButtons
         .toArray()
         .find((button) =>
-          button.nativeElement.classList.value.includes("bg-primary-500/10"),
+          button.nativeElement.classList.value.includes("bg-primary-500/10")
         );
 
       if (activeButton) {
@@ -351,7 +353,7 @@ export class TvComponent implements OnInit {
         ? streamUrl(
             this.activeChannel()!.stream,
             this.tvParams.start!,
-            this.tvParams.stop!,
+            this.tvParams.stop!
           )
         : this.activeChannel()!.stream,
       poster: this.activeChannel()!.cover,
