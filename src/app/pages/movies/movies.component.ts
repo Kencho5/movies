@@ -7,6 +7,7 @@ import { SharedModule } from "@shared/shared.module";
 import { InfiniteScrollDirective } from "ngx-infinite-scroll";
 import { finalize } from "rxjs/operators";
 import { TranslocoModule } from "@jsverse/transloco";
+import { ImageSizePipe } from "@core/pipes/image-size.pipe";
 
 interface Filter {
   key: string;
@@ -24,6 +25,7 @@ interface Filter {
     ImageComponent,
     LoadingDotsComponent,
     TranslocoModule,
+    ImageSizePipe,
   ],
   templateUrl: "./movies.component.html",
 })
@@ -88,3 +90,4 @@ export class MoviesComponent {
     this.loadMovies();
   }
 }
+

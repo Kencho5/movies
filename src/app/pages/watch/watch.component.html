@@ -58,7 +58,9 @@
                     d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <p class="text-sm text-white/80">{{ 'WATCH.video_unavailable' | transloco }}</p>
+                <p class="text-sm text-white/80">
+                  {{ "WATCH.video_unavailable" | transloco }}
+                </p>
               </div>
             </div>
             @if (movie() && movie()!.backdrop) {
@@ -135,7 +137,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              {{ 'WATCH.watch_now' | transloco }}
+              {{ "WATCH.watch_now" | transloco }}
             </button>
           </div>
         </div>
@@ -151,7 +153,7 @@
             >
               <div class="relative aspect-[2/3] overflow-hidden">
                 <img
-                  [src]="movie()!.poster"
+                  [src]="movie()!.poster | imageSize: 'w342'"
                   [alt]="movie()!.name"
                   class="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                 />
@@ -177,14 +179,17 @@
                     </div>
                   </div>
                   <p class="mt-1 text-xs text-white/60">
-                    {{ movie()!.vote_count | number }} {{ 'WATCH.votes' | transloco }}
+                    {{ movie()!.vote_count | number }}
+                    {{ "WATCH.votes" | transloco }}
                   </p>
                 </div>
               }
             </div>
 
             <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-4">
-              <h3 class="mb-3 text-sm font-semibold text-white/90">{{ 'WATCH.links' | transloco }}</h3>
+              <h3 class="mb-3 text-sm font-semibold text-white/90">
+                {{ "WATCH.links" | transloco }}
+              </h3>
               <div class="flex gap-3">
                 @if (movie()!.imdb_id) {
                   <a
@@ -211,7 +216,9 @@
 
             @if (movie()!.status) {
               <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-4">
-                <h3 class="mb-3 text-sm font-semibold text-white/90">{{ 'WATCH.status' | transloco }}</h3>
+                <h3 class="mb-3 text-sm font-semibold text-white/90">
+                  {{ "WATCH.status" | transloco }}
+                </h3>
                 <span
                   class="border-green-500/40 bg-green-600/15 text-green-300 inline-block rounded-full border px-3 py-1 text-xs font-semibold"
                 >
@@ -231,7 +238,9 @@
               <div
                 class="mb-4 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center"
               >
-                <h2 class="text-lg font-semibold">{{ 'WATCH.seasons' | transloco }}</h2>
+                <h2 class="text-lg font-semibold">
+                  {{ "WATCH.seasons" | transloco }}
+                </h2>
                 <div
                   class="flex flex-wrap items-center gap-2 rounded-full bg-black/60 p-1"
                 >
@@ -246,7 +255,7 @@
                       }"
                       class="rounded-full px-3 py-1.5 text-xs font-semibold transition sm:text-sm"
                     >
-                      {{ 'WATCH.season' | transloco }} {{ season.number }}
+                      {{ "WATCH.season" | transloco }} {{ season.number }}
                     </button>
                   }
                 </div>
@@ -288,10 +297,10 @@
                       >
                         @if (episode.poster) {
                           <app-image
-                            [src]="episode.poster"
+                            [src]="episode.poster | imageSize: 'w342'"
                             [alt]="episode.name"
                             customClass="h-full w-full object-cover"
-                          ></app-image>
+                          />
                         } @else {
                           <div
                             class="flex h-full w-full items-center justify-center"
@@ -318,7 +327,10 @@
                         <p
                           class="mt-1 line-clamp-2 text-xs text-white/70 sm:text-sm"
                         >
-                          {{ episode.description || ('WATCH.no_description' | transloco) }}
+                          {{
+                            episode.description ||
+                              ("WATCH.no_description" | transloco)
+                          }}
                         </p>
                       </div>
                     </div>
@@ -329,7 +341,9 @@
           }
 
           <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-6">
-            <h2 class="mb-4 text-lg font-semibold">{{ 'WATCH.synopsis' | transloco }}</h2>
+            <h2 class="mb-4 text-lg font-semibold">
+              {{ "WATCH.synopsis" | transloco }}
+            </h2>
             <p class="leading-relaxed text-white/80">
               {{ movie()!.description }}
             </p>
@@ -342,7 +356,7 @@
                   <h3
                     class="mb-2.5 text-xs font-semibold uppercase text-white/70"
                   >
-                    {{ 'WATCH.genres' | transloco }}
+                    {{ "WATCH.genres" | transloco }}
                   </h3>
                   <div class="flex flex-wrap gap-1.5">
                     @for (genre of movie()!.genres; track genre.id) {
@@ -360,7 +374,7 @@
                   <h3
                     class="mb-2.5 text-xs font-semibold uppercase text-white/70"
                   >
-                    {{ 'WATCH.keywords' | transloco }}
+                    {{ "WATCH.keywords" | transloco }}
                   </h3>
                   <div class="flex flex-wrap gap-1.5">
                     @for (
@@ -382,11 +396,13 @@
           @if (credits()?.actors && credits()!.actors.length > 0) {
             <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-6">
               <div class="mb-5 flex items-center justify-between">
-                <h2 class="text-lg font-semibold">{{ 'WATCH.cast' | transloco }}</h2>
+                <h2 class="text-lg font-semibold">
+                  {{ "WATCH.cast" | transloco }}
+                </h2>
                 <button
                   class="text-xs font-semibold text-white/80 hover:text-white"
                 >
-                  {{ 'WATCH.view_all' | transloco }}
+                  {{ "WATCH.view_all" | transloco }}
                 </button>
               </div>
 
@@ -400,10 +416,10 @@
                     >
                       @if (actor.poster) {
                         <app-image
-                          [src]="actor.poster"
+                          [src]="actor.poster | imageSize: 'w342'"
                           [alt]="actor.name"
                           customClass="h-full w-full object-cover transition duration-500 group-hover:scale-110 group-hover:opacity-80"
-                        ></app-image>
+                        />
                       } @else {
                         <div class="flex h-full items-center justify-center">
                           <svg
@@ -435,7 +451,9 @@
           }
 
           <div class="bg-zinc-900/60 rounded-lg border border-white/10 p-6">
-            <h2 class="mb-5 text-lg font-semibold">{{ 'WATCH.details' | transloco }}</h2>
+            <h2 class="mb-5 text-lg font-semibold">
+              {{ "WATCH.details" | transloco }}
+            </h2>
             <div
               class="grid grid-cols-2 gap-x-8 gap-y-5 text-sm md:grid-cols-3"
             >
@@ -447,7 +465,7 @@
                   <dt
                     class="mb-1.5 text-xs font-semibold uppercase text-white/70"
                   >
-                    {{ 'WATCH.director' | transloco }}
+                    {{ "WATCH.director" | transloco }}
                   </dt>
                   <dd class="text-white">
                     @for (
@@ -471,7 +489,7 @@
                   <dt
                     class="mb-1.5 text-xs font-semibold uppercase text-white/70"
                   >
-                    {{ 'WATCH.writers' | transloco }}
+                    {{ "WATCH.writers" | transloco }}
                   </dt>
                   <dd class="text-white">
                     @for (
@@ -491,7 +509,7 @@
                 <dt
                   class="mb-1.5 text-xs font-semibold uppercase text-white/70"
                 >
-                  {{ 'WATCH.release_date' | transloco }}
+                  {{ "WATCH.release_date" | transloco }}
                 </dt>
                 <dd class="text-white">
                   {{ movie()!.release_date | date: "mediumDate" }}
@@ -502,7 +520,7 @@
                   <dt
                     class="mb-1.5 text-xs font-semibold uppercase text-white/70"
                   >
-                    {{ 'WATCH.runtime' | transloco }}
+                    {{ "WATCH.runtime" | transloco }}
                   </dt>
                   <dd class="text-white">{{ movie()!.runtime }} minutes</dd>
                 </div>
@@ -512,7 +530,7 @@
                   <dt
                     class="mb-1.5 text-xs font-semibold uppercase text-white/70"
                   >
-                    {{ 'WATCH.language' | transloco }}
+                    {{ "WATCH.language" | transloco }}
                   </dt>
                   <dd class="text-white">{{ movie()!.language }}</dd>
                 </div>
@@ -525,7 +543,7 @@
                   <dt
                     class="mb-1.5 text-xs font-semibold uppercase text-white/70"
                   >
-                    {{ 'WATCH.country' | transloco }}
+                    {{ "WATCH.country" | transloco }}
                   </dt>
                   <dd class="text-white">
                     @for (
@@ -546,7 +564,7 @@
                   <dt
                     class="mb-1.5 text-xs font-semibold uppercase text-white/70"
                   >
-                    {{ 'WATCH.budget' | transloco }}
+                    {{ "WATCH.budget" | transloco }}
                   </dt>
                   <dd class="text-white">
                     ${{ movie()!.budget | number: "1.0-0" }}
@@ -558,7 +576,7 @@
                   <dt
                     class="mb-1.5 text-xs font-semibold uppercase text-white/70"
                   >
-                    {{ 'WATCH.box_office' | transloco }}
+                    {{ "WATCH.box_office" | transloco }}
                   </dt>
                   <dd class="text-white">
                     ${{ movie()!.revenue | number: "1.0-0" }}
@@ -570,7 +588,7 @@
                   <dt
                     class="mb-1.5 text-xs font-semibold uppercase text-white/70"
                   >
-                    {{ 'WATCH.popularity' | transloco }}
+                    {{ "WATCH.popularity" | transloco }}
                   </dt>
                   <dd class="text-white">
                     {{ movie()!.popularity | number: "1.1-1" }}
@@ -582,7 +600,7 @@
                   <dt
                     class="mb-1.5 text-xs font-semibold uppercase text-white/70"
                   >
-                    {{ 'WATCH.views' | transloco }}
+                    {{ "WATCH.views" | transloco }}
                   </dt>
                   <dd class="text-white">{{ movie()!.views | number }}</dd>
                 </div>
@@ -621,3 +639,4 @@
     }
   </div>
 </div>
+

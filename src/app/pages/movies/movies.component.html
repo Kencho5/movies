@@ -8,9 +8,11 @@
       <!-- Header row -->
       <div class="mb-5 flex items-center justify-between sm:mb-6">
         <div>
-          <h2 class="text-xl font-bold text-white md:text-2xl">{{ 'MOVIES.all_movies' | transloco }}</h2>
+          <h2 class="text-xl font-bold text-white md:text-2xl">
+            {{ "MOVIES.all_movies" | transloco }}
+          </h2>
           <p class="mt-1 text-xs text-white/60 md:text-sm">
-            {{ 'MOVIES.browse_filter_keep_watching' | transloco }}
+            {{ "MOVIES.browse_filter_keep_watching" | transloco }}
           </p>
         </div>
         <app-filter-button (applyFilters)="onApplyFilters($event)" />
@@ -64,12 +66,12 @@
                   class="relative aspect-[2/3] w-full overflow-hidden rounded-md shadow-lg"
                 >
                   <app-image
-                    [src]="item.poster"
+                    [src]="item.poster | imageSize: 'w342'"
                     [alt]="item.name"
                     [width]="180"
                     [height]="270"
                     customClass="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-110"
-                  ></app-image>
+                  />
 
                   <!-- Hover overlay -->
                   <div

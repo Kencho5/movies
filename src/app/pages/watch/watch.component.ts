@@ -30,6 +30,7 @@ import { SharedModule } from "@shared/shared.module";
 import { PlayerData } from "@core/interfaces/player";
 import { Episode, Season, Title, Video } from "@core/interfaces/title";
 import { TranslocoModule } from "@jsverse/transloco";
+import { ImageSizePipe } from "@core/pipes/image-size.pipe";
 
 @Component({
   selector: "app-watch",
@@ -39,6 +40,7 @@ import { TranslocoModule } from "@jsverse/transloco";
     ImageComponent,
     LoadingDotsComponent,
     TranslocoModule,
+    ImageSizePipe,
   ],
   templateUrl: "./watch.component.html",
 })
@@ -58,14 +60,14 @@ export class WatchComponent implements OnDestroy {
 
   private readonly titleId$ = this.route.paramMap.pipe(
     map((params) => params.get("id")!),
-    takeUntil(this.destroy$)
+    takeUntil(this.destroy$),
   );
 
   private readonly movieData$ = this.titleId$.pipe(
     tap(() => this.movieLoading.set(true)),
     switchMap((id) => this.movieService.getMovie(id)),
     tap(() => this.movieLoading.set(false)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly seasonData$ = combineLatest([
@@ -75,7 +77,7 @@ export class WatchComponent implements OnDestroy {
     tap(() => this.episodesLoading.set(true)),
     switchMap(([id, seasonNum]) => this.getSeasonEpisodes(id, seasonNum)),
     tap(() => this.episodesLoading.set(false)),
-    startWith([])
+    startWith([]),
   );
 
   readonly movieData = toSignal(this.movieData$);
@@ -90,7 +92,7 @@ export class WatchComponent implements OnDestroy {
   });
 
   readonly selectedSeason = computed(() =>
-    this.seasons().find((s) => s.number === this.selectedSeasonNumber())
+    this.seasons().find((s) => s.number === this.selectedSeasonNumber()),
   );
 
   readonly embedUrl = computed<SafeResourceUrl | null>(() => {
@@ -159,7 +161,7 @@ export class WatchComponent implements OnDestroy {
 
   private getActiveVideo(
     movie: Title,
-    isEmbed: boolean = true
+    isEmbed: boolean = true,
   ): Video | undefined {
     if (movie.is_series) {
       const episode = this.selectedEpisode();
@@ -168,12 +170,12 @@ export class WatchComponent implements OnDestroy {
       return movie.videos?.find(
         (v) =>
           v.episode_id === episode.id &&
-          (isEmbed ? v.type === "embed" : v.type !== "embed")
+          (isEmbed ? v.type === "embed" : v.type !== "embed"),
       );
     }
 
     return movie.videos?.find((v) =>
-      isEmbed ? v.type === "embed" : v.type !== "embed"
+      isEmbed ? v.type === "embed" : v.type !== "embed",
     );
   }
 }

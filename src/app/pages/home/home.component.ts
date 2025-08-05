@@ -6,10 +6,11 @@ import { catchError, finalize } from "rxjs/operators";
 import { of } from "rxjs";
 import { ImageComponent } from "@shared/components/ui/image/image.component";
 import { TranslocoModule } from "@jsverse/transloco";
+import { ImageSizePipe } from "@core/pipes/image-size.pipe";
 
 @Component({
   selector: "app-home",
-  imports: [SharedModule, ImageComponent, TranslocoModule],
+  imports: [SharedModule, ImageComponent, TranslocoModule, ImageSizePipe],
   templateUrl: "./home.component.html",
 })
 export class HomeComponent implements OnInit {
@@ -26,7 +27,7 @@ export class HomeComponent implements OnInit {
           console.error("Error fetching movies:", error);
           return of({ pagination: { data: [] } });
         }),
-        finalize(() => this.loading.set(false))
+        finalize(() => this.loading.set(false)),
       )
       .subscribe((res) => {
         this.movies.set(
@@ -34,7 +35,7 @@ export class HomeComponent implements OnInit {
             ...movie,
             rating: this.randomRating,
             year: this.randomYear,
-          }))
+          })),
         );
       });
   }
@@ -66,3 +67,4 @@ export class HomeComponent implements OnInit {
     }
   }
 }
+
