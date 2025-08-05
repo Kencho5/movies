@@ -1,1 +1,12 @@
-{}
+{
+  "HOME": {
+    "featured": "Featured",
+    "hero_description": "Experience an epic adventure that pushes the boundaries of action cinema with breathtaking visuals and heart-stopping moments.",
+    "play": "Play",
+    "my_list": "My List",
+    "featured_unavailable": "Featured content not available",
+    "trending_now": "Trending Now",
+    "recently_added": "Recently Added",
+    "popular_movies": "Popular Movies"
+  }
+}
