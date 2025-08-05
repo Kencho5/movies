@@ -66,5 +66,40 @@
     "channels": "Channels",
     "live": "Live",
     "loading_stream": "Loading your stream..."
+  },
+  "SHARED": {
+    "FOOTER": {
+      "home": "Home",
+      "movies": "Movies",
+      "series": "Series",
+      "live_tv": "Live TV",
+      "copyright": "&copy; 2025 Filmix, Inc. All Rights Reserved."
+    },
+    "TITLEBAR": {
+      "home": "Home",
+      "movies": "Movies",
+      "series": "Series",
+      "live_tv": "Live TV",
+      "search_placeholder": "Search titles, people, genres",
+      "no_results": "No results found for \"{{query}}\"",
+      "new_popular": "New & Popular"
+    },
+    "FILTER_BUTTON": {
+      "filter": "Filter",
+      "refine_results": "Refine results",
+      "advanced": "Advanced",
+      "genres": "Genres",
+      "release_years": "Release Years",
+      "from": "From",
+      "to": "To",
+      "countries": "Countries",
+      "languages": "Languages",
+      "clear": "Clear",
+      "apply": "Apply"
+    },
+    "COMBOBOX": {
+      "search": "Search...",
+      "no_results_found": "No results found."
+    }
   }
 }

@@ -8,6 +8,7 @@ import {
   effect,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { TranslocoModule } from "@jsverse/transloco";
 
 interface ComboboxItem {
   name: string;
@@ -17,7 +18,7 @@ interface ComboboxItem {
 @Component({
   selector: "app-combobox",
   templateUrl: "./combobox.component.html",
-  imports: [FormsModule],
+  imports: [FormsModule, TranslocoModule],
   host: {
     "(document:click)": "onDocumentClick($event)",
     "(mousedown)": "onMouseDown($event)",
@@ -37,7 +38,7 @@ export class ComboboxComponent {
       return "";
     }
     const firstItem = this.items().find(
-      (item) => item.value === this.selectedItems()[0],
+      (item) => item.value === this.selectedItems()[0]
     );
     if (!firstItem) return "";
 
@@ -53,7 +54,7 @@ export class ComboboxComponent {
       () => {
         this.selectedItems.set(this.selectedItemsInput());
       },
-      { allowSignalWrites: true },
+      { allowSignalWrites: true }
     );
 
     effect(() => {
@@ -81,7 +82,7 @@ export class ComboboxComponent {
   selectItem(item: ComboboxItem) {
     if (this.selectedItems().includes(item.value)) {
       this.selectedItems.set(
-        this.selectedItems().filter((i) => i !== item.value),
+        this.selectedItems().filter((i) => i !== item.value)
       );
     } else {
       this.selectedItems.set([...this.selectedItems(), item.value]);
@@ -99,7 +100,7 @@ export class ComboboxComponent {
   get filteredItems(): ComboboxItem[] {
     if (!this.items()) return [];
     return this.items().filter((item) =>
-      item.name.toLowerCase().includes(this.searchText().toLowerCase()),
+      item.name.toLowerCase().includes(this.searchText().toLowerCase())
     );
   }
 

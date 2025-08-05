@@ -12,10 +12,17 @@ import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { FormsModule } from "@angular/forms";
 import { LanguageSelectorComponent } from "../ui/language-selector/language-selector.component";
+import { TranslocoModule } from "@jsverse/transloco";
 
 @Component({
   selector: "app-titlebar",
-  imports: [SharedModule, RouterModule, FormsModule, LanguageSelectorComponent],
+  imports: [
+    SharedModule,
+    RouterModule,
+    FormsModule,
+    LanguageSelectorComponent,
+    TranslocoModule,
+  ],
   templateUrl: "./titlebar.component.html",
 })
 export class TitlebarComponent {
@@ -30,7 +37,7 @@ export class TitlebarComponent {
 
   constructor(
     private searchService: SearchService,
-    private elementRef: ElementRef,
+    private elementRef: ElementRef
   ) {
     this.searchTerms
       .pipe(
@@ -46,7 +53,7 @@ export class TitlebarComponent {
             this.searchResults.set(null);
             return [];
           }
-        }),
+        })
       )
       .subscribe((response) => {
         this.loading.set(false);

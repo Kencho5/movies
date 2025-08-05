@@ -11,6 +11,7 @@ import {
 import { ComboboxComponent } from "../combobox/combobox.component";
 import { FormsModule } from "@angular/forms";
 import { MovieService } from "@core/services/movie.service";
+import { TranslocoModule } from "@jsverse/transloco";
 
 interface Filter {
   key: string;
@@ -22,7 +23,7 @@ interface Filter {
 @Component({
   selector: "app-filter-button",
   templateUrl: "./filter-button.component.html",
-  imports: [ComboboxComponent, FormsModule],
+  imports: [ComboboxComponent, FormsModule, TranslocoModule],
   host: {
     "(document:click)": "onDocumentClick($event)",
   },

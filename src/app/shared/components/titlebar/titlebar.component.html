@@ -23,7 +23,7 @@
           class="group text-white/80 transition-colors hover:text-white"
         >
           <span class="relative">
-            Home
+            {{ 'SHARED.TITLEBAR.home' | transloco }}
             <span
               class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
             ></span>
@@ -37,7 +37,7 @@
           class="group text-white/80 transition-colors hover:text-white"
         >
           <span class="relative">
-            Movies
+            {{ 'SHARED.TITLEBAR.movies' | transloco }}
             <span
               class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
             ></span>
@@ -51,7 +51,7 @@
           class="group text-white/80 transition-colors hover:text-white"
         >
           <span class="relative">
-            Series
+            {{ 'SHARED.TITLEBAR.series' | transloco }}
             <span
               class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
             ></span>
@@ -64,7 +64,7 @@
           class="group text-white/80 transition-colors hover:text-white"
         >
           <span class="relative">
-            Live TV
+            {{ 'SHARED.TITLEBAR.live_tv' | transloco }}
             <span
               class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
             ></span>
@@ -97,30 +97,6 @@
       </button>
 
       <app-language-selector />
-
-      <!--<button class="group relative p-1" aria-label="Notifications">-->
-      <!--  <svg-->
-      <!--    xmlns="http://www.w3.org/2000/svg"-->
-      <!--    viewBox="0 0 24 24"-->
-      <!--    fill="none"-->
-      <!--    stroke="currentColor"-->
-      <!--    class="h-5 w-5 text-white/80 transition-colors group-hover:text-white"-->
-      <!--  >-->
-      <!--    <path-->
-      <!--      stroke-linecap="round"-->
-      <!--      stroke-linejoin="round"-->
-      <!--      stroke-width="2"-->
-      <!--      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"-->
-      <!--    />-->
-      <!--  </svg>-->
-      <!--</button>-->
-      <!---->
-      <!--<button-->
-      <!--  class="flex h-8 w-8 items-center justify-center rounded-sm bg-red-600 text-sm font-semibold text-white shadow-sm shadow-red-600/20"-->
-      <!--  aria-label="Profile"-->
-      <!-->-->
-      <!--  <span>J</span>-->
-      <!--</button>-->
     </div>
 
     <!-- Search Overlay -->
@@ -152,7 +128,7 @@
         <input
           #searchInput
           type="text"
-          placeholder="Search titles, people, genres"
+          [placeholder]="'SHARED.TITLEBAR.search_placeholder' | transloco"
           class="h-full w-full flex-1 bg-transparent text-base text-white placeholder-white/40 focus:outline-none md:text-lg"
           [(ngModel)]="searchQuery"
           (ngModelChange)="onSearchTermChange($event)"
@@ -229,7 +205,7 @@
                     {{ result.name }}
                   </h3>
                   <p class="text-sm text-white/60">
-                    {{ result.is_series ? "Series" : "Movie" }}
+                    {{ result.is_series ? ('SHARED.TITLEBAR.series' | transloco) : ('SHARED.TITLEBAR.movies' | transloco) }}
                   </p>
                 </div>
               </a>
@@ -237,7 +213,7 @@
           </div>
         } @else if (searchQuery) {
           <div class="p-8 text-center text-white/60">
-            <p>No results found for "{{ searchQuery }}"</p>
+            <p>{{ 'SHARED.TITLEBAR.no_results' | transloco: { query: searchQuery } }}</p>
           </div>
         }
       </div>
@@ -265,7 +241,7 @@
         [routerLinkActiveOptions]="{ exact: true }"
         class="text-white/80 transition-colors hover:text-white"
         (click)="toggleMenu()"
-        >Home</a
+        >{{ 'SHARED.TITLEBAR.home' | transloco }}</a
       >
       <a
         routerLink="tv"
@@ -273,7 +249,7 @@
         [routerLinkActiveOptions]="{ exact: true }"
         class="text-white/80 transition-colors hover:text-white"
         (click)="toggleMenu()"
-        >TV Shows</a
+        >{{ 'SHARED.TITLEBAR.live_tv' | transloco }}</a
       >
       <a
         routerLink="/movies"
@@ -281,7 +257,7 @@
         [routerLinkActiveOptions]="{ exact: true }"
         class="text-white/80 transition-colors hover:text-white"
         (click)="toggleMenu()"
-        >Movies</a
+        >{{ 'SHARED.TITLEBAR.movies' | transloco }}</a
       >
       <a
         routerLink="/news"
@@ -289,7 +265,7 @@
         [routerLinkActiveOptions]="{ exact: true }"
         class="text-white/80 transition-colors hover:text-white"
         (click)="toggleMenu()"
-        >New & Popular</a
+        >{{ 'SHARED.TITLEBAR.new_popular' | transloco }}</a
       >
     </div>
   </div>

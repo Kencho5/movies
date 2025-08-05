@@ -19,7 +19,7 @@
         d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
       />
     </svg>
-    <span>Filter</span>
+    <span>{{ 'SHARED.FILTER_BUTTON.filter' | transloco }}</span>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="ml-0.5 h-4 w-4 opacity-70 transition-transform group-hover:opacity-100"
@@ -54,10 +54,10 @@
       <form (ngSubmit)="onSubmit()" class="relative p-4">
         <!-- Header -->
         <div class="mb-3 flex items-center justify-between">
-          <h3 class="text-sm font-semibold text-white">Refine results</h3>
+          <h3 class="text-sm font-semibold text-white">{{ 'SHARED.FILTER_BUTTON.refine_results' | transloco }}</h3>
           <span
             class="rounded-full bg-white/5 px-2 py-0.5 text-[10px] font-medium text-white/60"
-            >Advanced</span
+            >{{ 'SHARED.FILTER_BUTTON.advanced' | transloco }}</span
           >
         </div>
 
@@ -66,7 +66,7 @@
           <div>
             <label
               class="mb-2 block text-xs font-semibold uppercase tracking-wide text-white/70"
-              >Genres</label
+              >{{ 'SHARED.FILTER_BUTTON.genres' | transloco }}</label
             >
             <app-combobox
               [items]="genres()"
@@ -79,7 +79,7 @@
           <div>
             <label
               class="mb-2 block text-xs font-semibold uppercase tracking-wide text-white/70"
-              >Release Years</label
+              >{{ 'SHARED.FILTER_BUTTON.release_years' | transloco }}</label
             >
             <div class="flex gap-2">
               <input
@@ -87,7 +87,7 @@
                 [ngModel]="fromYear()"
                 (ngModelChange)="fromYear.set($event)"
                 name="fromYear"
-                placeholder="From"
+                [placeholder]="'SHARED.FILTER_BUTTON.from' | transloco"
                 class="w-1/2 appearance-none rounded-md border border-white/10 bg-white/[0.06] py-2 pl-3 pr-3 text-sm text-white placeholder-white/40 transition-colors focus:border-primary-600 focus:bg-bg-highlight focus:outline-none focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
               <input
@@ -95,7 +95,7 @@
                 [ngModel]="toYear()"
                 (ngModelChange)="toYear.set($event)"
                 name="toYear"
-                placeholder="To"
+                [placeholder]="'SHARED.FILTER_BUTTON.to' | transloco"
                 class="w-1/2 appearance-none rounded-md border border-white/10 bg-white/[0.06] py-2 pl-3 pr-3 text-sm text-white placeholder-white/40 transition-colors focus:border-primary-600 focus:bg-bg-highlight focus:outline-none focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
             </div>
@@ -105,7 +105,7 @@
           <div>
             <label
               class="mb-2 block text-xs font-semibold uppercase tracking-wide text-white/70"
-              >Countries</label
+              >{{ 'SHARED.FILTER_BUTTON.countries' | transloco }}</label
             >
             <app-combobox
               [items]="countries()"
@@ -118,7 +118,7 @@
           <div>
             <label
               class="mb-2 block text-xs font-semibold uppercase tracking-wide text-white/70"
-              >Languages</label
+              >{{ 'SHARED.FILTER_BUTTON.languages' | transloco }}</label
             >
             <app-combobox
               [items]="languages()"
@@ -137,14 +137,14 @@
             (click)="clearFilters()"
             class="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-3.5 py-2 text-sm font-semibold text-white/80 transition-colors hover:bg-white/10 hover:text-white"
           >
-            Clear
+            {{ 'SHARED.FILTER_BUTTON.clear' | transloco }}
           </button>
 
           <button
             type="submit"
             class="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-primary-600 to-red-600 px-4 py-2 text-sm font-bold text-white shadow-sm shadow-black/20 transition-colors hover:from-primary-500 hover:to-red-500"
           >
-            Apply
+            {{ 'SHARED.FILTER_BUTTON.apply' | transloco }}
           </button>
         </div>
       </form>

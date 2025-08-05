@@ -66,5 +66,40 @@
     "channels": "Каналы",
     "live": "В прямом эфире",
     "loading_stream": "Загрузка трансляции..."
+  },
+  "SHARED": {
+    "FOOTER": {
+      "home": "Главная",
+      "movies": "Фильмы",
+      "series": "Сериалы",
+      "live_tv": "Прямой эфир",
+      "copyright": "&copy; 2025 Filmix, Inc. Все права защищены."
+    },
+    "TITLEBAR": {
+      "home": "Главная",
+      "movies": "Фильмы",
+      "series": "Сериалы",
+      "live_tv": "Прямой эфир",
+      "search_placeholder": "Поиск по названиям, людям, жанрам",
+      "no_results": "Ничего не найдено по запросу \"{{query}}\"",
+      "new_popular": "Новое и популярное"
+    },
+    "FILTER_BUTTON": {
+      "filter": "Фильтр",
+      "refine_results": "Уточнить результаты",
+      "advanced": "Расширенный",
+      "genres": "Жанры",
+      "release_years": "Годы выпуска",
+      "from": "От",
+      "to": "До",
+      "countries": "Страны",
+      "languages": "Языки",
+      "clear": "Очистить",
+      "apply": "Применить"
+    },
+    "COMBOBOX": {
+      "search": "Поиск...",
+      "no_results_found": "Ничего не найдено."
+    }
   }
 }

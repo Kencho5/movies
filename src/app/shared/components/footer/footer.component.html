@@ -18,28 +18,28 @@
             <a
               routerLink="/"
               class="text-sm text-white/70 transition-colors hover:text-white"
-              >Home</a
+              >{{ 'SHARED.FOOTER.home' | transloco }}</a
             >
           </li>
           <li>
             <a
-              routerLink="/movie"
+              routerLink="/movies"
               class="text-sm text-white/70 transition-colors hover:text-white"
-              >Movies</a
+              >{{ 'SHARED.FOOTER.movies' | transloco }}</a
             >
           </li>
           <li>
             <a
               routerLink="/series"
               class="text-sm text-white/70 transition-colors hover:text-white"
-              >Series</a
+              >{{ 'SHARED.FOOTER.series' | transloco }}</a
             >
           </li>
           <li>
             <a
               routerLink="/tv"
               class="text-sm text-white/70 transition-colors hover:text-white"
-              >Live TV</a
+              >{{ 'SHARED.FOOTER.live_tv' | transloco }}</a
             >
           </li>
         </ul>
@@ -47,7 +47,7 @@
 
       <!-- Copyright -->
       <div class="text-center text-xs text-white/50">
-        <p>&copy; 2025 Filmix, Inc. All Rights Reserved.</p>
+        <p [innerHTML]="'SHARED.FOOTER.copyright' | transloco"></p>
       </div>
     </div>
   </div>
