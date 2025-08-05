@@ -1,0 +1,81 @@
+<app-dropdown #dropdown>
+  <button
+    (click)="toggle()"
+    class="flex h-10 items-center rounded-lg bg-bg-card p-2.5 text-neutral-300 transition hover:bg-bg-highlight sm:h-11 sm:px-3 sm:py-2.5"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="mr-2 h-5 w-5"
+    >
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="2" y1="12" x2="22" y2="12"></line>
+      <path
+        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+      ></path>
+    </svg>
+    <span class="mr-1 hidden text-sm font-semibold sm:block">
+      {{ shortLabel }}
+    </span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="h-4 w-4 text-neutral-400"
+    >
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </button>
+
+  <div
+    dropDownContent
+    class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-lg border border-neutral-700 bg-bg-card shadow-lg"
+    (click)="dropdown.toggle()"
+  >
+    <div class="space-y-1 p-2 font-normal">
+      @for (language of LANGUAGES; track language.code) {
+        <button
+          (click)="changeLanguage(language.code)"
+          [ngClass]="{
+            'flex w-full items-center justify-between rounded-md p-2.5 text-left text-sm transition': true,
+            'bg-bg-highlight font-semibold text-white':
+              languageService.currentLang === language.code,
+            'text-neutral-300 hover:bg-bg-highlight hover:text-white':
+              languageService.currentLang !== language.code
+          }"
+        >
+          <span>{{ language.label }}</span>
+          @if (languageService.currentLang === language.code) {
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-4 w-4"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          }
+        </button>
+      }
+    </div>
+  </div>
+</app-dropdown>

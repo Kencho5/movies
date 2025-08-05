@@ -1,0 +1,6 @@
+<ng-content select="button"></ng-content>
+@if (opened) {
+  <div (outsideClick)="close()" class="relative">
+    <ng-content select="[dropDownContent]"></ng-content>
+  </div>
+}

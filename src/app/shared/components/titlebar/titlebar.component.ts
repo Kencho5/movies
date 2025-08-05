@@ -1,18 +1,25 @@
-import { Component, signal, HostListener, ElementRef, ViewChild } from "@angular/core";
+import {
+  Component,
+  signal,
+  HostListener,
+  ElementRef,
+  ViewChild,
+} from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { SharedModule } from "@shared/shared.module";
 import { SearchService } from "@core/services/search.service";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { FormsModule } from "@angular/forms";
+import { LanguageSelectorComponent } from "../ui/language-selector/language-selector.component";
 
 @Component({
   selector: "app-titlebar",
-  imports: [SharedModule, RouterModule, FormsModule],
+  imports: [SharedModule, RouterModule, FormsModule, LanguageSelectorComponent],
   templateUrl: "./titlebar.component.html",
 })
 export class TitlebarComponent {
-  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
+  @ViewChild("searchInput") searchInput!: ElementRef<HTMLInputElement>;
 
   menuOpen = signal(false);
   searchOpen = signal(false);
