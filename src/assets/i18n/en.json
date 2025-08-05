@@ -8,5 +8,31 @@
     "trending_now": "Trending Now",
     "recently_added": "Recently Added",
     "popular_movies": "Popular Movies"
+  },
+  "WATCH": {
+    "video_unavailable": "Video preview unavailable",
+    "watch_now": "Watch Now",
+    "votes": "votes",
+    "links": "Links",
+    "status": "Status",
+    "seasons": "Seasons",
+    "season": "Season",
+    "no_description": "No description available.",
+    "synopsis": "Synopsis",
+    "genres": "Genres",
+    "keywords": "Keywords",
+    "cast": "Cast",
+    "view_all": "View All",
+    "details": "Details",
+    "director": "Director",
+    "writers": "Writers",
+    "release_date": "Release Date",
+    "runtime": "Runtime",
+    "language": "Language",
+    "country": "Country",
+    "budget": "Budget",
+    "box_office": "Box Office",
+    "popularity": "Popularity",
+    "views": "Views"
   }
 }

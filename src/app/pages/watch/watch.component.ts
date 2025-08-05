@@ -29,6 +29,7 @@ import { SharedModule } from "@shared/shared.module";
 
 import { PlayerData } from "@core/interfaces/player";
 import { Episode, Season, Title, Video } from "@core/interfaces/title";
+import { TranslocoModule } from "@jsverse/transloco";
 
 @Component({
   selector: "app-watch",
@@ -37,6 +38,7 @@ import { Episode, Season, Title, Video } from "@core/interfaces/title";
     PlayerComponent,
     ImageComponent,
     LoadingDotsComponent,
+    TranslocoModule,
   ],
   templateUrl: "./watch.component.html",
 })

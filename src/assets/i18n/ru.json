@@ -8,5 +8,31 @@
     "trending_now": "В тренде",
     "recently_added": "Недавно добавленные",
     "popular_movies": "Популярные фильмы"
+  },
+  "WATCH": {
+    "video_unavailable": "Видео недоступно",
+    "watch_now": "Смотреть сейчас",
+    "votes": "голосов",
+    "links": "Ссылки",
+    "status": "Статус",
+    "seasons": "Сезоны",
+    "season": "Сезон",
+    "no_description": "Описание недоступно.",
+    "synopsis": "Синопсис",
+    "genres": "Жанры",
+    "keywords": "Ключевые слова",
+    "cast": "В ролях",
+    "view_all": "Смотреть все",
+    "details": "Детали",
+    "director": "Режиссер",
+    "writers": "Сценаристы",
+    "release_date": "Дата выхода",
+    "runtime": "Продолжительность",
+    "language": "Язык",
+    "country": "Страна",
+    "budget": "Бюджет",
+    "box_office": "Сборы",
+    "popularity": "Популярность",
+    "views": "Просмотры"
   }
 }
