@@ -206,7 +206,7 @@
           >
             @for (result of searchResults(); track result.id) {
               <a
-                [routerLink]="[result.is_series ? '/tv' : '/movie', result.id]"
+                [routerLink]="['/watch', result.id]"
                 class="group flex items-start gap-4 rounded-lg p-2 transition-colors hover:bg-bg-highlight/70"
                 (click)="closeSearch()"
               >
@@ -295,4 +295,3 @@
     </div>
   </div>
 </div>
-
