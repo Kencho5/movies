@@ -23,7 +23,7 @@
           class="group text-white/80 transition-colors hover:text-white"
         >
           <span class="relative">
-            {{ 'SHARED.TITLEBAR.home' | transloco }}
+            {{ "SHARED.TITLEBAR.home" | transloco }}
             <span
               class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
             ></span>
@@ -37,7 +37,7 @@
           class="group text-white/80 transition-colors hover:text-white"
         >
           <span class="relative">
-            {{ 'SHARED.TITLEBAR.movies' | transloco }}
+            {{ "SHARED.TITLEBAR.movies" | transloco }}
             <span
               class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
             ></span>
@@ -51,7 +51,7 @@
           class="group text-white/80 transition-colors hover:text-white"
         >
           <span class="relative">
-            {{ 'SHARED.TITLEBAR.series' | transloco }}
+            {{ "SHARED.TITLEBAR.series" | transloco }}
             <span
               class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
             ></span>
@@ -64,7 +64,7 @@
           class="group text-white/80 transition-colors hover:text-white"
         >
           <span class="relative">
-            {{ 'SHARED.TITLEBAR.live_tv' | transloco }}
+            {{ "SHARED.TITLEBAR.live_tv" | transloco }}
             <span
               class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
             ></span>
@@ -97,6 +97,23 @@
       </button>
 
       <app-language-selector />
+
+      <button class="md:hidden" (click)="toggleMenu()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 text-white/80 transition-colors hover:text-white"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7"
+          />
+        </svg>
+      </button>
     </div>
 
     <!-- Search Overlay -->
@@ -205,7 +222,11 @@
                     {{ result.name }}
                   </h3>
                   <p class="text-sm text-white/60">
-                    {{ result.is_series ? ('SHARED.TITLEBAR.series' | transloco) : ('SHARED.TITLEBAR.movies' | transloco) }}
+                    {{
+                      result.is_series
+                        ? ("SHARED.TITLEBAR.series" | transloco)
+                        : ("SHARED.TITLEBAR.movies" | transloco)
+                    }}
                   </p>
                 </div>
               </a>
@@ -213,7 +234,11 @@
           </div>
         } @else if (searchQuery) {
           <div class="p-8 text-center text-white/60">
-            <p>{{ 'SHARED.TITLEBAR.no_results' | transloco: { query: searchQuery } }}</p>
+            <p>
+              {{
+                "SHARED.TITLEBAR.no_results" | transloco: { query: searchQuery }
+              }}
+            </p>
           </div>
         }
       </div>
@@ -241,15 +266,7 @@
         [routerLinkActiveOptions]="{ exact: true }"
         class="text-white/80 transition-colors hover:text-white"
         (click)="toggleMenu()"
-        >{{ 'SHARED.TITLEBAR.home' | transloco }}</a
-      >
-      <a
-        routerLink="tv"
-        routerLinkActive="!text-white font-semibold"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="text-white/80 transition-colors hover:text-white"
-        (click)="toggleMenu()"
-        >{{ 'SHARED.TITLEBAR.live_tv' | transloco }}</a
+        >{{ "SHARED.TITLEBAR.home" | transloco }}</a
       >
       <a
         routerLink="/movies"
@@ -257,16 +274,25 @@
         [routerLinkActiveOptions]="{ exact: true }"
         class="text-white/80 transition-colors hover:text-white"
         (click)="toggleMenu()"
-        >{{ 'SHARED.TITLEBAR.movies' | transloco }}</a
+        >{{ "SHARED.TITLEBAR.movies" | transloco }}</a
       >
       <a
-        routerLink="/news"
+        routerLink="/series"
         routerLinkActive="!text-white font-semibold"
         [routerLinkActiveOptions]="{ exact: true }"
         class="text-white/80 transition-colors hover:text-white"
         (click)="toggleMenu()"
-        >{{ 'SHARED.TITLEBAR.new_popular' | transloco }}</a
+        >{{ "SHARED.TITLEBAR.series" | transloco }}</a
+      >
+      <a
+        routerLink="tv"
+        routerLinkActive="!text-white font-semibold"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="text-white/80 transition-colors hover:text-white"
+        (click)="toggleMenu()"
+        >{{ "SHARED.TITLEBAR.live_tv" | transloco }}</a
       >
     </div>
   </div>
 </div>
+
