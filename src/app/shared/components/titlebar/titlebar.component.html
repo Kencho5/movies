@@ -17,20 +17,6 @@
         [class.opacity-0]="searchOpen()"
       >
         <a
-          routerLink=""
-          routerLinkActive="!text-white font-semibold"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="group text-white/80 transition-colors hover:text-white"
-        >
-          <span class="relative">
-            {{ "SHARED.TITLEBAR.home" | transloco }}
-            <span
-              class="absolute -bottom-1 left-0 h-[2px] w-0 bg-red-600 transition-all duration-200 group-hover:w-full"
-            ></span>
-          </span>
-        </a>
-
-        <a
           routerLink="/movies"
           routerLinkActive="!text-white font-semibold"
           [routerLinkActiveOptions]="{ exact: true }"
