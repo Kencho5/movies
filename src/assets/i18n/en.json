@@ -65,7 +65,9 @@
     "program_list": "Program List",
     "channels": "Channels",
     "live": "Live",
-    "loading_stream": "Loading your stream..."
+    "loading_stream": "Loading your stream...",
+    "search_channels": "Search channels",
+    "no_channels_found": "No channels found"
   },
   "SHARED": {
     "FOOTER": {

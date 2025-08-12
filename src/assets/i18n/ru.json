@@ -65,7 +65,9 @@
     "program_list": "Список программ",
     "channels": "Каналы",
     "live": "В прямом эфире",
-    "loading_stream": "Загрузка трансляции..."
+    "loading_stream": "Загрузка трансляции...",
+    "search_channels": "Поиск каналов",
+    "no_channels_found": "Каналы не найдены"
   },
   "SHARED": {
     "FOOTER": {

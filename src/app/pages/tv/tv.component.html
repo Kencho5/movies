@@ -6,7 +6,9 @@
     <div
       class="flex items-center justify-between border-b border-white/10 bg-black/60 p-3 md:hidden"
     >
-      <h1 class="text-lg font-semibold tracking-wide">{{ 'TV.tv_channels' | transloco }}</h1>
+      <h1 class="text-lg font-semibold tracking-wide">
+        {{ "TV.tv_channels" | transloco }}
+      </h1>
       <button
         class="rounded-full bg-white/10 p-1.5 transition hover:bg-white/15"
         (click)="toggleSidebar('channels')"
@@ -28,7 +30,9 @@
     <div
       class="flex items-center justify-between border-b border-white/10 bg-black/60 p-3 md:hidden"
     >
-      <h1 class="text-lg font-semibold tracking-wide">{{ 'TV.program_list' | transloco }}</h1>
+      <h1 class="text-lg font-semibold tracking-wide">
+        {{ "TV.program_list" | transloco }}
+      </h1>
       <button
         class="rounded-full bg-white/10 p-1.5 transition hover:bg-white/15"
         (click)="toggleSidebar('programs')"
@@ -59,40 +63,68 @@
       <div
         class="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/60 p-4 backdrop-blur-xl"
       >
-        <h1 class="text-lg font-semibold tracking-wide">{{ 'TV.channels' | transloco }}</h1>
-        <div class="flex items-center gap-2.5">
-          <button
-            class="rounded-full p-1.5 transition hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
-            aria-label="Filter channels"
-          >
-            <!-- Funnel -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 text-white/80"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path
-                d="M3.75 6.75A.75.75 0 014.5 6h15a.75.75 0 01.6 1.2l-5.4 7.2v3.3a.75.75 0 01-.3.6l-3 2.25A.75.75 0 0110.5 20v-5.6L4.1 7.2a.75.75 0 01-.35-.45z"
+        @if (!showSearchInput()) {
+          <h1 class="text-lg font-semibold tracking-wide">
+            {{ "TV.channels" | transloco }}
+          </h1>
+        }
+        <div
+          class="flex items-center gap-2.5"
+          [class.flex-1]="showSearchInput()"
+        >
+          @if (showSearchInput()) {
+            <div class="relative flex flex-1 items-center">
+              <input
+                #searchInput
+                type="text"
+                placeholder="{{ 'TV.search_channels' | transloco }}"
+                class="w-full rounded-full border border-white/20 bg-black/40 px-3 py-1.5 pr-8 text-sm text-white placeholder-white/60 transition-all focus:border-primary-500/60 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
+                [(ngModel)]="searchQuery"
+                (input)="onSearchInput()"
+                (keydown.escape)="clearSearch()"
               />
-            </svg>
-          </button>
-          <button
-            class="rounded-full p-1.5 transition hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
-            aria-label="Search channels"
-          >
-            <!-- Magnifying glass -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 text-white/80"
-              viewBox="0 0 24 24"
-              fill="currentColor"
+              @if (searchLoading()) {
+                <div
+                  class="absolute right-2 h-4 w-4 animate-spin rounded-full border border-white/30 border-t-primary-500"
+                ></div>
+              } @else {
+                <button
+                  class="absolute right-2 rounded-full p-0.5 transition hover:bg-white/10"
+                  (click)="clearSearch()"
+                  aria-label="Clear search"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 text-white/60"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M6.225 4.811a.75.75 0 011.06 0L12 9.525l4.715-4.714a.75.75 0 111.06 1.06L13.06 10.586l4.715 4.714a.75.75 0 11-1.06 1.06L12 11.646l-4.715 4.714a.75.75 0 11-1.06-1.06L10.94 10.586 6.225 5.87a.75.75 0 010-1.06z"
+                    />
+                  </svg>
+                </button>
+              }
+            </div>
+          } @else {
+            <button
+              class="rounded-full p-1.5 transition hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              (click)="toggleSearch()"
+              aria-label="Search channels"
             >
-              <path
-                d="M10.5 3.75a6.75 6.75 0 014.995 11.375l3.19 3.19a.75.75 0 11-1.06 1.06l-3.19-3.19A6.75 6.75 0 1110.5 3.75zm0 1.5a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5z"
-              />
-            </svg>
-          </button>
+              <!-- Magnifying glass -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-white/80"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M10.5 3.75a6.75 6.75 0 014.995 11.375l3.19 3.19a.75.75 0 11-1.06 1.06l-3.19-3.19A6.75 6.75 0 1110.5 3.75zm0 1.5a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5z"
+                />
+              </svg>
+            </button>
+          }
           <!-- Close (mobile) -->
           <button
             class="rounded-full p-1.5 text-white/70 transition hover:bg-white/10 hover:text-white md:hidden"
@@ -122,10 +154,27 @@
         [infiniteScrollContainer]="scrollContainer"
         (scrolled)="updateChannels()"
       >
-        @if (loading()) {
+        @if (loading() || searchLoading()) {
           <app-channels-skeleton />
         } @else {
-          @for (channel of channels(); track $index) {
+          @if (searchQuery() && searchResults().length === 0) {
+            <div class="flex flex-col items-center justify-center px-4 py-8">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="mb-3 h-12 w-12 text-white/20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M10.5 3.75a6.75 6.75 0 014.995 11.375l3.19 3.19a.75.75 0 11-1.06 1.06l-3.19-3.19A6.75 6.75 0 1110.5 3.75zm0 1.5a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5z"
+                />
+              </svg>
+              <p class="text-center text-sm text-white/60">
+                {{ "TV.no_channels_found" | transloco }}
+              </p>
+            </div>
+          }
+          @for (channel of displayChannels(); track $index) {
             <button
               class="group flex h-[84px] w-full items-center justify-between px-4 py-5 transition-colors hover:bg-bg-highlight/40"
               [ngClass]="{
@@ -201,7 +250,9 @@
       <div
         class="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/60 p-4 backdrop-blur-xl"
       >
-        <h1 class="text-lg font-semibold tracking-wide">{{ 'TV.program_list' | transloco }}</h1>
+        <h1 class="text-lg font-semibold tracking-wide">
+          {{ "TV.program_list" | transloco }}
+        </h1>
         <button
           class="rounded-full p-1.5 text-white/70 transition hover:bg-white/10 hover:text-white md:hidden"
           (click)="toggleSidebar('programs')"
@@ -266,7 +317,7 @@
                           d="M12 3.75a8.25 8.25 0 10.002 16.5A8.25 8.25 0 0012 3.75zm-1.125 4.5a.75.75 0 011.125-.66l4.5 2.625a.75.75 0 010 1.32l-4.5 2.625A.75.75 0 0110.875 13V8.25z"
                         />
                       </svg>
-                      {{ 'TV.live' | transloco }}
+                      {{ "TV.live" | transloco }}
                     </span>
                   }
                 </div>
@@ -334,7 +385,9 @@
                 class="bg-current relative h-1.5 w-1.5 rounded-full md:h-2 md:w-2"
               ></span>
             </span>
-            <span class="font-semibold tracking-wide">{{ 'TV.live' | transloco }}</span>
+            <span class="font-semibold tracking-wide">{{
+              "TV.live" | transloco
+            }}</span>
           </button>
         } @else {
           <div
@@ -357,7 +410,7 @@
                 class="mb-6 h-16 w-16 animate-spin rounded-full border-4 border-white/10 border-t-primary-500 md:mb-8 md:h-20 md:w-20"
               ></div>
               <p class="text-sm tracking-wide text-white/60 md:text-base">
-                {{ 'TV.loading_stream' | transloco }}
+                {{ "TV.loading_stream" | transloco }}
               </p>
             </div>
           } @else {

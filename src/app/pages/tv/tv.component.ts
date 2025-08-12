@@ -8,6 +8,14 @@ import {
   computed,
   ViewChild,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import {
+  Subject,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  of,
+} from "rxjs";
 import { PlayerData } from "@core/interfaces/player";
 import { Channel, Program, TvParams } from "@core/interfaces/tv";
 import { PlayerService } from "@core/services/player.service";
@@ -42,6 +50,7 @@ declare var Hls: any;
     DaysSelectorComponent,
     PreviewSkeletonComponent,
     TranslocoModule,
+    FormsModule,
   ],
   templateUrl: "./tv.component.html",
 })
@@ -49,6 +58,8 @@ export class TvComponent implements OnInit {
   @ViewChildren("programBtn") programButtons!: QueryList<ElementRef>;
   @ViewChild("previewPlayer", { static: false })
   videoRef!: ElementRef<HTMLVideoElement>;
+  @ViewChild("searchInput", { static: false })
+  searchInputRef!: ElementRef<HTMLInputElement>;
 
   // signals
   channels = signal<Channel[]>([]);
@@ -66,6 +77,18 @@ export class TvComponent implements OnInit {
   programProgress = signal<number>(0);
   isLive = computed(() => !this.playerService.start());
 
+  // search signals
+  searchQuery = signal<string>("");
+  searchResults = signal<Channel[]>([]);
+  searchLoading = signal<boolean>(false);
+  showSearchInput = signal<boolean>(false);
+  displayChannels = computed(() =>
+    this.searchQuery() ? this.searchResults() : this.channels(),
+  );
+
+  // search subject for debouncing
+  private searchSubject = new Subject<string>();
+
   // parameters and timing
   tvParams: TvParams | null = null;
   channelsPage = 0;
@@ -76,7 +99,7 @@ export class TvComponent implements OnInit {
     private tvService: TvService,
     public playerService: PlayerService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -84,6 +107,7 @@ export class TvComponent implements OnInit {
     if (this.tvParams?.channel! > 100)
       this.channelsPage = Math.floor(Number(this.tvParams?.channel! / 100));
 
+    this.setupSearchSubscription();
     this.loadChannels();
   }
 
@@ -257,6 +281,55 @@ export class TvComponent implements OnInit {
     this.previewPlayerData.set(null);
   }
 
+  toggleSearch(): void {
+    this.showSearchInput.set(!this.showSearchInput());
+    if (!this.showSearchInput()) {
+      this.clearSearch();
+    } else {
+      setTimeout(() => {
+        if (this.searchInputRef) {
+          this.searchInputRef.nativeElement.focus();
+        }
+      }, 0);
+    }
+  }
+
+  onSearchInput(): void {
+    this.searchSubject.next(this.searchQuery());
+  }
+
+  clearSearch(): void {
+    this.searchQuery.set("");
+    this.searchResults.set([]);
+    this.showSearchInput.set(false);
+    this.searchLoading.set(false);
+  }
+
+  private setupSearchSubscription(): void {
+    this.searchSubject
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap((query) => {
+          if (!query.trim()) {
+            return of([]);
+          }
+          this.searchLoading.set(true);
+          return this.tvService.searchChannels(query.trim());
+        }),
+      )
+      .subscribe({
+        next: (results) => {
+          this.searchResults.set(results);
+          this.searchLoading.set(false);
+        },
+        error: () => {
+          this.searchResults.set([]);
+          this.searchLoading.set(false);
+        },
+      });
+  }
+
   // Private methods
   private initializeQueryParams(): void {
     this.route.queryParams.subscribe((params) => {
@@ -333,7 +406,7 @@ export class TvComponent implements OnInit {
       const activeButton = this.programButtons
         .toArray()
         .find((button) =>
-          button.nativeElement.classList.value.includes("bg-primary-500/10")
+          button.nativeElement.classList.value.includes("bg-primary-500/10"),
         );
 
       if (activeButton) {
@@ -353,7 +426,7 @@ export class TvComponent implements OnInit {
         ? streamUrl(
             this.activeChannel()!.stream,
             this.tvParams.start!,
-            this.tvParams.stop!
+            this.tvParams.stop!,
           )
         : this.activeChannel()!.stream,
       poster: this.activeChannel()!.cover,
@@ -371,3 +444,4 @@ export class TvComponent implements OnInit {
     return new Date().toISOString().split("T")[0];
   }
 }
+
