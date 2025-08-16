@@ -100,9 +100,22 @@ export class WatchComponent implements OnDestroy {
     if (!movie) return null;
 
     const video = this.getActiveVideo(movie);
-    return video?.src
-      ? this.sanitizer.bypassSecurityTrustResourceUrl(video.src)
-      : null;
+    if (!video?.src) return null;
+
+    let src = video.src;
+    
+    if (movie.is_series && this.selectedEpisode()) {
+      const episode = this.selectedEpisode()!;
+      const url = new URL(src);
+      
+      if (url.searchParams.has('season') && url.searchParams.has('episode')) {
+        url.searchParams.set('season', episode.season_number.toString());
+        url.searchParams.set('episode', episode.episode_number.toString());
+        src = url.toString();
+      }
+    }
+
+    return this.sanitizer.bypassSecurityTrustResourceUrl(src);
   });
 
   readonly playerData = computed<PlayerData>(() => {
@@ -163,19 +176,40 @@ export class WatchComponent implements OnDestroy {
     movie: Title,
     isEmbed: boolean = true,
   ): Video | undefined {
+    const typeFilter = isEmbed ? (v: Video) => v.type === "embed" : (v: Video) => v.type !== "embed";
+    
     if (movie.is_series) {
       const episode = this.selectedEpisode();
       if (!episode) return undefined;
 
-      return movie.videos?.find(
+      let video = movie.videos?.find(
         (v) =>
-          v.episode_id === episode.id &&
-          (isEmbed ? v.type === "embed" : v.type !== "embed"),
+          v.episode_id === episode.id && typeFilter(v)
       );
+
+      if (!video) {
+        video = movie.videos?.find(
+          (v) =>
+            v.season_num === episode.season_number &&
+            v.episode_num === episode.episode_number &&
+            typeFilter(v)
+        );
+      }
+
+      if (!video) {
+        video = movie.videos?.find(
+          (v) =>
+            v.season_num === episode.season_number && typeFilter(v)
+        );
+      }
+
+      if (!video) {
+        video = movie.videos?.find(typeFilter);
+      }
+
+      return video;
     }
 
-    return movie.videos?.find((v) =>
-      isEmbed ? v.type === "embed" : v.type !== "embed",
-    );
+    return movie.videos?.find(typeFilter);
   }
 }
