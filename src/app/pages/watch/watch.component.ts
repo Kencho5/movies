@@ -9,7 +9,7 @@ import {
   ElementRef,
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { combineLatest, Subject } from "rxjs";
 import {
   map,
@@ -47,6 +47,7 @@ import { ImageSizePipe } from "@core/pipes/image-size.pipe";
 export class WatchComponent implements OnDestroy {
   private readonly movieService = inject(MovieService);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly sanitizer = inject(DomSanitizer);
   private readonly destroy$ = new Subject<void>();
 
@@ -56,6 +57,7 @@ export class WatchComponent implements OnDestroy {
   readonly episodesLoading = signal(false);
 
   readonly selectedSeasonNumber = signal(1);
+  readonly selectedEpisodeNumber = signal(1);
   readonly selectedEpisode = signal<Episode | null>(null);
 
   private readonly titleId$ = this.route.paramMap.pipe(
@@ -138,10 +140,38 @@ export class WatchComponent implements OnDestroy {
   });
 
   constructor() {
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      const urlSeason = params['season'];
+      const urlEpisode = params['episode'];
+      
+      if (urlSeason) {
+        const seasonNum = parseInt(urlSeason, 10);
+        if (!isNaN(seasonNum)) {
+          this.selectedSeasonNumber.set(seasonNum);
+        }
+      }
+      
+      if (urlEpisode) {
+        const episodeNum = parseInt(urlEpisode, 10);
+        if (!isNaN(episodeNum)) {
+          this.selectedEpisodeNumber.set(episodeNum);
+        }
+      }
+    });
+
     effect(() => {
       const episodes = this.episodesForSeason();
+      const targetEpisodeNumber = this.selectedEpisodeNumber();
+      
       if (episodes?.length) {
-        this.selectedEpisode.set(episodes[0]);
+        const targetEpisode = episodes.find(ep => ep.episode_number === targetEpisodeNumber);
+        this.selectedEpisode.set(targetEpisode || episodes[0]);
+        
+        if (targetEpisode) {
+          this.selectedEpisodeNumber.set(targetEpisode.episode_number);
+        } else if (episodes[0]) {
+          this.selectedEpisodeNumber.set(episodes[0].episode_number);
+        }
       }
     });
   }
@@ -153,14 +183,32 @@ export class WatchComponent implements OnDestroy {
 
   onSeasonChange(season: Season): void {
     this.selectedSeasonNumber.set(season.number);
+    this.selectedEpisodeNumber.set(1);
+    this.updateUrlParams();
   }
 
   onEpisodeClick(episode: Episode): void {
     this.selectedEpisode.set(episode);
+    this.selectedEpisodeNumber.set(episode.episode_number);
+    this.updateUrlParams();
   }
 
   watchNow(): void {
     this.playerContainer.nativeElement.scrollIntoView({ behavior: "smooth" });
+  }
+
+  private updateUrlParams(): void {
+    const queryParams = {
+      season: this.selectedSeasonNumber().toString(),
+      episode: this.selectedEpisodeNumber().toString()
+    };
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
   }
 
   private getSeasonEpisodes(id: string, seasonNum: number) {
