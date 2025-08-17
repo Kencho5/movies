@@ -61,7 +61,7 @@
       }"
     >
       <div
-        class="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/60 p-4 backdrop-blur-xl h-[61px]"
+        class="sticky top-0 z-10 flex h-[61px] items-center justify-between border-b border-white/10 bg-black/60 p-4 backdrop-blur-xl"
       >
         @if (showSearchInput()) {
           <div class="relative flex-1">
@@ -101,41 +101,43 @@
           <h1 class="text-lg font-semibold tracking-wide">
             {{ "TV.channels" | transloco }}
           </h1>
-          <button
-            class="rounded-full p-1.5 transition hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 mr-2.5 md:mr-0"
-            (click)="toggleSearch()"
-            aria-label="Search channels"
-          >
-            <!-- Magnifying glass -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 text-white/80"
-              viewBox="0 0 24 24"
-              fill="currentColor"
+          <div>
+            <button
+              class="mr-2.5 rounded-full p-1.5 transition hover:bg-primary-500/20 hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 md:mr-0"
+              (click)="toggleSearch()"
+              aria-label="Search channels"
             >
-              <path
-                d="M10.5 3.75a6.75 6.75 0 014.995 11.375l3.19 3.19a.75.75 0 11-1.06 1.06l-3.19-3.19A6.75 6.75 0 1110.5 3.75zm0 1.5a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5z"
-              />
-            </svg>
-          </button>
-          <!-- Close (mobile) -->
-          <button
-            class="rounded-full p-1.5 text-white/70 transition hover:bg-white/10 hover:text-white md:hidden"
-            (click)="toggleSidebar('channels')"
-            aria-label="Close channels"
-          >
-            <!-- X-mark -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 24 24"
-              fill="currentColor"
+              <!-- Magnifying glass -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-white/80"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M10.5 3.75a6.75 6.75 0 014.995 11.375l3.19 3.19a.75.75 0 11-1.06 1.06l-3.19-3.19A6.75 6.75 0 1110.5 3.75zm0 1.5a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5z"
+                />
+              </svg>
+            </button>
+            <!-- Close (mobile) -->
+            <button
+              class="rounded-full p-1.5 text-white/70 transition hover:bg-white/10 hover:text-white md:hidden"
+              (click)="toggleSidebar('channels')"
+              aria-label="Close channels"
             >
-              <path
-                d="M6.225 4.811a.75.75 0 011.06 0L12 9.525l4.715-4.714a.75.75 0 111.06 1.06L13.06 10.586l4.715 4.714a.75.75 0 11-1.06 1.06L12 11.646l-4.715 4.714a.75.75 0 11-1.06-1.06L10.94 10.586 6.225 5.87a.75.75 0 010-1.06z"
-              />
-            </svg>
-          </button>
+              <!-- X-mark -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M6.225 4.811a.75.75 0 011.06 0L12 9.525l4.715-4.714a.75.75 0 111.06 1.06L13.06 10.586l4.715 4.714a.75.75 0 11-1.06 1.06L12 11.646l-4.715 4.714a.75.75 0 11-1.06-1.06L10.94 10.586 6.225 5.87a.75.75 0 010-1.06z"
+                />
+              </svg>
+            </button>
+          </div>
         }
       </div>
 
@@ -361,7 +363,7 @@
           <button
             type="button"
             [ngClass]="{
-              'bg-red-600 border-red-500/50 text-white shadow-lg shadow-red-600/20 hover:bg-red-700':
+              'border-red-500/50 bg-red-600 text-white shadow-lg shadow-red-600/20 hover:bg-red-700':
                 isLive(),
               'border-white/15 bg-black/20 text-white/60 hover:bg-black/30 hover:text-white/80':
                 !isLive(),
@@ -379,7 +381,7 @@
                 class="relative h-1 w-1 rounded-full"
                 [ngClass]="{
                   'bg-white': isLive(),
-                  'bg-white/70': !isLive()
+                  'bg-white/70': !isLive(),
                 }"
               ></span>
             </span>
