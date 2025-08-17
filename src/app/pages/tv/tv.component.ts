@@ -141,12 +141,9 @@ export class TvComponent implements OnInit {
     this.channelsPage++;
   }
 
-  changeChannel(id: number): void {
-    const selectedChannel = this.findChannelById(id);
-    if (!selectedChannel) return;
-
+  changeChannel(selectedChannel: Channel): void {
     this.activeChannel.set(selectedChannel);
-    this.tvParams = { channel: id, start: null, stop: null };
+    this.tvParams = { channel: selectedChannel.id, start: null, stop: null };
     this.loadPrograms(selectedChannel.id);
 
     if (window.innerWidth < 768) this.sidebarOpen.set(false);
@@ -444,4 +441,3 @@ export class TvComponent implements OnInit {
     return new Date().toISOString().split("T")[0];
   }
 }
-
