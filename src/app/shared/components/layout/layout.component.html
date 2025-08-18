@@ -7,5 +7,8 @@
       <app-loading-dots />
     </div>
   }
-  <app-footer class="mt-auto" />
+
+  @if (!hideFooter) {
+    <app-footer class="mt-auto" />
+  }
 </div>

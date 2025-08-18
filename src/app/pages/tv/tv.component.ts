@@ -74,6 +74,7 @@ export class TvComponent implements OnInit {
   hoveredChannel = signal<Channel | null>(null);
   sidebarOpen = signal<boolean>(false);
   programSidebarOpen = signal(false);
+  programsCollapsed = signal<boolean>(true);
   programProgress = signal<number>(0);
   isLive = computed(() => !this.playerService.start());
 
@@ -196,6 +197,10 @@ export class TvComponent implements OnInit {
     }
   }
 
+  toggleProgramsCollapse(): void {
+    this.programsCollapsed.update((state) => !state);
+  }
+
   togglePlayer(): void {
     const action = this.playerService.isPlaying() ? "pause" : "play";
     this.playerService.trigger(action);
@@ -242,6 +247,7 @@ export class TvComponent implements OnInit {
     if (window.innerWidth < 768) return;
 
     this.hoveredChannelPosition = event.clientY - 20;
+    console.log(channel);
 
     this.hoveredChannel.set(channel);
     this.previewPlayerData.set({

@@ -4,6 +4,7 @@ import { TitlebarComponent } from "../titlebar/titlebar.component";
 import { FooterComponent } from "../footer/footer.component";
 import { LoadingDotsComponent } from "../ui/loading-dots/loading-dots.component";
 import { LoadingService } from "@core/services/loading.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-layout",
@@ -16,5 +17,14 @@ import { LoadingService } from "@core/services/loading.service";
   templateUrl: "./layout.component.html",
 })
 export class LayoutComponent {
-  constructor(public loadingService: LoadingService) {}
+  constructor(
+    public loadingService: LoadingService,
+    private router: Router,
+  ) {}
+
+  hideFooter: boolean = false;
+
+  ngOnInit() {
+    if (this.router.url.includes("tv")) this.hideFooter = true;
+  }
 }
