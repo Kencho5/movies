@@ -247,7 +247,6 @@ export class TvComponent implements OnInit {
     if (window.innerWidth < 768) return;
 
     this.hoveredChannelPosition = event.clientY - 20;
-    console.log(channel);
 
     this.hoveredChannel.set(channel);
     this.previewPlayerData.set({

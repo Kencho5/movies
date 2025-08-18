@@ -128,6 +128,8 @@
                   activeChannel()?.id === channel.id,
               }"
               (click)="changeChannel(channel)"
+              (mouseenter)="hover(channel, $event)"
+              (mouseleave)="clearHover()"
             >
               <div class="flex items-center">
                 <div
