@@ -2,6 +2,7 @@ import {
   Component,
   signal,
   OnInit,
+  OnDestroy,
   ViewChildren,
   QueryList,
   ElementRef,
@@ -15,6 +16,7 @@ import {
   distinctUntilChanged,
   switchMap,
   of,
+  Subscription,
 } from "rxjs";
 import { PlayerData } from "@core/interfaces/player";
 import { Channel, Program, TvParams } from "@core/interfaces/tv";
@@ -54,7 +56,7 @@ declare var Hls: any;
   ],
   templateUrl: "./tv.component.html",
 })
-export class TvComponent implements OnInit {
+export class TvComponent implements OnInit, OnDestroy {
   @ViewChildren("programBtn") programButtons!: QueryList<ElementRef>;
   @ViewChild("previewPlayer", { static: false })
   videoRef!: ElementRef<HTMLVideoElement>;
@@ -95,6 +97,8 @@ export class TvComponent implements OnInit {
   channelsPage = 0;
 
   hoveredChannelPosition: number = 0;
+  private previewHls: any = null;
+  private searchSubscription: Subscription = new Subscription();
 
   constructor(
     private tvService: TvService,
@@ -110,6 +114,11 @@ export class TvComponent implements OnInit {
 
     this.setupSearchSubscription();
     this.loadChannels();
+  }
+
+  ngOnDestroy(): void {
+    this.cleanupPreviewHls();
+    this.searchSubscription.unsubscribe();
   }
 
   loadChannels(): void {
@@ -246,39 +255,48 @@ export class TvComponent implements OnInit {
   hover(channel: Channel, event: MouseEvent): void {
     if (window.innerWidth < 768) return;
 
-    this.hoveredChannelPosition = event.clientY - 20;
+    this.cleanupPreviewHls();
 
+    this.hoveredChannelPosition = event.clientY - 20;
     this.hoveredChannel.set(channel);
     this.previewPlayerData.set({
       file: channel.thumbnail,
       poster: channel.cover,
       autoplay: 1,
     });
-
     this.previewLoading.set(true);
 
     setTimeout(() => {
-      if (!this.videoRef) return;
+      if (!this.videoRef || this.hoveredChannel() !== channel) return;
+      
       const video = this.videoRef.nativeElement;
       video.muted = true;
-
       video.style.width = "100%";
       video.style.height = "100%";
       video.style.objectFit = "cover";
 
       if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(channel.thumbnail);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+        this.previewHls = new Hls();
+        this.previewHls.loadSource(channel.thumbnail);
+        this.previewHls.attachMedia(video);
+        this.previewHls.on(Hls.Events.MANIFEST_PARSED, () => {
+          if (this.hoveredChannel() === channel) {
+            video.play();
+          }
+        });
       } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
         video.src = channel.thumbnail;
-        video.addEventListener("canplay", () => video.play());
+        video.addEventListener("canplay", () => {
+          if (this.hoveredChannel() === channel) {
+            video.play();
+          }
+        });
       }
     }, 200);
   }
 
   clearHover(): void {
+    this.cleanupPreviewHls();
     this.hoveredChannel.set(null);
     this.previewPlayerData.set(null);
   }
@@ -308,7 +326,7 @@ export class TvComponent implements OnInit {
   }
 
   private setupSearchSubscription(): void {
-    this.searchSubject
+    this.searchSubscription = this.searchSubject
       .pipe(
         debounceTime(200),
         distinctUntilChanged(),
@@ -444,5 +462,23 @@ export class TvComponent implements OnInit {
 
   get currentDateString(): string {
     return new Date().toISOString().split("T")[0];
+  }
+
+  private cleanupPreviewHls(): void {
+    if (this.previewHls) {
+      try {
+        this.previewHls.destroy();
+      } catch (error) {
+        console.warn('Error destroying HLS instance:', error);
+      }
+      this.previewHls = null;
+    }
+
+    if (this.videoRef?.nativeElement) {
+      const video = this.videoRef.nativeElement;
+      video.pause();
+      video.src = '';
+      video.load();
+    }
   }
 }

@@ -34,6 +34,11 @@ export class PlayerService {
 
   trigger(command: string) {
     this.isPlaying.set(command === "play");
+    
+    if (command === "pause") {
+      return this.player.api("stop");
+    }
+    
     return this.player.api(command);
   }
 
