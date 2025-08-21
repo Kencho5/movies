@@ -275,7 +275,7 @@ export class TvComponent implements OnInit {
         video.src = channel.thumbnail;
         video.addEventListener("canplay", () => video.play());
       }
-    });
+    }, 200);
   }
 
   clearHover(): void {

@@ -2,7 +2,6 @@
   <div
     class="flex h-[calc(100vh-104px)] flex-col bg-gradient-to-br from-bg-dark via-bg-card/60 to-bg-dark text-white md:h-[calc(100vh-133px)] md:flex-row xl:h-[calc(100vh-223px)]"
   >
-
     <!-- Left sidebar - Channels -->
     <div
       class="md:w-76 fixed inset-0 z-50 flex-col border-r border-white/10 bg-black/90 shadow-2xl backdrop-blur-xl transition-transform duration-300 md:static md:z-auto md:flex md:translate-x-0 md:bg-black/40"
@@ -250,24 +249,6 @@
                     {{ convertTimestampToHours(program.start) }} -
                     {{ convertTimestampToHours(program.stop) }}
                   </span>
-                  @if (activeProgram()?.start == program.start) {
-                    <!-- Now Playing icon -->
-                    <span
-                      class="text-red-300 inline-flex items-center gap-1 rounded-full bg-red-500/20 px-2 py-0.5 text-[11px] font-semibold"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-3.5 w-3.5"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path
-                          d="M12 3.75a8.25 8.25 0 10.002 16.5A8.25 8.25 0 0012 3.75zm-1.125 4.5a.75.75 0 011.125-.66l4.5 2.625a.75.75 0 010 1.32l-4.5 2.625A.75.75 0 0110.875 13V8.25z"
-                        />
-                      </svg>
-                      {{ "TV.live" | transloco }}
-                    </span>
-                  }
                 </div>
 
                 <h3
@@ -377,9 +358,8 @@
         ></app-player-controls>
       </div>
     </div>
-
   </div>
-  
+
   <!-- Mobile headers below player -->
   <div class="md:hidden">
     <div
@@ -433,11 +413,11 @@
         </svg>
       </button>
     </div>
-    
+
     <!-- Collapsible Programs List -->
     @if (!programsCollapsed()) {
-      <div class="bg-black/30 border-b border-white/10">
-        <div class="h-80 overflow-y-auto divide-y divide-white/5">
+      <div class="border-b border-white/10 bg-black/30">
+        <div class="h-80 divide-y divide-white/5 overflow-y-auto">
           @if (loading() || programsLoading()) {
             <app-programs-skeleton />
           } @else {
