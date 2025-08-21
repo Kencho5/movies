@@ -48,7 +48,7 @@
             }
           </div>
         } @else {
-          <h1 class="text-lg font-semibold tracking-wide">
+          <h1 class="text-base lg:text-lg font-semibold tracking-wide">
             {{ "TV.channels" | transloco }}
           </h1>
           <div>
@@ -121,7 +121,7 @@
           }
           @for (channel of displayChannels(); track $index) {
             <button
-              class="group flex h-[84px] xl:h-[64px] w-full items-center justify-between px-4 py-5 xl:py-3 transition-colors hover:bg-bg-highlight/40"
+              class="group flex h-[72px] xl:h-[64px] w-full items-center justify-between px-4 py-4 xl:py-3 transition-colors hover:bg-bg-highlight/40"
               [ngClass]="{
                 'border-l-4 border-primary-500 bg-primary-500/10 hover:bg-primary-500/15':
                   activeChannel()?.id === channel.id,
@@ -132,7 +132,7 @@
             >
               <div class="flex items-center">
                 <div
-                  class="mr-3.5 flex h-11 w-11 xl:h-8 xl:w-8 xl:mr-3 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/10 shadow-lg transition-transform group-hover:scale-105"
+                  class="mr-3 flex h-9 w-9 xl:h-8 xl:w-8 xl:mr-3 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/10 shadow-lg transition-transform group-hover:scale-105"
                 >
                   <img
                     [src]="channel.cover"
@@ -197,7 +197,7 @@
       <div
         class="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/60 p-4 backdrop-blur-xl"
       >
-        <h1 class="text-lg font-semibold tracking-wide">
+        <h1 class="text-base lg:text-lg font-semibold tracking-wide">
           {{ "TV.program_list" | transloco }}
         </h1>
         <button
@@ -227,7 +227,7 @@
             @for (program of programs(); track $index) {
               <button
                 #programBtn
-                class="relative flex h-[84px] xl:h-[64px] w-full flex-col items-start justify-between p-4 xl:p-3 transition-colors"
+                class="relative flex h-[72px] xl:h-[64px] w-full flex-col items-start justify-between p-3 xl:p-3 transition-colors"
                 [ngClass]="{
                   'bg-primary-500/10 hover:bg-primary-500/15':
                     activeProgram()?.start == program.start,
@@ -423,7 +423,7 @@
     <div
       class="flex items-center justify-between border-b border-white/10 bg-black/60 p-3 text-white"
     >
-      <h1 class="text-lg font-semibold tracking-wide text-white">
+      <h1 class="text-base lg:text-lg font-semibold tracking-wide text-white">
         {{ "TV.tv_channels" | transloco }}
       </h1>
       <button
@@ -447,7 +447,7 @@
     <div
       class="flex items-center justify-between border-b border-white/10 bg-black/60 p-3 text-white"
     >
-      <h1 class="text-lg font-semibold tracking-wide text-white">
+      <h1 class="text-base lg:text-lg font-semibold tracking-wide text-white">
         {{ "TV.program_list" | transloco }}
       </h1>
       <button
@@ -481,7 +481,7 @@
           } @else {
             @for (program of programs(); track $index) {
               <button
-                class="relative flex h-[84px] xl:h-[64px] w-full flex-col items-start justify-between p-4 xl:p-3 transition-colors"
+                class="relative flex h-[72px] xl:h-[64px] w-full flex-col items-start justify-between p-3 xl:p-3 transition-colors"
                 [ngClass]="{
                   'bg-primary-500/10 hover:bg-primary-500/15':
                     activeProgram()?.start == program.start,
