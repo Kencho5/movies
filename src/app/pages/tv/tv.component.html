@@ -1,6 +1,6 @@
 <div class="flex w-full flex-col">
   <div
-    class="flex h-[calc(100vh-104px)] flex-col bg-gradient-to-br from-bg-dark via-bg-card/60 to-bg-dark text-white md:h-[calc(100vh-133px)] md:flex-row xl:h-[calc(100vh-223px)]"
+    class="flex flex-col bg-gradient-to-br from-bg-dark via-bg-card/60 to-bg-dark text-white md:h-[calc(100vh-133px)] md:flex-row xl:h-[calc(100vh-223px)]"
   >
     <!-- Left sidebar - Channels -->
     <div
@@ -276,7 +276,7 @@
     <!-- Player area -->
     <div class="flex flex-1 flex-col">
       <div
-        class="flex h-[61px] items-center justify-between border-b border-white/10 bg-black/30 p-4 backdrop-blur-xl"
+        class="hidden h-[61px] items-center justify-between border-b border-white/10 bg-black/30 p-4 backdrop-blur-xl md:flex"
       >
         @if (!loading() && activeChannel()) {
           <div class="flex items-center gap-3 md:gap-4">
@@ -332,8 +332,8 @@
         }
       </div>
 
-      <div class="flex h-full flex-col">
-        <div class="relative h-full w-full bg-black shadow-2xl">
+      <div class="flex h-auto flex-col md:h-full">
+        <div class="relative aspect-video w-full bg-black shadow-2xl md:h-full md:aspect-auto md:flex-1">
           @if (loading()) {
             <div
               class="absolute inset-0 flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-bg-dark to-bg-card/80"
@@ -362,6 +362,64 @@
 
   <!-- Mobile headers below player -->
   <div class="md:hidden">
+    <!-- Channel header with live button -->
+    <div
+      class="flex items-center justify-between border-b border-white/10 bg-black/30 p-4 backdrop-blur-xl"
+    >
+      @if (!loading() && activeChannel()) {
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl bg-primary-500/20 shadow-lg shadow-primary-500/10"
+          >
+            <img
+              [src]="activeChannel()?.logo"
+              class="h-6 w-6 object-contain"
+              alt="{{ activeChannel()?.name?.en }}"
+            />
+          </div>
+          <h3 class="text-base font-semibold tracking-wide text-white">
+            {{ activeChannel()?.name?.en }}
+          </h3>
+        </div>
+
+        <button
+          type="button"
+          [ngClass]="{
+            'border-red-500/50 bg-red-600 text-white shadow-lg shadow-red-600/20 hover:bg-red-700':
+              isLive(),
+            'border-white/15 bg-black/20 text-white/60 hover:bg-black/30 hover:text-white/80':
+              !isLive(),
+          }"
+          class="flex h-7 items-center justify-center gap-1.5 rounded-full border px-2.5 text-xs font-medium transition-all duration-150 active:scale-95"
+          (click)="resetPlayer()"
+        >
+          <span class="relative flex h-2 w-2 items-center justify-center">
+            @if (isLive()) {
+              <span
+                class="absolute h-2 w-2 animate-ping rounded-full bg-white/50"
+              ></span>
+            }
+            <span
+              class="relative h-1 w-1 rounded-full"
+              [ngClass]="{
+                'bg-white': isLive(),
+                'bg-white/70': !isLive(),
+              }"
+            ></span>
+          </span>
+          <span class="font-medium">{{ "TV.live" | transloco }}</span>
+        </button>
+      } @else {
+        <div
+          class="relative h-8 w-32 overflow-hidden rounded-full bg-white/5"
+        >
+          <div
+            class="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
+          ></div>
+        </div>
+      }
+    </div>
+    
     <div
       class="flex items-center justify-between border-b border-white/10 bg-black/60 p-3 text-white"
     >

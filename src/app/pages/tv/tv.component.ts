@@ -76,7 +76,7 @@ export class TvComponent implements OnInit, OnDestroy {
   hoveredChannel = signal<Channel | null>(null);
   sidebarOpen = signal<boolean>(false);
   programSidebarOpen = signal(false);
-  programsCollapsed = signal<boolean>(true);
+  programsCollapsed = signal<boolean>(false);
   programProgress = signal<number>(0);
   isLive = computed(() => !this.playerService.start());
 
