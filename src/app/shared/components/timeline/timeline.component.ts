@@ -95,6 +95,10 @@ export class TimelineComponent implements OnInit, OnDestroy {
     const timestamp = this.createTimestamp(hours, minutes, seconds);
     this.updateCurrentTimeFromTimestamp(timestamp);
 
+    if (this.activeProgram() && timestamp < this.activeProgram()!.start) {
+      this.activeProgram.set(null);
+    }
+
     this.playerService.start.set(timestamp);
     this.timeSet.emit(timestamp);
     this.secondsPassed = 0;
@@ -106,11 +110,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     this.activeProgram.set(program);
 
-    // Set timestamp to program start time
     const timestamp = program.start;
     this.updateCurrentTimeFromTimestamp(timestamp);
 
-    // Calculate progress percentage
     const date = new Date(timestamp * 1000);
     const minutesPassed = date.getHours() * 60 + date.getMinutes();
     this.progress.set((minutesPassed / this.DAY_MINUTES) * 100);
@@ -142,6 +144,13 @@ export class TimelineComponent implements OnInit, OnDestroy {
     const date = new Date(program.start * 1000);
     const totalMinutes = date.getHours() * 60 + date.getMinutes();
     return `${(totalMinutes / this.DAY_MINUTES) * 100}%`;
+  }
+
+  isProgramWatched(program: Program): boolean {
+    if (this.progress() === 0) return false;
+    const currentTime =
+      this.playerService.start() || Math.floor(Date.now() / 1000);
+    return program.start < currentTime;
   }
 
   onProgramHover(event: MouseEvent, program: Program): void {
@@ -215,7 +224,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   private formatTooltipTime(totalMinutes: number): string {
-    // Handle overflow
     totalMinutes = totalMinutes % this.DAY_MINUTES;
     if (totalMinutes < 0) totalMinutes += this.DAY_MINUTES;
 
