@@ -8,6 +8,7 @@ import { InfiniteScrollDirective } from "ngx-infinite-scroll";
 import { finalize } from "rxjs/operators";
 import { TranslocoModule } from "@jsverse/transloco";
 import { ImageSizePipe } from "@core/pipes/image-size.pipe";
+import { ActivatedRoute, Router } from "@angular/router";
 
 interface Filter {
   key: string;
@@ -36,10 +37,39 @@ export class MoviesComponent {
   page = 1;
   currentFilters: Filter[] = [];
 
-  constructor(private movieService: MovieService) {}
+  constructor(
+    private movieService: MovieService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.loadFiltersFromUrl();
     this.loadMovies();
+  }
+
+  private loadFiltersFromUrl(): void {
+    const filtersParam = this.route.snapshot.queryParams['filters'];
+    if (filtersParam) {
+      try {
+        this.currentFilters = JSON.parse(atob(filtersParam));
+      } catch (e) {
+        console.error('Invalid filters parameter in URL');
+        this.currentFilters = [];
+      }
+    }
+  }
+
+  private updateUrlParams(): void {
+    const queryParams = this.currentFilters.length > 0
+      ? { filters: btoa(JSON.stringify(this.currentFilters)) }
+      : {};
+    
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'replace'
+    });
   }
 
   loadMovies(): void {
@@ -87,6 +117,7 @@ export class MoviesComponent {
     this.currentFilters = filters;
     this.page = 1;
     this.movies.set(null);
+    this.updateUrlParams();
     this.loadMovies();
   }
 }

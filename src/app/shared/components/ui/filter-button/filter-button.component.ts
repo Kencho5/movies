@@ -6,6 +6,7 @@ import {
   ViewChildren,
   QueryList,
   output,
+  input,
   OnInit,
 } from "@angular/core";
 import { ComboboxComponent } from "../combobox/combobox.component";
@@ -31,6 +32,7 @@ interface Filter {
 export class FilterButtonComponent implements OnInit {
   @ViewChildren(ComboboxComponent) comboboxes!: QueryList<ComboboxComponent>;
   applyFilters = output<Filter[]>();
+  currentFilters = input<Filter[]>([]);
 
   dropdownOpen = signal(false);
   genres = signal<any[]>([]);
@@ -51,7 +53,38 @@ export class FilterButtonComponent implements OnInit {
       this.genres.set(filters.genres);
       this.countries.set(filters.productionCountries);
       this.languages.set(filters.titleFilterLanguages);
+      
+      this.initializeFromCurrentFilters();
     });
+  }
+
+  private initializeFromCurrentFilters(): void {
+    const filters = this.currentFilters();
+    
+    for (const filter of filters) {
+      switch (filter.key) {
+        case 'genres':
+          this.selectedGenres.set(filter.value);
+          break;
+        case 'countries':
+          this.selectedCountries.set(filter.value);
+          break;
+        case 'language':
+          const currentLangs = this.selectedLanguages();
+          if (!currentLangs.some(l => l.iso_639_1 === filter.value.iso_639_1)) {
+            this.selectedLanguages.set([...currentLangs, filter.value]);
+          }
+          break;
+        case 'release_date':
+          if (filter.operator === 'between' && filter.value.start && filter.value.end) {
+            const startDate = new Date(filter.value.start);
+            const endDate = new Date(filter.value.end);
+            this.fromYear.set(startDate.getFullYear());
+            this.toYear.set(endDate.getFullYear());
+          }
+          break;
+      }
+    }
   }
 
   toggleDropdown() {

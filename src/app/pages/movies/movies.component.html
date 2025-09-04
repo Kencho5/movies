@@ -15,7 +15,10 @@
             {{ "MOVIES.browse_filter_keep_watching" | transloco }}
           </p>
         </div>
-        <app-filter-button (applyFilters)="onApplyFilters($event)" />
+        <app-filter-button 
+          (applyFilters)="onApplyFilters($event)"
+          [currentFilters]="currentFilters" 
+        />
       </div>
 
       <!-- Grid wrapper with subtle section background -->

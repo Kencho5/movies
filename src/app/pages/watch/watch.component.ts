@@ -220,6 +220,33 @@ export class WatchComponent implements OnDestroy {
       .pipe(map((data) => data.episodes?.data ?? []));
   }
 
+  onGenreClick(genre: any): void {
+    const filters = [{
+      key: 'genres',
+      value: [genre],
+      operator: 'hasAll'
+    }];
+    
+    this.router.navigate(['/movies'], {
+      queryParams: { filters: btoa(JSON.stringify(filters)) }
+    });
+  }
+
+  onYearClick(year: number): void {
+    const filters = [{
+      key: 'release_date',
+      value: {
+        start: new Date(year, 0, 1).toISOString(),
+        end: new Date(year, 11, 31, 23, 59, 59, 999).toISOString()
+      },
+      operator: 'between'
+    }];
+    
+    this.router.navigate(['/movies'], {
+      queryParams: { filters: btoa(JSON.stringify(filters)) }
+    });
+  }
+
   private getActiveVideo(
     movie: Title,
     isEmbed: boolean = true,

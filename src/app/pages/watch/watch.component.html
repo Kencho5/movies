@@ -200,9 +200,12 @@
             <div
               class="mb-4 flex flex-wrap items-center gap-2 text-xs text-neutral-400 lg:gap-3 lg:text-sm"
             >
-              <span class="font-medium text-neutral-300">{{
+              <button 
+                (click)="onYearClick(movie()!.year)"
+                class="font-medium text-neutral-300 hover:text-primary-400 transition-colors cursor-pointer"
+              >{{
                 movie()!.year
-              }}</span>
+              }}</button>
               @if (movie()!.runtime) {
                 <span>{{ movie()!.runtime }}m</span>
               }
@@ -241,11 +244,12 @@
             @if (movie()!.genres && movie()!.genres.length > 0) {
               <div class="mb-4 flex flex-wrap gap-1.5">
                 @for (genre of movie()!.genres.slice(0, 5); track genre.id) {
-                  <span
-                    class="rounded-full bg-neutral-800 px-2 py-0.5 text-xs text-neutral-300"
+                  <button
+                    (click)="onGenreClick(genre)"
+                    class="rounded-full bg-neutral-800 px-2 py-0.5 text-xs text-neutral-300 hover:bg-primary-600 hover:text-white transition-colors cursor-pointer"
                   >
                     {{ genre.display_name }}
-                  </span>
+                  </button>
                 }
               </div>
             }
