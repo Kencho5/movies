@@ -223,7 +223,7 @@ export class WatchComponent implements OnDestroy {
   onGenreClick(genre: any): void {
     const filters = [{
       key: 'genres',
-      value: [genre],
+      value: [genre.id],
       operator: 'hasAll'
     }];
     
